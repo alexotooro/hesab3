@@ -1,0 +1,40 @@
+* { box-sizing: border-box; font-family: Tahoma, Arial, sans-serif; }
+body { background:#f4f7fb; margin:0; padding:20px; color:#111; }
+.container { max-width:900px; margin:0 auto; background:#fff; border:1px solid #ddd; padding:12px; }
+header { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:10px; }
+.add-area { position:relative; }
+.add-btn { width:64px; height:64px; background:#5fcc3a; border:none; border-radius:6px; font-size:34px; color:#003; cursor:pointer; }
+.choose-type { position:absolute; top:70px; right:0; background:#fff; border:1px solid #999; box-shadow:0 2px 6px rgba(0,0,0,0.1); padding:6px; display:flex; flex-direction:column; gap:6px; }
+.type-btn { padding:10px 18px; border:1px solid #ccc; background:#fff; cursor:pointer; }
+.type-btn:hover { background:#f0f0f0; }
+.hidden { display:none; }
+
+.filters { display:flex; gap:8px; align-items:center; }
+.filter-btn { padding:6px 10px; border:1px solid #888; background:#fff; cursor:pointer; }
+.filter-btn.active { background:#dfeffd; border-color:#4aa3ff; }
+
+.tx-table { width:100%; border-collapse:collapse; background:#eaf6ff; }
+.tx-table th, .tx-table td { border:1px solid #cfcfcf; padding:8px; text-align:right; }
+.tx-table thead th { background:#f2f2f2; }
+.amount.income { color:#0577ff; font-weight:600; }
+.amount.expense { color:#111; }
+
+footer { margin-top:10px; display:flex; justify-content:flex-start; }
+.balance { background:#00a6ff; color:#fff; padding:10px 16px; border-radius:4px; display:flex; gap:12px; align-items:center; min-width:200px; }
+.balance #balanceValue { font-weight:700; }
+
+.action-btn { background:transparent; border:none; cursor:pointer; padding:6px; }
+.row-handle { cursor:grab; padding:6px 8px; border:1px dashed #bbb; border-radius:4px; display:inline-block; margin-left:6px; }
+
+.modal { position:fixed; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.25); z-index:50; }
+.modal-content { background:#fff; padding:14px; width:320px; border-radius:6px; box-shadow:0 6px 24px rgba(0,0,0,0.2); }
+.modal-content label { display:block; margin-top:8px; font-size:13px; color:#333; }
+.modal-content input { width:100%; padding:8px; margin-top:6px; border:1px solid #ccc; border-radius:4px; }
+.modal-actions { display:flex; gap:8px; margin-top:12px; justify-content:flex-end; }
+.primary { background:#0b78ff; color:#fff; border:none; padding:8px 12px; border-radius:4px; cursor:pointer; }
+.secondary { background:#eee; border:none; padding:8px 12px; border-radius:4px; cursor:pointer; }
+.small { padding:6px 8px; margin-right:6px; cursor:pointer; }
+
+.row-menu { position:fixed; background:#fff; border:1px solid #bbb; box-shadow:0 4px 10px rgba(0,0,0,0.12); padding:6px; border-radius:6px; z-index:60; }
+.row-menu button { display:block; width:100%; border:none; background:transparent; padding:8px; text-align:right; cursor:pointer; }
+.drag-hint { font-size:12px; color:#666; padding-top:6px; border-top:1px dashed #eee; margin-top:6px; }

@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fa">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>حساب — دفترچه تراکنش</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body dir="rtl">
+<div class="container">
+  <header>
+    <div class="add-area">
+      <button id="addBtn" class="add-btn">+</button>
+      <div id="chooseType" class="choose-type hidden">
+        <button class="type-btn" data-kind="expense">هزینه</button>
+        <button class="type-btn" data-kind="income">درآمد</button>
+      </div>
+    </div>
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">همه</button>
+      <button class="filter-btn" data-filter="income">فقط درآمد</button>
+      <button class="filter-btn" data-filter="expense">فقط هزینه</button>
+    </div>
+  </header>
+
+  <main>
+    <table id="txTable" class="tx-table">
+      <thead>
+        <tr>
+          <th>تاریخ</th>
+          <th>مبلغ (ریال)</th>
+          <th>بابت</th>
+          <th>توضیحات</th>
+          <th>عملیات</th>
+        </tr>
+      </thead>
+      <tbody id="txBody">
+        <!-- ردیف‌ها توسط جاوااسکریپت اضافه می‌شوند -->
+      </tbody>
+    </table>
+  </main>
+
+  <footer>
+    <div class="balance">
+      <div>مانده:</div>
+      <div id="balanceValue">0</div>
+    </div>
+  </footer>
+</div>
+
+<!-- Modal / Popup form -->
+<div id="modal" class="modal hidden">
+  <div class="modal-content">
+    <h3 id="modalTitle">ثبت تراکنش</h3>
+    <label>تاریخ (شمسی)</label>
+    <div class="date-row">
+      <input id="dateInput" placeholder="مثال: 1404/08/10" />
+      <button id="todayBtn" class="small">امروز</button>
+    </div>
+
+    <label>مبلغ (بدون ویرگول)</label>
+    <input id="amountInput" inputmode="numeric" placeholder="مثال: 2000000" />
+
+    <label>بابت</label>
+    <input id="categoryInput" />
+
+    <label>توضیحات (اختیاری)</label>
+    <input id="noteInput" />
+
+    <div class="modal-actions">
+      <button id="saveBtn" class="primary">ثبت</button>
+      <button id="cancelBtn" class="secondary">انصراف</button>
+    </div>
+  </div>
+</div>
+
+<!-- small context menu -->
+<div id="rowMenu" class="row-menu hidden">
+  <button id="editRow">ویرایش</button>
+  <button id="deleteRow">حذف</button>
+  <div class="drag-hint">برای جابجایی، دسته را بکش</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
