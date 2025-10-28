@@ -4,9 +4,34 @@
     android:padding="16dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:layout_marginTop="8dp">
+
+    <EditText
+        android:id="@+id/editTextDate"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_weight="1"
+        android:hint="تاریخ"
+        android:inputType="none"
+        android:focusable="false"
+        android:background="@drawable/edittext_background"
+        android:padding="10dp"
+        android:textSize="16sp" />
+
+    <ImageButton
+        android:id="@+id/buttonPickDate"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_calendar"
+        android:contentDescription="انتخاب تاریخ"
+        android:tint="@color/black" />
+</LinearLayout>
+
 
         <!-- رادیو دکمه‌ها در یک خط -->
         <RadioGroup
