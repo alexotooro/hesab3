@@ -1,39 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    tools:context=".AddTransactionActivity">
 
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:layout_marginTop="8dp">
-
-    <EditText
-        android:id="@+id/editTextDate"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:hint="تاریخ"
-        android:inputType="none"
-        android:focusable="false"
-        android:background="@drawable/edittext_background"
-        android:padding="10dp"
-        android:textSize="16sp" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <ImageButton
-        android:id="@+id/buttonPickDate"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_calendar"
-        android:contentDescription="انتخاب تاریخ"
-        android:tint="@color/black" />
-</LinearLayout>
-
-
-        <!-- رادیو دکمه‌ها در یک خط -->
+        <!-- رادیو باکس هزینه و درآمد -->
         <RadioGroup
             android:id="@+id/radioGroupType"
             android:layout_width="match_parent"
@@ -46,58 +24,78 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="هزینه"
-                android:checked="true"
-                android:textSize="18sp"
-                android:layout_marginEnd="24dp" />
+                android:checked="true" />
 
             <RadioButton
                 android:id="@+id/radioIncome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="درآمد"
-                android:textSize="18sp" />
+                android:layout_marginStart="24dp" />
         </RadioGroup>
 
-        <EditText
-            android:id="@+id/editTextDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="تاریخ"
-            android:inputType="none"
-            android:focusable="false"
-            android:layout_marginTop="16dp" />
-
+        <!-- مبلغ -->
         <EditText
             android:id="@+id/editTextAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="مبلغ"
             android:inputType="number"
-            android:layout_marginTop="8dp" />
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
+            android:background="@android:drawable/edit_text" />
 
-        <Spinner
-            android:id="@+id/spinnerCategory"
+        <!-- تاریخ و دکمه تقویم -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp">
 
+            <EditText
+                android:id="@+id/editTextDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="تاریخ"
+                android:inputType="none"
+                android:focusable="false"
+                android:padding="10dp"
+                android:textSize="16sp" />
+
+            <ImageButton
+                android:id="@+id/buttonPickDate"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_calendar"
+                android:contentDescription="انتخاب تاریخ"
+                android:tint="@android:color/black" />
+        </LinearLayout>
+
+        <!-- توضیحات -->
         <EditText
             android:id="@+id/editTextDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="توضیحات"
-            android:layout_marginTop="8dp"
-            android:minLines="3"
-            android:gravity="top|start" />
+            android:hint="توضیحات (اختیاری)"
+            android:layout_marginTop="16dp"
+            android:padding="10dp"
+            android:background="@android:drawable/edit_text" />
 
+        <!-- دکمه ذخیره -->
         <Button
             android:id="@+id/buttonSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ذخیره"
-            android:layout_marginTop="16dp"
             android:textColor="@android:color/white"
-            android:textSize="18sp" />
+            android:textSize="18sp"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/rounded_button"
+            android:elevation="6dp"
+            android:padding="12dp" />
 
     </LinearLayout>
 </ScrollView>
