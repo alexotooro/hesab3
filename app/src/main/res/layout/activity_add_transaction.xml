@@ -8,7 +8,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- رادیو دکمه‌ها: درآمد / هزینه -->
+        <!-- رادیو دکمه‌ها در یک خط -->
         <RadioGroup
             android:id="@+id/radioGroupType"
             android:layout_width="match_parent"
@@ -23,17 +23,16 @@
                 android:text="هزینه"
                 android:checked="true"
                 android:textSize="18sp"
-                android:layout_marginEnd="16dp"/>
+                android:layout_marginEnd="24dp" />
 
             <RadioButton
                 android:id="@+id/radioIncome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="درآمد"
-                android:textSize="18sp"/>
+                android:textSize="18sp" />
         </RadioGroup>
 
-        <!-- فیلد تاریخ -->
         <EditText
             android:id="@+id/editTextDate"
             android:layout_width="match_parent"
@@ -43,7 +42,6 @@
             android:focusable="false"
             android:layout_marginTop="16dp" />
 
-        <!-- فیلد مبلغ -->
         <EditText
             android:id="@+id/editTextAmount"
             android:layout_width="match_parent"
@@ -52,14 +50,12 @@
             android:inputType="number"
             android:layout_marginTop="8dp" />
 
-        <!-- فیلد بابت -->
         <Spinner
             android:id="@+id/spinnerCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp" />
 
-        <!-- فیلد توضیحات -->
         <EditText
             android:id="@+id/editTextDescription"
             android:layout_width="match_parent"
@@ -69,7 +65,6 @@
             android:minLines="3"
             android:gravity="top|start" />
 
-        <!-- دکمه ذخیره -->
         <Button
             android:id="@+id/buttonSave"
             android:layout_width="match_parent"
