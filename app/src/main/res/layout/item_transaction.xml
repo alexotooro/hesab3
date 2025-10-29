@@ -2,46 +2,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="12dp"
+    android:orientation="horizontal"
+    android:padding="8dp"
     android:background="@android:color/white"
-    android:layout_marginBottom="4dp"
-    android:elevation="2dp">
-
-    <TextView
-        android:id="@+id/txtType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="نوع"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"/>
-
-    <TextView
-        android:id="@+id/txtAmount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="مبلغ" />
+    android:layout_marginBottom="2dp"
+    android:weightSum="4"
+    android:elevation="1dp">
 
     <TextView
         android:id="@+id/txtDate"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="تاریخ" />
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="1403/08/10"
+        android:textSize="14sp"
+        android:textColor="@android:color/black" />
+
+    <TextView
+        android:id="@+id/txtAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="120,000"
+        android:textSize="14sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/txtCategory"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="بابت" />
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="خوراک"
+        android:textSize="14sp"
+        android:textColor="@android:color/black" />
 
     <TextView
-    android:id="@+id/txtDescription"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="توضیحات"
-    android:textSize="14sp"
-    android:layout_marginStart="8dp"
-    android:layout_gravity="center_vertical"/>
-
+        android:id="@+id/txtDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="ناهار"
+        android:textSize="14sp"
+        android:textColor="@android:color/black" />
 
 </LinearLayout>
