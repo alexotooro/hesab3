@@ -16,17 +16,12 @@ class PersianDate {
         val gy = gregorianCalendar.get(Calendar.YEAR)
         val gm = gregorianCalendar.get(Calendar.MONTH) + 1
         val gd = gregorianCalendar.get(Calendar.DAY_OF_MONTH)
-        val gDayNo: Int
-        var jDayNo: Int
-        var jNp: Int
-
-        var i: Int
 
         var gy2 = gy - 1600
         var gm2 = gm - 1
         var gd2 = gd - 1
 
-        gDayNo = 365 * gy2 + (gy2 + 3) / 4 - (gy2 + 99) / 100 + (gy2 + 399) / 400
+        var gDayNo = 365 * gy2 + (gy2 + 3) / 4 - (gy2 + 99) / 100 + (gy2 + 399) / 400
 
         for (i in 0 until gm2)
             gDayNo += gDaysInMonth[i]
@@ -35,9 +30,8 @@ class PersianDate {
 
         gDayNo += gd2
 
-        jDayNo = gDayNo - 79
-
-        jNp = jDayNo / 12053
+        var jDayNo = gDayNo - 79
+        val jNp = jDayNo / 12053
         jDayNo %= 12053
 
         var jy = 979 + 33 * jNp + 4 * (jDayNo / 1461)
@@ -48,7 +42,7 @@ class PersianDate {
             jDayNo = (jDayNo - 1) % 365
         }
 
-        i = 0
+        var i = 0
         while (i < 11 && jDayNo >= jDaysInMonth[i]) {
             jDayNo -= jDaysInMonth[i]
             i++
