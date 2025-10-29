@@ -1,63 +1,64 @@
 package org.hesab.app
 
 import android.os.Bundle
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import org.hesab.app.databinding.ActivityAddTransactionBinding
 
 class AddTransactionActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityAddTransactionBinding
     private lateinit var db: AppDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAddTransactionBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_add_transaction)
 
         db = AppDatabase.getInstance(this)
 
-        // پیشفرض روی هزینه
-        binding.rbExpense.isChecked = true
+        val rbExpense = findViewById<RadioButton>(R.id.rbExpense)
+        val rbIncome = findViewById<RadioButton>(R.id.rbIncome)
+        val edtDate = findViewById<EditText>(R.id.edtDate)
+        val edtAmount = findViewById<EditText>(R.id.edtAmount)
+        val edtCategory = findViewById<EditText>(R.id.edtCategory)
+        val edtDescription = findViewById<EditText>(R.id.edtDescription)
+        val btnSave = findViewById<Button>(R.id.btnSave)
 
-        binding.btnSave.setOnClickListener {
-            saveTransaction()
-        }
-    }
+        // پیش‌فرض روی هزینه
+        rbExpense.isChecked = true
 
-    private fun saveTransaction() {
-        val type = if (binding.rbIncome.isChecked) "درآمد" else "هزینه"
-        val date = binding.edtDate.text.toString()
-        val amountText = binding.edtAmount.text.toString()
-        val category = binding.edtCategory.text.toString()
-        val description = binding.edtDescription.text.toString()
+        btnSave.setOnClickListener {
+            val type = if (rbIncome.isChecked) "درآمد" else "هزینه"
+            val date = edtDate.text.toString()
+            val amountText = edtAmount.text.toString()
+            val category = edtCategory.text.toString()
+            val description = edtDescription.text.toString()
 
-        if (date.isEmpty() || amountText.isEmpty() || category.isEmpty()) {
-            Toast.makeText(this, "لطفاً همه فیلدهای لازم را پر کنید", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val amount = amountText.toDoubleOrNull()
-        if (amount == null) {
-            Toast.makeText(this, "مبلغ نامعتبر است", Toast.LENGTH_SHORT).show()
-            return
-        }
-
-        val transaction = Transaction(
-            type = type,
-            date = date,
-            amount = amount,
-            category = category,
-            description = description
-        )
-
-        // ✅ انجام عملیات دیتابیس در Thread جدا برای جلوگیری از کرش در Android 7
-        Thread {
-            db.transactionDao().insert(transaction)
-            runOnUiThread {
-                Toast.makeText(this, "تراکنش با موفقیت ذخیره شد", Toast.LENGTH_SHORT).show()
-                finish()
+            if (date.isEmpty() || amountText.isEmpty() || category.isEmpty()) {
+                Toast.makeText(this, "لطفاً همه فیلدهای لازم را پر کنید", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
             }
-        }.start()
+
+            val amount = amountText.toDoubleOrNull()
+            if (amount == null) {
+                Toast.makeText(this, "مبلغ نامعتبر است", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val transaction = Transaction(
+                type = type,
+                date = date,
+                amount = amount,
+                category = category,
+                description = description
+            )
+
+            // ✅ اجرای در Thread جدا تا روی اندروید 7 کرش نکنه
+            Thread {
+                db.transactionDao().insert(transaction)
+                runOnUiThread {
+                    Toast.makeText(this, "تراکنش با موفقیت ذخیره شد", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+            }.start()
+        }
     }
 }
