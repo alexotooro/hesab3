@@ -1,94 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#E8F4F8"
-    android:padding="8dp"
-    android:layoutDirection="rtl"
-    android:textDirection="rtl">
+    android:layout_height="match_parent">
 
-    <!-- دکمه افزودن -->
-    <LinearLayout
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="end">
+        android:layout_height="match_parent"
+        android:padding="8dp"/>
 
-        <Button
-            android:id="@+id/btnAdd"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:text="+"
-            android:textSize="26sp"
-            android:background="#2ECC71"
-            android:textColor="#fff"
-            android:layout_margin="6dp" />
-    </LinearLayout>
-
-    <!-- تیتر جدول -->
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:stretchColumns="*"
-        android:layoutDirection="rtl"
-        android:background="#D4E6F1">
-
-        <TableRow>
-            <TextView
-                android:text="تاریخ"
-                android:gravity="center"
-                android:padding="6dp"
-                android:textStyle="bold"
-                android:textColor="#000"/>
-
-            <TextView
-                android:text="مبلغ (ریال)"
-                android:gravity="center"
-                android:padding="6dp"
-                android:textStyle="bold"
-                android:textColor="#000"/>
-
-            <TextView
-                android:text="بابت"
-                android:gravity="center"
-                android:padding="6dp"
-                android:textStyle="bold"
-                android:textColor="#000"/>
-
-            <TextView
-                android:text="توضیحات"
-                android:gravity="center"
-                android:padding="6dp"
-                android:textStyle="bold"
-                android:textColor="#000"/>
-        </TableRow>
-    </TableLayout>
-
-    <!-- جدول داده‌ها -->
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layoutDirection="rtl">
-
-        <TableLayout
-            android:id="@+id/tableLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:stretchColumns="*"
-            android:background="#EBF5FB" />
-    </ScrollView>
-
-    <!-- مانده -->
-    <TextView
-        android:id="@+id/tvBalance"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="مانده: 0"
-        android:textSize="18sp"
-        android:textColor="#000"
-        android:background="#AED6F1"
-        android:padding="6dp"
-        android:layout_gravity="start" />
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:src="@android:drawable/ic_input_add"
+        android:contentDescription="افزودن تراکنش"/>
 
-</LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
