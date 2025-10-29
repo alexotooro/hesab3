@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -33,7 +34,7 @@
                 android:text="درآمد" />
         </LinearLayout>
 
-        <!-- فیلد تاریخ -->
+        <!-- فیلد تاریخ با دکمه تقویم شمسی -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -75,7 +76,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="توضیحات"
-            android:layout_marginBottom="12dp" />
+            android:layout_marginBottom="16dp" />
 
         <!-- دکمه ثبت -->
         <Button
@@ -83,7 +84,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ثبت تراکنش"
-            android:background="@drawable/rounded_button"
+            android:backgroundTint="@color/teal_700"
             android:textColor="@android:color/white" />
 
     </LinearLayout>
