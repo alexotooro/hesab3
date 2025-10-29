@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId "org.hesab.app"
-        minSdk 24       // اندروید 7
+        minSdk 24
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -50,7 +50,7 @@ android {
 repositories {
     google()
     mavenCentral()
-    maven { url 'https://jitpack.io' } // ✅ اضافه شد تا کتابخانه تقویم شمسی پیدا بشه
+    maven { url 'https://jitpack.io' }   // ⚠️ این بخش حیاتی است
 }
 
 dependencies {
@@ -59,9 +59,9 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.material:material:1.9.0'
 
-    // ✅ تقویم شمسی جدید و فعال از JitPack
-    implementation 'com.github.aliab:Persian-Date-Picker-Dialog:1.7.1'
+    // ✅ نسخه جدید و معتبر از JitPack
+    implementation 'com.github.aliab:Persian-Date-Picker-Dialog:1.8.0'
 
-    // 📅 کتابخانه تاریخ فارسی برای فرمت‌دهی تاریخ‌ها
+    // 📅 کتابخانه تاریخ فارسی
     implementation 'com.github.samanzamani:PersianDate:1.5.0'
 }
