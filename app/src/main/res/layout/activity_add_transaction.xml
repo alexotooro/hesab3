@@ -20,4 +20,72 @@
             android:layout_marginBottom="16dp">
 
             <RadioButton
-                android:id
+                android:id="@+id/radioExpense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="هزینه"
+                android:checked="true"
+                android:layout_marginEnd="24dp" />
+
+            <RadioButton
+                android:id="@+id/radioIncome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="درآمد" />
+        </LinearLayout>
+
+        <!-- فیلد تاریخ با دکمه تقویم شمسی -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <EditText
+                android:id="@+id/edtDate"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="تاریخ"
+                android:focusable="false"
+                android:inputType="none" />
+
+            <ImageButton
+                android:id="@+id/btnPickDate"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginStart="8dp"
+                android:background="@android:color/transparent"
+                android:src="@android:drawable/ic_menu_today"
+                android:contentDescription="انتخاب تاریخ" />
+        </LinearLayout>
+
+        <!-- فیلد مبلغ -->
+        <EditText
+            android:id="@+id/edtAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="مبلغ"
+            android:inputType="number"
+            android:layout_marginBottom="12dp" />
+
+        <!-- فیلد توضیحات -->
+        <EditText
+            android:id="@+id/edtDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="توضیحات"
+            android:layout_marginBottom="16dp" />
+
+        <!-- دکمه ثبت -->
+        <Button
+            android:id="@+id/btnSave"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ثبت تراکنش"
+            android:backgroundTint="#018786"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+</ScrollView>
