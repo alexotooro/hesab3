@@ -1,50 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<EditText
+    android:id="@+id/edtDate"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="24dp"
-    tools:context=".AddTransactionActivity">
-
-    <EditText
-        android:id="@+id/edtAmount"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="مبلغ"
-        android:inputType="numberDecimal"
-        android:padding="12dp" />
-
-    <EditText
-        android:id="@+id/edtDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="توضیحات"
-        android:padding="12dp"
-        android:layout_marginTop="12dp" />
-
-    <EditText
-        android:id="@+id/edtDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="تاریخ"
-        android:focusable="false"
-        android:clickable="false"
-        android:padding="12dp"
-        android:layout_marginTop="12dp" />
-
-    <Button
-        android:id="@+id/btnPickDate"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="انتخاب تاریخ"
-        android:layout_marginTop="12dp" />
-
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="ذخیره تراکنش"
-        android:layout_marginTop="16dp" />
-</LinearLayout>
+    android:layout_height="wrap_content"
+    android:hint="تاریخ"
+    android:focusable="false"
+    android:clickable="false"
+    android:padding="12dp"
+    android:layout_marginTop="12dp" />
