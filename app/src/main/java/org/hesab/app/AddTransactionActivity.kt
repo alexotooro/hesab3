@@ -1,89 +1,66 @@
 package org.hesab.app
 
+import android.app.DatePickerDialog
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import java.text.DecimalFormat
-import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog
-import java.util.*
+import org.hesab.app.databinding.ActivityAddTransactionBinding
+import com.aliab.persiandatepicker.Listener
+import com.aliab.persiandatepicker.PersianDatePickerDialog
+import com.aliab.persiandatepicker.utils.PersianCalendar
+import android.widget.Toast
 
-class AddTransactionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
+class AddTransactionActivity : AppCompatActivity() {
 
-    private lateinit var radioExpense: RadioButton
-    private lateinit var radioIncome: RadioButton
-    private lateinit var editTextAmount: EditText
-    private lateinit var buttonSave: Button
-    private lateinit var edtDate: EditText
-    private lateinit var btnPickDate: ImageButton
-
-    private var transactionType: String = "expense"
+    private lateinit var binding: ActivityAddTransactionBinding
+    private var selectedDate: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_transaction)
+        binding = ActivityAddTransactionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        radioExpense = findViewById(R.id.radioExpense)
-        radioIncome = findViewById(R.id.radioIncome)
-        editTextAmount = findViewById(R.id.edtAmount)
-        buttonSave = findViewById(R.id.btnSave)
-        edtDate = findViewById(R.id.edtDate)
-        btnPickDate = findViewById(R.id.btnPickDate)
-
-        // انتخاب نوع تراکنش
-        radioExpense.setOnClickListener { transactionType = "expense" }
-        radioIncome.setOnClickListener { transactionType = "income" }
-
-        // جدا کردن سه‌رقمی مبلغ
-        editTextAmount.addTextChangedListener(object : TextWatcher {
-            private var current = ""
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-            override fun afterTextChanged(s: Editable?) {
-                if (s.toString() != current) {
-                    editTextAmount.removeTextChangedListener(this)
-
-                    val cleanString = s.toString().replace(",", "")
-                    if (cleanString.isNotEmpty()) {
-                        val formatted = DecimalFormat("#,###").format(cleanString.toLong())
-                        current = formatted
-                        editTextAmount.setText(formatted)
-                        editTextAmount.setSelection(formatted.length)
-                    }
-
-                    editTextAmount.addTextChangedListener(this)
-                }
-            }
-        })
-
-        // انتخاب تاریخ از تقویم شمسی (برای فیلد و دکمه)
-        val datePickerListener = {
-            val now = Calendar.getInstance()
-            val dpd = DatePickerDialog.newInstance(
-                this,
-                now.get(Calendar.YEAR),
-                now.get(Calendar.MONTH),
-                now.get(Calendar.DAY_OF_MONTH)
-            )
-            dpd.show(supportFragmentManager, "Datepickerdialog")
+        // دکمه انتخاب تاریخ
+        binding.btnPickDate.setOnClickListener {
+            showPersianDatePicker()
         }
 
-        edtDate.setOnClickListener { datePickerListener.invoke() }
-        btnPickDate.setOnClickListener { datePickerListener.invoke() }
+        // دکمه ثبت تراکنش
+        binding.btnSaveTransaction.setOnClickListener {
+            val amount = binding.etAmount.text.toString()
+            val description = binding.etDescription.text.toString()
 
-        // دکمه ثبت
-        buttonSave.setOnClickListener {
-            val typeText = if (transactionType == "expense") "هزینه" else "درآمد"
-            val amount = editTextAmount.text.toString()
-            val date = edtDate.text.toString()
-            Toast.makeText(this, "$typeText با مبلغ $amount در تاریخ $date ثبت شد", Toast.LENGTH_SHORT).show()
+            if (amount.isEmpty() || selectedDate.isEmpty()) {
+                Toast.makeText(this, "لطفاً مبلغ و تاریخ را وارد کنید", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(
+                    this,
+                    "تراکنش ثبت شد:\nمبلغ: $amount\nتاریخ: $selectedDate\nتوضیح: $description",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
         }
     }
 
-    // مقداردهی تاریخ انتخاب‌شده از DatePicker
-    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        val dateStr = "$year/${monthOfYear + 1}/$dayOfMonth"
-        edtDate.setText(dateStr)
+    private fun showPersianDatePicker() {
+        val today = PersianCalendar()
+        PersianDatePickerDialog(this)
+            .setPositiveButtonString("تأیید")
+            .setNegativeButton("انصراف")
+            .setTodayButton("امروز")
+            .setTodayButtonVisible(true)
+            .setInitDate(today)
+            .setMinYear(1400)
+            .setMaxYear(1450)
+            .setActionTextColor(resources.getColor(android.R.color.holo_blue_dark))
+            .setListener(object : Listener {
+                override fun onDateSelected(persianCalendar: PersianCalendar) {
+                    selectedDate = persianCalendar.persianShortDate
+                    binding.tvSelectedDate.text = selectedDate
+                }
+
+                override fun onDismissed() {
+                    // کار خاصی لازم نیست انجام شود
+                }
+            }).show()
     }
 }
