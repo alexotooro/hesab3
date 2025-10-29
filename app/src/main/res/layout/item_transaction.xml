@@ -34,4 +34,14 @@
         android:layout_height="wrap_content"
         android:text="بابت" />
 
+    <TextView
+    android:id="@+id/txtDescription"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="توضیحات"
+    android:textSize="14sp"
+    android:layout_marginStart="8dp"
+    android:layout_gravity="center_vertical"/>
+
+
 </LinearLayout>
