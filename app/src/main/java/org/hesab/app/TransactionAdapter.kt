@@ -1,40 +1,51 @@
 package org.hesab.app
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import org.hesab.app.databinding.ItemTransactionBinding
 
-class TransactionAdapter : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
+class TransactionAdapter :
+    RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
-    private var items: List<Transaction> = listOf()
+    private var transactions: List<Transaction> = emptyList()
 
-    fun setData(data: List<Transaction>) {
-        items = data
+    fun setData(list: List<Transaction>) {
+        transactions = list
         notifyDataSetChanged()
     }
 
-    class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val txtType: TextView = itemView.findViewById(R.id.txtType)
-        val txtAmount: TextView = itemView.findViewById(R.id.txtAmount)
-        val txtDate: TextView = itemView.findViewById(R.id.txtDate)
-        val txtCategory: TextView = itemView.findViewById(R.id.txtCategory)
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_transaction, parent, false)
-        return TransactionViewHolder(view)
+        val binding = ItemTransactionBinding.inflate(
+            LayoutInflater.from(parent.context), parent, false
+        )
+        return TransactionViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        val item = items[position]
-        holder.txtType.text = if (item.type == "income") "درآمد" else "هزینه"
-        holder.txtAmount.text = item.amount.toString()
-        holder.txtDate.text = item.date
-        holder.txtCategory.text = item.category
+        holder.bind(transactions[position])
     }
 
-    override fun getItemCount(): Int = items.size
+    override fun getItemCount(): Int = transactions.size
+
+    inner class TransactionViewHolder(private val binding: ItemTransactionBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+
+        fun bind(transaction: Transaction) {
+            binding.txtDate.text = transaction.date
+            binding.txtAmount.text = transaction.amount.toString()
+            binding.txtCategory.text = transaction.category
+            binding.txtDescription.text = transaction.description
+
+            // رنگ متفاوت برای درآمد و هزینه
+            val colorRes = if (transaction.type == "درآمد")
+                android.R.color.holo_green_dark
+            else
+                android.R.color.holo_red_dark
+
+            binding.txtAmount.setTextColor(
+                binding.root.context.getColor(colorRes)
+            )
+        }
+    }
 }
