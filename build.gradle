@@ -6,3 +6,12 @@ plugins {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+// ✅ اضافه‌شده برای رفع خطای com.mohamadamin:persianmaterialdatetimepicker
+allprojects {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url 'https://jitpack.io' } // ← این خط JitPack را اضافه می‌کند
+    }
+}
