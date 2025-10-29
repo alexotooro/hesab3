@@ -53,12 +53,19 @@ class AddTransactionActivity : AppCompatActivity() {
 
             // ✅ اجرای در Thread جدا تا روی اندروید 7 کرش نکنه
             Thread {
-                db.transactionDao().insert(transaction)
-                runOnUiThread {
-                    Toast.makeText(this, "تراکنش با موفقیت ذخیره شد", Toast.LENGTH_SHORT).show()
-                    finish()
-                }
-            }.start()
+    try {
+        db.transactionDao().insert(transaction)
+        runOnUiThread {
+            Toast.makeText(this, "تراکنش با موفقیت ذخیره شد", Toast.LENGTH_SHORT).show()
+            finish()
+        }
+    } catch (e: Exception) {
+        runOnUiThread {
+            Toast.makeText(this, "خطا: ${e.message}", Toast.LENGTH_LONG).show()
+        }
+    }
+}.start()
+
         }
     }
 }
