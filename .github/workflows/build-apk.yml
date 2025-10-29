@@ -20,6 +20,13 @@ jobs:
       - name: Grant execute permission for Gradle Wrapper
         run: chmod +x ./gradlew
 
+        - name: Create libs folder
+  run: mkdir -p app/libs
+
+- name: Decode PersianDate JAR
+  run: echo "<BASE64_CONTENT>" | base64 --decode > app/libs/persiandate-1.7.1.jar
+
+
       - name: Build Debug APK
         run: ./gradlew assembleDebug --no-daemon
 
