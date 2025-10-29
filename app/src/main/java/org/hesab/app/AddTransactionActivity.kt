@@ -26,7 +26,7 @@ class AddTransactionActivity : AppCompatActivity() {
     }
 
     private fun saveTransaction() {
-        val type = if (binding.rbIncome.isChecked) "income" else "expense"
+        val type = if (binding.rbIncome.isChecked) "درآمد" else "هزینه"
         val date = binding.edtDate.text.toString()
         val amountText = binding.edtAmount.text.toString()
         val category = binding.edtCategory.text.toString()
@@ -51,8 +51,13 @@ class AddTransactionActivity : AppCompatActivity() {
             description = description
         )
 
-        db.transactionDao().insert(transaction)
-        Toast.makeText(this, "تراکنش با موفقیت ذخیره شد", Toast.LENGTH_SHORT).show()
-        finish()
+        // درج در پایگاه داده در Thread جداگانه (سازگار با Android 7)
+        Thread {
+            db.transactionDao().insert(transaction)
+            runOnUiThread {
+                Toast.makeText(this, "تراکنش با موفقیت ذخیره شد", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+        }.start()
     }
 }
