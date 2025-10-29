@@ -19,8 +19,9 @@ class AddTransactionActivity : AppCompatActivity() {
 
         // 📅 نمونه‌سازی از PersianDate
         val persianDate = PersianDate()
-        val today = "${persianDate.shYear}/${persianDate.shMonth}/${persianDate.shDay}"
+val persianDateFormat = PersianDateFormat("Y/m/d")
+val today = persianDateFormat.format(persianDate)
+binding.dateText.text = today
 
-        binding.dateText.text = today
     }
 }
