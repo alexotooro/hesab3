@@ -1,0 +1,2 @@
+- name: Clean Gradle cache
+  run: rm -rf ~/.gradle/caches/
