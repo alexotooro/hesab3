@@ -3,6 +3,7 @@ package org.hesab.app
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.core.content.ContextCompat
 import org.hesab.app.databinding.ItemTransactionBinding
 
 class TransactionAdapter :
@@ -37,18 +38,15 @@ class TransactionAdapter :
             binding.txtCategory.text = transaction.category
             binding.txtDescription.text = transaction.description
 
-            // رنگ مبلغ برای تمایز درآمد و هزینه
+            // رنگ متفاوت برای درآمد و هزینه
             val colorRes = if (transaction.type == "درآمد")
                 android.R.color.holo_green_dark
             else
                 android.R.color.holo_red_dark
 
-            import androidx.core.content.ContextCompat
-
-binding.txtAmount.setTextColor(
-    ContextCompat.getColor(binding.root.context, colorRes)
-)
-
+            binding.txtAmount.setTextColor(
+                ContextCompat.getColor(binding.root.context, colorRes)
+            )
         }
     }
 }
