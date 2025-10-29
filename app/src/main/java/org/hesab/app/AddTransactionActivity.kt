@@ -20,7 +20,7 @@ class AddTransactionActivity : AppCompatActivity() {
         val persianDateFormat = PersianDateFormat()
         val today = persianDateFormat.format(persianDate)
 
-        // اگر در layout ویوی مربوط به تاریخ داری، نام ID اون رو جایگزین کن
-        binding.textDate.text = today
+        // نمایش تاریخ در فیلد مربوطه
+        binding.edtDate.setText(today)
     }
 }
