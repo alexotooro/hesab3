@@ -13,7 +13,6 @@ android {
         targetSdk 33
         versionCode 1
         versionName "1.0"
-
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -34,7 +33,6 @@ android {
 repositories {
     google()
     mavenCentral()
-    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -43,6 +41,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-    // PersianDate library (از jitpack)
-    implementation 'com.github.samanzamani:PersianDate:1.5.0'
+    // ✅ استفاده از فایل JAR محلی
+    implementation files('libs/PersianDate-1.5.0.jar')
 }
