@@ -1,118 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddTransactionActivity"
     android:padding="16dp">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <!-- تاریخ -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="12dp">
-
-            <EditText
-                android:id="@+id/etDate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="تاریخ"
-                android:inputType="none"
-                android:focusable="false"
-                android:background="@android:drawable/editbox_background" />
-
-            <Button
-                android:id="@+id/btnDatePicker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="انتخاب تاریخ"
-                android:layout_marginStart="8dp" />
-        </LinearLayout>
-
-        <!-- نوع تراکنش -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="نوع تراکنش:"
-            android:textSize="16sp"
-            android:layout_marginBottom="6dp" />
+        android:gravity="center_horizontal">
 
         <RadioGroup
-            android:id="@+id/rgTransactionType"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/radioGroupType"
             android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="12dp">
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
 
             <RadioButton
                 android:id="@+id/rbExpense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="هزینه"
-                android:checked="true" />
+                android:checked="true"/>
 
             <RadioButton
                 android:id="@+id/rbIncome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="درآمد"
-                android:layout_marginStart="16dp" />
+                android:layout_marginStart="16dp"/>
+
         </RadioGroup>
 
-        <!-- مبلغ -->
         <EditText
-            android:id="@+id/etAmount"
+            android:id="@+id/edtDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="مبلغ (ریال)"
-            android:inputType="number"
-            android:layout_marginBottom="12dp" />
+            android:hint="تاریخ"
+            android:inputType="text" />
 
-        <!-- بابت -->
         <EditText
-            android:id="@+id/etTitle"
+            android:id="@+id/edtAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="مبلغ"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/edtCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="بابت"
-            android:layout_marginBottom="12dp" />
+            android:inputType="text" />
 
-        <!-- توضیحات -->
         <EditText
-            android:id="@+id/etDescription"
+            android:id="@+id/edtDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="توضیحات"
-            android:layout_marginBottom="12dp" />
+            android:inputType="textMultiLine" />
 
-        <!-- دکمه‌ها -->
-        <LinearLayout
+        <Button
+            android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/btnSave"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ثبت"
-                android:layout_marginEnd="8dp" />
-
-            <Button
-                android:id="@+id/btnCancel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="انصراف" />
-        </LinearLayout>
+            android:text="ثبت تراکنش"
+            android:layout_marginTop="20dp" />
 
     </LinearLayout>
 </ScrollView>
