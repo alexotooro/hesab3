@@ -17,9 +17,15 @@ class AddTransactionActivity : AppCompatActivity() {
         binding = ActivityAddTransactionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // وقتی روی دکمه تاریخ کلیک شد
-        binding.btnPickDate.setOnClickListener {
-            showDatePicker()
+        binding.btnPickDate.setOnClickListener { showDatePicker() }
+
+        binding.btnSave.setOnClickListener {
+            val amount = binding.edtAmount.text.toString()
+            val desc = binding.edtDescription.text.toString()
+            val date = binding.edtDate.text.toString()
+
+            // فعلاً فقط تست خروجی کنسول (بعداً ذخیره توی دیتابیس)
+            println("✅ مبلغ: $amount | توضیح: $desc | تاریخ: $date")
         }
     }
 
@@ -29,19 +35,14 @@ class AddTransactionActivity : AppCompatActivity() {
         val month = calendar.get(Calendar.MONTH)
         val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-        // دیالوگ انتخاب تاریخ میلادی (سیستم اندروید)
-        val datePicker = DatePickerDialog(this, { _, y, m, d ->
-            // تبدیل تاریخ میلادی انتخاب‌شده به شمسی
+        val picker = DatePickerDialog(this, { _, y, m, d ->
             val gregorian = Calendar.getInstance()
             gregorian.set(y, m, d)
-
             val persianDate = PersianDate(gregorian.time)
-            selectedDate =
-                "${persianDate.shYear}/${persianDate.shMonth}/${persianDate.shDay}"
-
+            selectedDate = "${persianDate.shYear}/${persianDate.shMonth}/${persianDate.shDay}"
             binding.edtDate.setText(selectedDate)
         }, year, month, day)
 
-        datePicker.show()
+        picker.show()
     }
 }
