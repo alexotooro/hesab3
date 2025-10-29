@@ -3,12 +3,14 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
-        maven { url 'https://jitpack.io' }
+        maven { url 'https://jitpack.io' } // ← برای کتابخانه تقویم شمسی
     }
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    // 🔄 از PREFER_SETTINGS به PREFER_PROJECT تغییر داده شد
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
+
     repositories {
         google()
         mavenCentral()
