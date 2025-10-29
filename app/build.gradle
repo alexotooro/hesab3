@@ -53,9 +53,6 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.material:material:1.9.0'
 
-    // ✅ تقویم شمسی سالم و فعال از jitpack
-    implementation 'com.github.hamsaadev:PersianDatePickerDialog:1.6.1'
-
-    // 📅 کتابخانه تاریخ فارسی برای فرمت‌دهی تاریخ‌ها
+    // ✅ فقط کتابخانه‌ی تاریخ فارسی (بدون نیاز به JitPack)
     implementation 'com.github.samanzamani:PersianDate:1.5.0'
 }
