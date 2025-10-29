@@ -24,7 +24,7 @@ class AddTransactionActivity : AppCompatActivity() {
         binding.etDate.setText(today)
 
         // 📆 دکمه انتخاب تاریخ
-        binding.btnPickDate.setOnClickListener {
+        binding.btnDatePicker.setOnClickListener {
             showPersianDatePicker()
         }
     }
