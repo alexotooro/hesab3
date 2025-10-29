@@ -1,10 +1,12 @@
 package org.hesab.app
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import org.hesab.app.databinding.ActivityAddTransactionBinding
 import samanzamani.persiandate.PersianDate
 import samanzamani.persiandate.PersianDateFormat
+import java.util.*
 
 class AddTransactionActivity : AppCompatActivity() {
 
@@ -15,12 +17,42 @@ class AddTransactionActivity : AppCompatActivity() {
         binding = ActivityAddTransactionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 📅 نمایش تاریخ امروز به‌صورت شمسی
+        // 📅 تاریخ امروز شمسی
         val persianDate = PersianDate()
         val persianDateFormat = PersianDateFormat()
         val today = persianDateFormat.format(persianDate)
-
-        // نمایش تاریخ در فیلد مربوطه
         binding.edtDate.setText(today)
+
+        // 📆 دکمه انتخاب تاریخ
+        binding.btnPickDate.setOnClickListener {
+            showPersianDatePicker()
+        }
+    }
+
+    private fun showPersianDatePicker() {
+        val persianDate = PersianDate()
+
+        // 📅 تبدیل تاریخ شمسی به میلادی برای DatePicker
+        val cal = Calendar.getInstance()
+        cal.set(persianDate.shYear + 621, persianDate.shMonth - 1, persianDate.shDay)
+
+        val datePickerDialog = DatePickerDialog(
+            this,
+            { _, year, month, dayOfMonth ->
+                // 🌀 تبدیل تاریخ میلادی انتخاب‌شده به شمسی
+                val gregCal = Calendar.getInstance()
+                gregCal.set(year, month, dayOfMonth)
+
+                val newPersianDate = PersianDate()
+                val persianDateFormat = PersianDateFormat()
+                val formattedDate = persianDateFormat.format(newPersianDate)
+                binding.edtDate.setText(formattedDate)
+            },
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DAY_OF_MONTH)
+        )
+
+        datePickerDialog.show()
     }
 }
