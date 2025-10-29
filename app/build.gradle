@@ -55,7 +55,8 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
 
     // ✅ تقویم شمسی جدید و فعال از JitPack
-    implementation 'com.github.aliab:Persian-Date-Picker-Dialog:1.8.0'
+    implementation 'com.github.aliab:Persian-Date-Picker-Dialog:1.7.1'
+
 
     // 📅 کتابخانه تاریخ فارسی برای فرمت‌دهی تاریخ‌ها
     implementation 'com.github.samanzamani:PersianDate:1.5.0'
