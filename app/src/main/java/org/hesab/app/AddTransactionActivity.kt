@@ -1,11 +1,10 @@
 package org.hesab.app
 
-import samanzamani.persiandate.PersianDate
-import samanzamani.persiandate.PersianDateFormat
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import org.hesab.app.databinding.ActivityAddTransactionBinding
-import java.util.*
+import samanzamani.persiandate.PersianDate
+import samanzamani.persiandate.PersianDateFormat
 
 class AddTransactionActivity : AppCompatActivity() {
 
@@ -16,11 +15,12 @@ class AddTransactionActivity : AppCompatActivity() {
         binding = ActivityAddTransactionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // 📅 نمونه‌سازی از PersianDate
-        val pd = PersianDate()
-val pdFormat = PersianDateFormat()
-val formattedDate = pdFormat.format(pd)
-binding.dateText.text = today
+        // 📅 نمایش تاریخ امروز به‌صورت شمسی
+        val persianDate = PersianDate()
+        val persianDateFormat = PersianDateFormat()
+        val today = persianDateFormat.format(persianDate)
 
+        // اگر در layout ویوی مربوط به تاریخ داری، نام ID اون رو جایگزین کن
+        binding.textDate.text = today
     }
 }
