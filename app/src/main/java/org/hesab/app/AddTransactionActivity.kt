@@ -21,7 +21,7 @@ class AddTransactionActivity : AppCompatActivity() {
         val persianDate = PersianDate()
         val persianDateFormat = PersianDateFormat()
         val today = persianDateFormat.format(persianDate)
-        binding.edtDate.setText(today)
+        binding.etDate.setText(today)
 
         // 📆 دکمه انتخاب تاریخ
         binding.btnPickDate.setOnClickListener {
@@ -46,7 +46,7 @@ class AddTransactionActivity : AppCompatActivity() {
                 val newPersianDate = PersianDate()
                 val persianDateFormat = PersianDateFormat()
                 val formattedDate = persianDateFormat.format(newPersianDate)
-                binding.edtDate.setText(formattedDate)
+                binding.etDate.setText(formattedDate)
             },
             cal.get(Calendar.YEAR),
             cal.get(Calendar.MONTH),
