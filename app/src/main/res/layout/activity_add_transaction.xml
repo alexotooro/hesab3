@@ -1,81 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="24dp"
-    android:background="?android:attr/windowBackground"
     tools:context=".AddTransactionActivity">
 
-    <!-- 🧾 عنوان صفحه -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="افزودن تراکنش جدید"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_gravity="center"
-        android:layout_marginBottom="24dp" />
-
-    <!-- 💰 مبلغ -->
-    <com.google.android.material.textfield.TextInputLayout
+    <EditText
+        android:id="@+id/edtAmount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="مبلغ">
+        android:hint="مبلغ"
+        android:inputType="numberDecimal"
+        android:padding="12dp" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtAmount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- 📝 توضیحات -->
-    <com.google.android.material.textfield.TextInputLayout
+    <EditText
+        android:id="@+id/edtDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="توضیحات"
-        android:layout_marginTop="12dp">
+        android:padding="12dp"
+        android:layout_marginTop="12dp" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- 📅 تاریخ -->
-    <com.google.android.material.textfield.TextInputLayout
+    <EditText
+        android:id="@+id/edtDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="تاریخ"
-        android:layout_marginTop="12dp">
+        android:focusable="false"
+        android:clickable="false"
+        android:padding="12dp"
+        android:layout_marginTop="12dp" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/edtDate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:focusable="false"
-            android:clickable="false" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- 🎯 دکمه انتخاب تاریخ -->
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btnPickDate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="انتخاب تاریخ"
-        style="?attr/materialButtonOutlinedStyle"
-        android:layout_marginTop="12dp" />
+        android:layout_marginTop="12dp"
+        android:backgroundTint="?attr/colorPrimary"
+        android:textColor="@android:color/white"
+        android:padding="12dp" />
 
-    <!-- 💾 دکمه ذخیره -->
-    <com.google.android.material.button.MaterialButton
+    <Button
         android:id="@+id/btnSave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="ذخیره تراکنش"
-        style="?attr/materialButtonFilledStyle"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:backgroundTint="?attr/colorPrimaryVariant"
+        android:textColor="@android:color/white"
+        android:padding="12dp" />
 
 </LinearLayout>
