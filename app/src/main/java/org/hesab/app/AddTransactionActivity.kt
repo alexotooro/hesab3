@@ -6,13 +6,18 @@ import android.text.TextWatcher
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import java.text.DecimalFormat
+import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog
+import java.util.*
 
-class AddTransactionActivity : AppCompatActivity() {
+class AddTransactionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
 
     private lateinit var radioExpense: RadioButton
     private lateinit var radioIncome: RadioButton
     private lateinit var editTextAmount: EditText
     private lateinit var buttonSave: Button
+    private lateinit var edtDate: EditText
+    private lateinit var btnPickDate: ImageButton
+
     private var transactionType: String = "expense"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,8 +26,10 @@ class AddTransactionActivity : AppCompatActivity() {
 
         radioExpense = findViewById(R.id.radioExpense)
         radioIncome = findViewById(R.id.radioIncome)
-        editTextAmount = findViewById(R.id.editTextAmount)
-        buttonSave = findViewById(R.id.buttonSave)
+        editTextAmount = findViewById(R.id.edtAmount)
+        buttonSave = findViewById(R.id.btnSave)
+        edtDate = findViewById(R.id.edtDate)
+        btnPickDate = findViewById(R.id.btnPickDate)
 
         // انتخاب نوع تراکنش
         radioExpense.setOnClickListener { transactionType = "expense" }
@@ -50,10 +57,33 @@ class AddTransactionActivity : AppCompatActivity() {
             }
         })
 
+        // انتخاب تاریخ از تقویم شمسی (برای فیلد و دکمه)
+        val datePickerListener = {
+            val now = Calendar.getInstance()
+            val dpd = DatePickerDialog.newInstance(
+                this,
+                now.get(Calendar.YEAR),
+                now.get(Calendar.MONTH),
+                now.get(Calendar.DAY_OF_MONTH)
+            )
+            dpd.show(supportFragmentManager, "Datepickerdialog")
+        }
+
+        edtDate.setOnClickListener { datePickerListener.invoke() }
+        btnPickDate.setOnClickListener { datePickerListener.invoke() }
+
+        // دکمه ثبت
         buttonSave.setOnClickListener {
             val typeText = if (transactionType == "expense") "هزینه" else "درآمد"
             val amount = editTextAmount.text.toString()
-            Toast.makeText(this, "$typeText با مبلغ $amount ثبت شد", Toast.LENGTH_SHORT).show()
+            val date = edtDate.text.toString()
+            Toast.makeText(this, "$typeText با مبلغ $amount در تاریخ $date ثبت شد", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    // مقداردهی تاریخ انتخاب‌شده از DatePicker
+    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        val dateStr = "$year/${monthOfYear + 1}/$dayOfMonth"
+        edtDate.setText(dateStr)
     }
 }
