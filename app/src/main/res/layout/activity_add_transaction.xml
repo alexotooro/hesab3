@@ -7,9 +7,9 @@
     tools:context=".AddTransactionActivity">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <!-- بخش انتخاب نوع تراکنش -->
         <LinearLayout
@@ -20,30 +20,4 @@
             android:layout_marginBottom="16dp">
 
             <RadioButton
-                android:id="@+id/radioExpense"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="هزینه"
-                android:checked="true"
-                android:layout_marginEnd="24dp" />
-
-            <RadioButton
-                android:id="@+id/radioIncome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="درآمد" />
-        </LinearLayout>
-
-        <!-- تاریخ انتخاب‌شده و دکمه بازکردن تقویم -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:layout_marginBottom="12dp">
-
-            <TextView
-                android:id="@+id/tvSelectedDate"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content
+                android:id
