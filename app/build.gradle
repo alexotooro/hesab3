@@ -1,8 +1,61 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace "org.hesab.app"
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "org.hesab.app"
+        minSdk 24
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            minifyEnabled false
+            shrinkResources false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+
+    buildFeatures {
+        viewBinding true
+    }
+
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+}
+
 dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.10"
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.material:material:1.9.0'
 
-    // ✅ جایگزین معتبر و سازگار با Kotlin
+    // ✅ کتابخانه تاریخ شمسی جایگزین و فعال
     implementation 'com.github.mohamad-amin:PersianMaterialDateTimePicker:1.2.1'
+
+    // 📅 کتابخانه تاریخ فارسی برای فرمت‌دهی تاریخ‌ها
+    implementation 'com.github.samanzamani:PersianDate:1.5.0'
 }
