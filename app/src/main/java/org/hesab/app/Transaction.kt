@@ -7,9 +7,9 @@ import androidx.room.PrimaryKey
 data class Transaction(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0,
-    val type: String,        // "income" یا "expense"
+    val type: String,        // "درآمد" یا "هزینه"
     val date: String,
     val amount: Double,
     val category: String,
-    val description: String?
+    val description: String = ""   // 🔹 دیگه nullable نیست، پیش‌فرض رشته خالی
 )
