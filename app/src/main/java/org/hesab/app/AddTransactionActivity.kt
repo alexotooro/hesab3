@@ -5,7 +5,6 @@ import samanzamani.persiandate.PersianDateFormat
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import org.hesab.app.databinding.ActivityAddTransactionBinding
-import com.github.samanzamani.persiandate.PersianDate
 import java.util.*
 
 class AddTransactionActivity : AppCompatActivity() {
@@ -18,9 +17,9 @@ class AddTransactionActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // 📅 نمونه‌سازی از PersianDate
-        val persianDate = PersianDate()
-val persianDateFormat = PersianDateFormat("Y/m/d")
-val today = persianDateFormat.format(persianDate)
+        val pd = PersianDate()
+val pdFormat = PersianDateFormat()
+val formattedDate = pdFormat.format(pd)
 binding.dateText.text = today
 
     }
