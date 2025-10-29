@@ -43,9 +43,12 @@ class TransactionAdapter :
             else
                 android.R.color.holo_red_dark
 
-            binding.txtAmount.setTextColor(
-                binding.root.context.getColor(colorRes)
-            )
+            import androidx.core.content.ContextCompat
+
+binding.txtAmount.setTextColor(
+    ContextCompat.getColor(binding.root.context, colorRes)
+)
+
         }
     }
 }
