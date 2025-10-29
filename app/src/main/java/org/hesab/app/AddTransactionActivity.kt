@@ -51,7 +51,7 @@ class AddTransactionActivity : AppCompatActivity() {
             description = description
         )
 
-        // درج در پایگاه داده در Thread جداگانه (سازگار با Android 7)
+        // ✅ انجام عملیات دیتابیس در Thread جدا برای جلوگیری از کرش در Android 7
         Thread {
             db.transactionDao().insert(transaction)
             runOnUiThread {
