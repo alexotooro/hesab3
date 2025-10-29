@@ -1,12 +1,13 @@
 package org.hesab.app
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import org.hesab.app.databinding.ActivityAddTransactionBinding
-import com.mohamadamin.persianmaterialdatetimepicker.date.DatePickerDialog
+import com.samanzamani.persiandate.PersianDate
 import java.util.*
 
-class AddTransactionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetListener {
+class AddTransactionActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAddTransactionBinding
     private var selectedDate: String = ""
@@ -16,29 +17,31 @@ class AddTransactionActivity : AppCompatActivity(), DatePickerDialog.OnDateSetLi
         binding = ActivityAddTransactionBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.dateButton.setOnClickListener {
+        // وقتی روی دکمه تاریخ کلیک شد
+        binding.btnPickDate.setOnClickListener {
             showDatePicker()
         }
     }
 
     private fun showDatePicker() {
         val calendar = Calendar.getInstance()
-        val dpd = DatePickerDialog.newInstance(
-            this,
-            calendar.get(Calendar.YEAR),
-            calendar.get(Calendar.MONTH),
-            calendar.get(Calendar.DAY_OF_MONTH)
-        )
-        dpd.show(supportFragmentManager, "Datepickerdialog")
-    }
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
 
-    override fun onDateSet(
-        view: DatePickerDialog?,
-        year: Int,
-        monthOfYear: Int,
-        dayOfMonth: Int
-    ) {
-        selectedDate = "$year/${monthOfYear + 1}/$dayOfMonth"
-        binding.dateText.text = selectedDate
+        // دیالوگ انتخاب تاریخ میلادی (سیستم اندروید)
+        val datePicker = DatePickerDialog(this, { _, y, m, d ->
+            // تبدیل تاریخ میلادی انتخاب‌شده به شمسی
+            val gregorian = Calendar.getInstance()
+            gregorian.set(y, m, d)
+
+            val persianDate = PersianDate(gregorian.time)
+            selectedDate =
+                "${persianDate.shYear}/${persianDate.shMonth}/${persianDate.shDay}"
+
+            binding.edtDate.setText(selectedDate)
+        }, year, month, day)
+
+        datePicker.show()
     }
 }
