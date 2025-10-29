@@ -34,7 +34,7 @@
                 android:text="درآمد" />
         </LinearLayout>
 
-        <!-- فیلد تاریخ با دکمه تقویم شمسی -->
+        <!-- تاریخ انتخاب‌شده و دکمه بازکردن تقویم -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,50 +42,8 @@
             android:gravity="center_vertical"
             android:layout_marginBottom="12dp">
 
-            <EditText
-                android:id="@+id/edtDate"
+            <TextView
+                android:id="@+id/tvSelectedDate"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:hint="تاریخ"
-                android:focusable="false"
-                android:inputType="none" />
-
-            <ImageButton
-                android:id="@+id/btnPickDate"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginStart="8dp"
-                android:background="@android:color/transparent"
-                android:src="@android:drawable/ic_menu_today"
-                android:contentDescription="انتخاب تاریخ" />
-        </LinearLayout>
-
-        <!-- فیلد مبلغ -->
-        <EditText
-            android:id="@+id/edtAmount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="مبلغ"
-            android:inputType="number"
-            android:layout_marginBottom="12dp" />
-
-        <!-- فیلد توضیحات -->
-        <EditText
-            android:id="@+id/edtDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="توضیحات"
-            android:layout_marginBottom="16dp" />
-
-        <!-- دکمه ثبت -->
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="ثبت تراکنش"
-            android:backgroundTint="#018786"
-            android:textColor="@android:color/white" />
-
-    </LinearLayout>
-</ScrollView>
+                android:layout_height="wrap_content
