@@ -37,7 +37,7 @@ class TransactionAdapter :
             binding.txtCategory.text = transaction.category
             binding.txtDescription.text = transaction.description
 
-            // رنگ متفاوت برای درآمد و هزینه
+            // رنگ مبلغ برای تمایز درآمد و هزینه
             val colorRes = if (transaction.type == "درآمد")
                 android.R.color.holo_green_dark
             else
