@@ -53,8 +53,8 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.android.material:material:1.9.0'
 
-    // ✅ کتابخانه تاریخ شمسی جایگزین و فعال
-    implementation 'com.github.mohamad-amin:PersianMaterialDateTimePicker:1.2.1'
+    // ✅ نسخه فعال و سالم تقویم شمسی از jitpack
+    implementation 'com.github.mohamad-amin:persianmaterialdatetimepicker:1.2.2'
 
     // 📅 کتابخانه تاریخ فارسی برای فرمت‌دهی تاریخ‌ها
     implementation 'com.github.samanzamani:PersianDate:1.5.0'
