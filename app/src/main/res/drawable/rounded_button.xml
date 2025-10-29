@@ -2,11 +2,11 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <solid android:color="#4CAF50" /> <!-- رنگ سبز دکمه -->
-    <corners android:radius="12dp" /> <!-- گوشه‌های گرد -->
+    <solid android:color="#4CAF50" /> <!-- رنگ سبز -->
+    <corners android:radius="12dp" /> <!-- گوشه گرد -->
     <padding
-        android:left="10dp"
-        android:top="10dp"
-        android:right="10dp"
-        android:bottom="10dp" />
+        android:left="12dp"
+        android:top="8dp"
+        android:right="12dp"
+        android:bottom="8dp" />
 </shape>
