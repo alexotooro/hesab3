@@ -37,6 +37,11 @@ android {
         jvmTarget = "17"
     }
 
+    // ✅ فعال کردن ViewBinding برای حل خطای ActivityAddTransactionBinding
+    buildFeatures {
+        viewBinding true
+    }
+
     lint {
         abortOnError false
         checkReleaseBuilds false
