@@ -5,7 +5,6 @@ import androidx.room.*
 @Dao
 interface TransactionDao {
 
-    // حالا ترتیب برعکس شد: آخرین تراکنش‌ها اول نمایش داده می‌شن
     @Query("SELECT * FROM transactions ORDER BY orderIndex DESC")
     fun getAll(): List<Transaction>
 
@@ -20,4 +19,10 @@ interface TransactionDao {
 
     @Query("UPDATE transactions SET orderIndex = :newIndex WHERE id = :transactionId")
     fun updateOrder(transactionId: Int, newIndex: Int)
+
+    @Query("SELECT MAX(orderIndex) FROM transactions")
+    fun getMaxOrderIndex(): Int?
+
+    @Query("SELECT * FROM transactions WHERE id = :id")
+    fun getById(id: Int): Transaction?
 }
