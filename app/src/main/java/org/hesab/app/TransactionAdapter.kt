@@ -66,7 +66,7 @@ class TransactionAdapter(
 
         holder.btnMore.setOnClickListener {
             val popup = PopupMenu(context, holder.btnMore)
-            popup.menuInflater.inflate(R.menu.transaction_item_menu, popup.menu)
+            popup.menuInflater.inflate(R.menu.menu_transaction_item, popup.menu)
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.menu_edit -> {
