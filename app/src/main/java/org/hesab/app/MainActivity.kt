@@ -38,6 +38,11 @@ class MainActivity : AppCompatActivity() {
         loadTransactions()
     }
 
+    /** این تابع توسط Adapter برای تازه‌سازی لیست بعد از حذف یا ویرایش استفاده می‌شود */
+    fun refreshTransactions() {
+        loadTransactions()
+    }
+
     private fun loadTransactions() {
         Thread {
             val transactions = db.transactionDao().getAll()
