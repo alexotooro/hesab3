@@ -20,7 +20,8 @@ class MainActivity : AppCompatActivity() {
 
         db = AppDatabase.getInstance(this)
         recyclerView = findViewById(R.id.recyclerView)
-        fabAdd = findViewById(R.id.btnAddTransaction)
+        private lateinit var fabAdd: Button
+
 
         recyclerView.layoutManager = LinearLayoutManager(this)
 
