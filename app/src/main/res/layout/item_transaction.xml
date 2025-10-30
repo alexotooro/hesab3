@@ -3,50 +3,62 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp"
-    android:gravity="center_vertical">
+    android:background="#EEF5FF"
+    android:paddingVertical="6dp"
+    android:paddingHorizontal="8dp">
 
+    <!-- دکمه سه‌نقطه‌ای -->
+    <TextView
+        android:id="@+id/btnMore"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:gravity="center"
+        android:text="⋮"
+        android:textSize="18sp"
+        android:textColor="#555"
+        android:background="@drawable/circle_touch_bg" />
+
+    <!-- تاریخ -->
     <TextView
         android:id="@+id/txtDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textColor="#000000"
-        android:textSize="14sp" />
+        android:text="۱۴۰۴/۰۸/۰۲"
+        android:textColor="#000"
+        android:padding="4dp" />
 
+    <!-- مبلغ -->
     <TextView
         android:id="@+id/txtAmount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textColor="#000000"
-        android:textSize="14sp" />
+        android:text="2,588"
+        android:textColor="#E53935"
+        android:padding="4dp" />
 
+    <!-- بابت -->
     <TextView
         android:id="@+id/txtCategory"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textColor="#000000"
-        android:textSize="14sp" />
+        android:text="حقوق"
+        android:textColor="#000"
+        android:padding="4dp" />
 
+    <!-- توضیحات -->
     <TextView
         android:id="@+id/txtDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:textColor="#000000"
-        android:textSize="14sp" />
-
-    <ImageButton
-        android:id="@+id/btnMore"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:background="@android:color/transparent"
-        android:src="@android:drawable/ic_menu_more"
-        android:contentDescription="بیشتر" />
+        android:text="..."
+        android:textColor="#000"
+        android:padding="4dp" />
 </LinearLayout>
