@@ -9,45 +9,36 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-class MainActivity : AppCompatActivity(), TransactionAdapter.OnTransactionMenuClickListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TransactionAdapter
     private lateinit var db: AppDatabase
-    private lateinit var transactions: MutableList<Transaction>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        db = AppDatabase.getInstance(this)
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
+        db = AppDatabase.getDatabase(this)
+
+        loadTransactions()
+
+        findViewById<View>(R.id.btnAdd).setOnClickListener {
+            val intent = Intent(this, AddTransactionActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    private fun loadTransactions() {
         CoroutineScope(Dispatchers.IO).launch {
-            transactions = db.transactionDao().getAll().toMutableList()
+            val list = db.transactionDao().getAll()
             runOnUiThread {
-                adapter = TransactionAdapter(transactions, this@MainActivity)
+                adapter = TransactionAdapter(list)
                 recyclerView.adapter = adapter
             }
-        }
-
-        findViewById<android.widget.ImageButton>(R.id.btn_add).setOnClickListener {
-            startActivity(Intent(this, AddTransactionActivity::class.java))
-        }
-    }
-
-    override fun onEditClicked(transaction: Transaction) {
-        val intent = Intent(this, AddTransactionActivity::class.java)
-        intent.putExtra("transaction_id", transaction.id)
-        startActivity(intent)
-    }
-
-    override fun onDeleteClicked(transaction: Transaction) {
-        CoroutineScope(Dispatchers.IO).launch {
-            db.transactionDao().delete(transaction)
-            transactions.remove(transaction)
-            runOnUiThread { adapter.notifyDataSetChanged() }
         }
     }
 }
