@@ -1,5 +1,6 @@
 package org.hesab.app
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,9 +24,10 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
 
-        // کلیک دکمه +
-        binding.fabAdd.setOnClickListener {
-            startActivity(android.content.Intent(this, AddTransactionActivity::class.java))
+        // دکمه + در بالای صفحه
+        binding.btnAddTransaction.setOnClickListener {
+            val intent = Intent(this, AddTransactionActivity::class.java)
+            startActivity(intent)
         }
     }
 
@@ -35,21 +37,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun loadTransactionsAndBalance() {
-        val transactions = db.transactionDao().getAll()
-        adapter.submitList(transactions)
+        Thread {
+            val transactions = db.transactionDao().getAll()
+            var incomeTotal = 0.0
+            var expenseTotal = 0.0
 
-        // محاسبه مانده
-        var incomeTotal = 0.0
-        var expenseTotal = 0.0
+            for (t in transactions) {
+                if (t.type == "درآمد") incomeTotal += t.amount
+                else if (t.type == "هزینه") expenseTotal += t.amount
+            }
 
-        for (t in transactions) {
-            if (t.type == "درآمد") incomeTotal += t.amount
-            else if (t.type == "هزینه") expenseTotal += t.amount
-        }
+            val balance = incomeTotal - expenseTotal
+            val balanceText = "مانده: %,.0f ریال".format(balance)
 
-        val balance = incomeTotal - expenseTotal
-        val balanceText = "مانده: %, .0f ریال".format(balance)
-
-        binding.tvBalance.text = balanceText
+            runOnUiThread {
+                adapter.submitList(transactions)
+                binding.tvBalance.text = balanceText
+            }
+        }.start()
     }
 }
