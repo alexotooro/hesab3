@@ -1,7 +1,8 @@
 package org.hesab.app
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -10,69 +11,59 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class TransactionAdapter(
-    private val onEdit: (Transaction) -> Unit,
-    private val onDelete: (Transaction) -> Unit
-) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
+    private val context: Context,
+    private var transactions: List<Transaction>,
+    private val db: AppDatabase
+) : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
 
-    private var transactions: List<Transaction> = emptyList()
-
-    fun setData(newList: List<Transaction>) {
-        transactions = newList
-        notifyDataSetChanged()
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val txtDate: TextView = view.findViewById(R.id.txtDate)
+        val txtAmount: TextView = view.findViewById(R.id.txtAmount)
+        val txtCategory: TextView = view.findViewById(R.id.txtCategory)
+        val txtDescription: TextView = view.findViewById(R.id.txtDescription)
+        val btnMore: TextView = view.findViewById(R.id.btnMore)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_transaction, parent, false)
-        return TransactionViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false)
+        return ViewHolder(view)
     }
 
     override fun getItemCount(): Int = transactions.size
 
-    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val transaction = transactions[position]
-        holder.bind(transaction)
-    }
 
-    inner class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val tvDate: TextView = itemView.findViewById(R.id.tvDate)
-        private val tvAmount: TextView = itemView.findViewById(R.id.tvAmount)
-        private val tvCategory: TextView = itemView.findViewById(R.id.tvCategory)
-        private val tvDescription: TextView = itemView.findViewById(R.id.tvDescription)
-        private val btnMore: TextView = itemView.findViewById(R.id.btnMore)
+        holder.txtDate.text = transaction.date
+        holder.txtAmount.text = String.format("%,.0f", transaction.amount)
+        holder.txtCategory.text = transaction.category
+        holder.txtDescription.text = transaction.description
 
-        fun bind(transaction: Transaction) {
-            tvDate.text = transaction.date
-            tvAmount.text = "%,.0f".format(transaction.amount)
-            tvCategory.text = transaction.category
-            tvDescription.text = transaction.description
+        // رنگ مبلغ بر اساس نوع
+        holder.txtAmount.setTextColor(
+            if (transaction.type == "درآمد") 0xFF2E7D32.toInt() else 0xFFD32F2F.toInt()
+        )
 
-            // رنگ مبلغ بر اساس نوع
-            val amountColor = if (transaction.type == "درآمد")
-                0xFF1B5E20.toInt() // سبز تیره
-            else
-                0xFFB71C1C.toInt() // قرمز تیره
-            tvAmount.setTextColor(amountColor)
-
-            // منوی سه‌نقطه
-            btnMore.setOnClickListener {
-                showPopupMenu(it, transaction)
-            }
-        }
-
-        private fun showPopupMenu(view: View, transaction: Transaction) {
-            val popup = PopupMenu(view.context, view)
-            val inflater: MenuInflater = popup.menuInflater
-            inflater.inflate(R.menu.menu_transaction_item, popup.menu)
+        // دکمه سه‌نقطه
+        holder.btnMore.setOnClickListener { v ->
+            val popup = PopupMenu(context, v)
+            popup.menuInflater.inflate(R.menu.menu_transaction_item, popup.menu)
 
             popup.setOnMenuItemClickListener { item: MenuItem ->
                 when (item.itemId) {
                     R.id.action_edit -> {
-                        onEdit(transaction)
+                        val intent = Intent(context, AddTransactionActivity::class.java)
+                        intent.putExtra("edit_transaction_id", transaction.id)
+                        context.startActivity(intent)
                         true
                     }
                     R.id.action_delete -> {
-                        onDelete(transaction)
+                        Thread {
+                            db.transactionDao().delete(transaction)
+                            (context as MainActivity).runOnUiThread {
+                                (context as MainActivity).refreshTransactions()
+                            }
+                        }.start()
                         true
                     }
                     else -> false
@@ -80,5 +71,10 @@ class TransactionAdapter(
             }
             popup.show()
         }
+    }
+
+    fun updateData(newList: List<Transaction>) {
+        transactions = newList
+        notifyDataSetChanged()
     }
 }
