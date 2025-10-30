@@ -10,7 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
-        <!-- اکتیویتی اصلی -->
+        <!-- ✅ اکتیویتی افزودن تراکنش -->
+        <activity android:name=".AddTransactionActivity" />
+
+        <!-- اکتیویتی اصلی (صفحه‌ی شروع برنامه) -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -21,9 +24,6 @@
             </intent-filter>
 
         </activity>
-
-        <!-- ✅ اکتیویتی افزودن تراکنش -->
-        <activity android:name=".AddTransactionActivity" />
 
     </application>
 
