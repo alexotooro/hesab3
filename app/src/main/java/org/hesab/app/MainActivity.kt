@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         recyclerView = findViewById(R.id.recyclerView)
-        val btnAdd = findViewById<Button>(R.id.btn_add)
+        val btnAdd = findViewById<Button>(R.id.btnAddTransaction)
 
         db = AppDatabase.getInstance(this)
 
