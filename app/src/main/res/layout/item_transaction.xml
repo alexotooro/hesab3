@@ -3,10 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp"
     android:gravity="center_vertical"
-    android:background="#FFFFFF"
-    android:layoutDirection="rtl">
+    android:background="#F4F8FF"
+    android:padding="8dp">
 
     <!-- تاریخ -->
     <TextView
@@ -15,9 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="1402/10/10"
-        android:textColor="#000000"
-        android:textSize="14sp" />
+        android:text="1403/08/08"
+        android:textSize="14sp"
+        android:textColor="#000000" />
 
     <!-- مبلغ -->
     <TextView
@@ -26,9 +25,9 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="250,000"
-        android:textColor="#333333"
-        android:textSize="14sp" />
+        android:text="120,000"
+        android:textSize="14sp"
+        android:textColor="#00796B" />
 
     <!-- بابت -->
     <TextView
@@ -37,41 +36,31 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:gravity="center"
-        android:text="خرید"
-        android:textColor="#333333"
-        android:textSize="14sp" />
+        android:text="خوراک"
+        android:textSize="14sp"
+        android:textColor="#000000" />
 
     <!-- توضیحات -->
     <TextView
         android:id="@+id/txtDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.5"
+        android:layout_weight="1"
         android:gravity="center"
-        android:text="سوپرمارکت"
-        android:textColor="#333333"
-        android:textSize="14sp" />
+        android:text="ناهار بیرون"
+        android:textSize="14sp"
+        android:textColor="#444444" />
 
-    <!-- سه نقطه منو -->
-    <ImageView
-        android:id="@+id/imgMenu"
+    <!-- دکمه سه‌نقطه -->
+    <TextView
+        android:id="@+id/btnMore"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_more_vert"
-        android:contentDescription="منو"
-        android:padding="4dp"
-        android:tint="#555555" />
-
-    <ImageButton
-    android:id="@+id/btnMore"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:src="@android:drawable/ic_menu_more"
-    android:contentDescription="بیشتر"
-    android:background="?attr/selectableItemBackgroundBorderless"
-    android:tint="#555"
-    android:layout_marginStart="4dp"
-    android:layout_gravity="center_vertical" />
-
-
+        android:text="⋮"
+        android:textSize="20sp"
+        android:textColor="#555555"
+        android:padding="8dp"
+        android:gravity="center"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="2dp" />
 </LinearLayout>
