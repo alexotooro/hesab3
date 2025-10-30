@@ -21,11 +21,11 @@ class TransactionAdapter(
     }
 
     inner class TransactionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val txtDate: TextView = view.findViewById(R.id.txtDate)
-        val txtAmount: TextView = view.findViewById(R.id.txtAmount)
-        val txtReason: TextView = view.findViewById(R.id.txtReason)
-        val txtNote: TextView = view.findViewById(R.id.txtNote)
-        val menuIcon: ImageView = view.findViewById(R.id.menuIcon)
+        val txtDate: TextView = view.findViewById(R.id.txt_date)
+        val txtAmount: TextView = view.findViewById(R.id.txt_amount)
+        val txtReason: TextView = view.findViewById(R.id.txt_reason)
+        val txtNote: TextView = view.findViewById(R.id.txt_note)
+        val menuIcon: ImageView = view.findViewById(R.id.menu_icon)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
@@ -43,7 +43,7 @@ class TransactionAdapter(
 
         holder.menuIcon.setOnClickListener {
             val popup = PopupMenu(holder.itemView.context, holder.menuIcon)
-            MenuInflater(holder.itemView.context).inflate(R.menu.transaction_item_menu, popup.menu)
+            MenuInflater(holder.itemView.context).inflate(R.menu.menu_transaction_item, popup.menu)
             popup.setOnMenuItemClickListener { item: MenuItem ->
                 when (item.itemId) {
                     R.id.menu_edit -> listener.onEditClicked(transaction)
