@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TransactionAdapter
     private lateinit var btnAddTransaction: Button
+    private lateinit var tvBalance: TextView
 
     private var lastTapTime = 0L
 
@@ -26,6 +28,8 @@ class MainActivity : AppCompatActivity() {
         db = AppDatabase.getInstance(this)
         recyclerView = findViewById(R.id.recyclerView)
         btnAddTransaction = findViewById(R.id.btnAddTransaction)
+        tvBalance = findViewById(R.id.tvBalance)
+
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         btnAddTransaction.setOnClickListener {
@@ -49,10 +53,10 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        loadTransactions()
+        loadTransactionsAndScrollToTop()
     }
 
-    private fun loadTransactions() {
+    private fun loadTransactionsAndScrollToTop() {
         Thread {
             val transactions = db.transactionDao().getAll().toMutableList()
             runOnUiThread {
@@ -67,11 +71,12 @@ class MainActivity : AppCompatActivity() {
                     onDelete = { transaction ->
                         Thread {
                             db.transactionDao().delete(transaction)
-                            runOnUiThread { loadTransactions() }
+                            runOnUiThread { loadTransactionsAndScrollToTop() }
                         }.start()
                     },
                     onOrderChanged = { updatedList -> saveOrderToDatabase(updatedList) }
                 )
+
                 recyclerView.adapter = adapter
 
                 val touchHelper = ItemTouchHelper(object :
@@ -89,24 +94,33 @@ class MainActivity : AppCompatActivity() {
                 })
                 touchHelper.attachToRecyclerView(recyclerView)
                 adapter.attachTouchHelper(touchHelper)
+
+                updateBalance(transactions)
+
+                // 📌 بعد از بارگذاری، اسکرول کن بالا (تازه‌ترین تراکنش)
+                if (transactions.isNotEmpty()) {
+                    recyclerView.scrollToPosition(0)
+                }
             }
         }.start()
+    }
+
+    private fun updateBalance(transactions: List<Transaction>) {
+        var totalIncome = 0L
+        var totalExpense = 0L
+        for (t in transactions) {
+            if (t.type == "درآمد") totalIncome += t.amount
+            else totalExpense += t.amount
+        }
+        val balance = totalIncome - totalExpense
+        tvBalance.text = "مانده: %,d ریال".format(balance)
     }
 
     private fun saveOrderToDatabase(updatedList: List<Transaction>) {
         Thread {
             updatedList.forEachIndexed { index, transaction ->
-                db.transactionDao().updateOrder(transaction.id, updatedList.size - index)
+                db.transactionDao().updateOrder(transaction.id, index)
             }
         }.start()
-    }
-
-    override fun onBackPressed() {
-        if (::adapter.isInitialized && adapter.isMoveMode()) {
-            adapter.setMoveMode(false)
-            Toast.makeText(this, "حالت جابجایی غیرفعال شد", Toast.LENGTH_SHORT).show()
-        } else {
-            super.onBackPressed()
-        }
     }
 }
