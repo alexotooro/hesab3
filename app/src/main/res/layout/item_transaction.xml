@@ -3,13 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp"
     android:layoutDirection="rtl"
     android:gravity="center_vertical"
+    android:padding="8dp"
     android:background="#F8FAFF"
-    android:layout_marginVertical="4dp">
+    android:layout_marginVertical="2dp">
 
-    <!-- ترتیب در XML: تاریخ | مبلغ | بابت | توضیحات -->
     <TextView
         android:id="@+id/txtDate"
         android:layout_width="0dp"
@@ -28,14 +27,15 @@
         android:text="1,000,000"
         android:gravity="center"
         android:textStyle="bold"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:textColor="#000000" />
 
     <TextView
         android:id="@+id/txtCategory"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="بابت"
+        android:text="خوراک"
         android:gravity="center"
         android:textSize="14sp"
         android:textColor="#000000" />
@@ -45,7 +45,7 @@
         android:layout_width="0dp"
         android:layout_weight="1.2"
         android:layout_height="wrap_content"
-        android:text="توضیحات"
+        android:text="ناهار امروز"
         android:gravity="center"
         android:textSize="13sp"
         android:textColor="#555555" />
