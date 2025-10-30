@@ -34,7 +34,7 @@ class TransactionAdapter :
 
         fun bind(transaction: Transaction) {
             binding.txtDate.text = transaction.date
-            binding.txtAmount.text = transaction.amount.toString()
+            binding.txtAmount.text = "%,.0f".format(transaction.amount)
             binding.txtCategory.text = transaction.category
             binding.txtDescription.text = transaction.description
 
