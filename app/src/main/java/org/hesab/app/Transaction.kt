@@ -5,13 +5,11 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "transactions")
 data class Transaction(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-
-    val date: String,          // تاریخ تراکنش
-    val amount: Long,          // مبلغ تراکنش
-    val category: String,      // بابت
-    val description: String,   // توضیحات
-    val type: String,          // نوع: "درآمد" یا "هزینه"
-    var orderIndex: Int = 0    // ترتیب ردیف برای نمایش در RecyclerView
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val date: String,
+    val amount: Long,
+    val category: String,
+    val description: String,
+    val type: String, // "expense" یا "income"
+    val orderIndex: Int // برای ذخیره ترتیب نمایش
 )
