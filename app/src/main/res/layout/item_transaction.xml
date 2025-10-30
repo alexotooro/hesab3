@@ -1,61 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp"
-    android:background="@android:color/white">
+    android:padding="8dp">
 
-    <!-- 🟦 تاریخ -->
     <TextView
-        android:id="@+id/tvDate"
+        android:id="@+id/textDate"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:gravity="center"
-        android:text="1403/08/09"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
-
-    <!-- 🟦 مبلغ -->
-    <TextView
-        android:id="@+id/tvAmount"
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:text="1403/08/09" />
+
+    <TextView
+        android:id="@+id/textAmount"
+        android:layout_width="0dp"
         android:layout_weight="1"
-        android:gravity="center"
-        android:text="100,000"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
-
-    <!-- 🟦 بابت -->
-    <TextView
-        android:id="@+id/tvCategory"
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:text="50000" />
+
+    <TextView
+        android:id="@+id/textPurpose"
+        android:layout_width="0dp"
         android:layout_weight="1"
-        android:gravity="center"
-        android:text="خرید"
-        android:textColor="@android:color/black"
-        android:textSize="16sp" />
-
-    <!-- 🟦 توضیحات -->
-    <TextView
-        android:id="@+id/tvDescription"
-        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:text="خوراکی" />
+
+    <TextView
+        android:id="@+id/textDescription"
+        android:layout_width="0dp"
         android:layout_weight="2"
-        android:gravity="center"
-        android:text="سوپرمارکت"
-        android:textColor="@android:color/darker_gray"
-        android:textSize="14sp" />
-
-    <!-- 🟦 منوی سه‌نقطه -->
-    <ImageButton
-        android:id="@+id/btnMenu"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_more_vert"
-        android:contentDescription="@string/menu" />
+        android:layout_height="wrap_content"
+        android:text="توضیح تستی" />
 </LinearLayout>
