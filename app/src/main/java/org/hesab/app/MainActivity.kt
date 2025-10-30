@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity(), TransactionAdapter.OnTransactionMenuCl
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        db = AppDatabase.getDatabase(this)
+        db = AppDatabase.getInstance(this)
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), TransactionAdapter.OnTransactionMenuCl
             }
         }
 
-        findViewById<android.widget.ImageButton>(R.id.btnAdd).setOnClickListener {
+        findViewById<android.widget.ImageButton>(R.id.btn_add).setOnClickListener {
             startActivity(Intent(this, AddTransactionActivity::class.java))
         }
     }
