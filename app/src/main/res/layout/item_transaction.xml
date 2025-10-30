@@ -3,60 +3,63 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:layoutDirection="rtl"
-    android:gravity="center_vertical"
     android:padding="8dp"
-    android:background="#F8FAFF"
-    android:layout_marginVertical="2dp">
+    android:gravity="center_vertical"
+    android:background="#FFFFFF"
+    android:layoutDirection="rtl">
 
+    <!-- تاریخ -->
     <TextView
         android:id="@+id/txtDate"
         android:layout_width="0dp"
-        android:layout_weight="1.1"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:gravity="center"
-        android:text="1404/08/01"
+        android:text="1402/10/10"
         android:textColor="#000000"
         android:textSize="14sp" />
 
+    <!-- مبلغ -->
     <TextView
         android:id="@+id/txtAmount"
         android:layout_width="0dp"
-        android:layout_weight="1.2"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:gravity="center"
-        android:text="1,000,000"
-        android:textStyle="bold"
-        android:textColor="#000000"
+        android:text="250,000"
+        android:textColor="#333333"
         android:textSize="14sp" />
 
+    <!-- بابت -->
     <TextView
         android:id="@+id/txtCategory"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:gravity="center"
-        android:text="خوراک"
-        android:textColor="#000000"
+        android:text="خرید"
+        android:textColor="#333333"
         android:textSize="14sp" />
 
+    <!-- توضیحات -->
     <TextView
         android:id="@+id/txtDescription"
         android:layout_width="0dp"
-        android:layout_weight="1.2"
         android:layout_height="wrap_content"
+        android:layout_weight="1.5"
         android:gravity="center"
-        android:text="ناهار امروز"
-        android:textColor="#555555"
-        android:textSize="13sp" />
+        android:text="سوپرمارکت"
+        android:textColor="#333333"
+        android:textSize="14sp" />
 
-    <!-- آیکون سه‌نقطه -->
+    <!-- سه نقطه منو -->
     <ImageView
-        android:id="@+id/btnMore"
+        android:id="@+id/imgMenu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_menu_more"
+        android:src="@drawable/ic_more_vert"
         android:contentDescription="منو"
-        android:tint="#555555"
-        android:padding="8dp" />
+        android:padding="4dp"
+        android:tint="#555555" />
+
 </LinearLayout>
