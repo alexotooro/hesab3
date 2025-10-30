@@ -62,4 +62,16 @@
         android:padding="4dp"
         android:tint="#555555" />
 
+    <ImageButton
+    android:id="@+id/btnMore"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@android:drawable/ic_menu_more"
+    android:contentDescription="بیشتر"
+    android:background="?attr/selectableItemBackgroundBorderless"
+    android:tint="#555"
+    android:layout_marginStart="4dp"
+    android:layout_gravity="center_vertical" />
+
+
 </LinearLayout>
