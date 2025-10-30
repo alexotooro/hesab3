@@ -12,11 +12,12 @@
         android:id="@+id/btnMore"
         android:layout_width="24dp"
         android:layout_height="match_parent"
+        android:layout_marginHorizontal="2dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_more_vert"
         android:contentDescription="منو"
-        android:tint="#333333"
-        android:paddingHorizontal="8dp"
+        android:tint="#111111"
+        android:padding="4dp"
         android:scaleType="centerInside" />
 
     <!-- تاریخ -->
@@ -26,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="1404/08/01"
-        android:textColor="#000000"
+        android:textColor="#111111"
         android:textSize="15sp"
         android:gravity="center" />
 
@@ -40,7 +41,7 @@
         android:textSize="15sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:textColor="#000000" />
+        android:textColor="#111111" />
 
     <!-- بابت -->
     <TextView
@@ -49,7 +50,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="حقوق"
-        android:textColor="#000000"
+        android:textColor="#111111"
         android:textSize="15sp"
         android:gravity="center" />
 
@@ -60,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:text="برای ماه آبان"
-        android:textColor="#000000"
+        android:textColor="#111111"
         android:textSize="15sp"
         android:gravity="center" />
 
