@@ -26,9 +26,7 @@ class MainActivity : AppCompatActivity() {
         db = AppDatabase.getInstance(this)
         recyclerView = findViewById(R.id.recyclerView)
         btnAddTransaction = findViewById(R.id.btnAddTransaction)
-
         recyclerView.layoutManager = LinearLayoutManager(this)
-        loadTransactions()
 
         btnAddTransaction.setOnClickListener {
             startActivity(Intent(this, AddTransactionActivity::class.java))
@@ -49,25 +47,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        if (adapter.isMoveMode()) {
-            adapter.setMoveMode(false)
-            Toast.makeText(this, "حالت جابجایی غیرفعال شد", Toast.LENGTH_SHORT).show()
-        } else {
-            super.onBackPressed()
-        }
+    override fun onResume() {
+        super.onResume()
+        loadTransactions() // 🆕 حالا هر بار بازگشت به صفحه، لیست تازه‌سازی می‌شود
     }
 
     private fun loadTransactions() {
         Thread {
             val transactions = db.transactionDao().getAll().toMutableList()
+            println("Transactions loaded: ${transactions.size}") // برای تست
+
             runOnUiThread {
                 adapter = TransactionAdapter(
                     this,
                     transactions,
                     onEdit = { /* ویرایش */ },
                     onDelete = { /* حذف */ },
-                    onOrderChanged = { updatedList -> saveOrderToDatabase(updatedList) } // 🆕
+                    onOrderChanged = { updatedList -> saveOrderToDatabase(updatedList) }
                 )
                 recyclerView.adapter = adapter
 
