@@ -2,13 +2,13 @@ package org.hesab.app
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import android.view.MotionEvent
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -16,9 +16,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TransactionAdapter
     private lateinit var btnAddTransaction: Button
-    private var isReorderMode = false
-    private var lastClickTime = 0L
-    private lateinit var touchHelper: ItemTouchHelper
+
+    private var lastTapTime = 0L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,34 +26,41 @@ class MainActivity : AppCompatActivity() {
         db = AppDatabase.getInstance(this)
         recyclerView = findViewById(R.id.recyclerView)
         btnAddTransaction = findViewById(R.id.btnAddTransaction)
+
         recyclerView.layoutManager = LinearLayoutManager(this)
+        loadTransactions()
 
         btnAddTransaction.setOnClickListener {
             startActivity(Intent(this, AddTransactionActivity::class.java))
         }
 
-        recyclerView.setOnClickListener {
-            val now = System.currentTimeMillis()
-            if (now - lastClickTime < 400 && isReorderMode) {
-                disableReorderMode()
+        recyclerView.setOnTouchListener { _, event ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                val now = System.currentTimeMillis()
+                if (now - lastTapTime < 300) { // دابل کلیک
+                    if (adapter.isMoveMode()) {
+                        adapter.setMoveMode(false)
+                        Toast.makeText(this, "حالت جابجایی غیرفعال شد", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                lastTapTime = now
             }
-            lastClickTime = now
+            false
         }
-
-        loadTransactions()
     }
 
     override fun onBackPressed() {
-        if (isReorderMode) disableReorderMode()
-        else super.onBackPressed()
+        if (adapter.isMoveMode()) {
+            adapter.setMoveMode(false)
+            Toast.makeText(this, "حالت جابجایی غیرفعال شد", Toast.LENGTH_SHORT).show()
+        } else {
+            super.onBackPressed()
+        }
     }
 
-    private fun enableReorderMode() {
-        isReorderMode = true
-    }
-
-    private fun disableReorderMode() {
-        isReorderMode = false
+    override fun onResume() {
+        super.onResume()
+        loadTransactions()
     }
 
     private fun loadTransactions() {
@@ -65,29 +71,23 @@ class MainActivity : AppCompatActivity() {
                     this,
                     transactions,
                     onEdit = { /* ویرایش */ },
-                    onDelete = { /* حذف */ },
-                    onReorderRequested = { enableReorderMode() }
+                    onDelete = { /* حذف */ }
                 )
-
                 recyclerView.adapter = adapter
 
-                touchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-                    ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
-                ) {
+                val touchHelper = ItemTouchHelper(object :
+                    ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
                     override fun onMove(
                         recyclerView: RecyclerView,
                         viewHolder: RecyclerView.ViewHolder,
                         target: RecyclerView.ViewHolder
                     ): Boolean {
-                        return if (isReorderMode) {
-                            adapter.moveItem(viewHolder.adapterPosition, target.adapterPosition)
-                            true
-                        } else false
+                        adapter.moveItem(viewHolder.adapterPosition, target.adapterPosition)
+                        return true
                     }
 
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
                 })
-
                 touchHelper.attachToRecyclerView(recyclerView)
                 adapter.attachTouchHelper(touchHelper)
             }
