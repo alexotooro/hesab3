@@ -1,43 +1,40 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp"
-    android:gravity="center_vertical">
+package org.hesab.app
 
-    <TextView
-        android:id="@+id/txt_date"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="1403/07/01" />
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.RecyclerView
 
-    <TextView
-        android:id="@+id/txt_amount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="50000" />
+class TransactionAdapter(
+    private var transactions: List<Transaction>
+) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
-    <TextView
-        android:id="@+id/txt_reason"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="خوراک" />
+    class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val dateText: TextView = itemView.findViewById(R.id.textDate)
+        val amountText: TextView = itemView.findViewById(R.id.textAmount)
+        val purposeText: TextView = itemView.findViewById(R.id.textPurpose)
+        val descriptionText: TextView = itemView.findViewById(R.id.textDescription)
+    }
 
-    <TextView
-        android:id="@+id/txt_note"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="-" />
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_transaction, parent, false)
+        return TransactionViewHolder(view)
+    }
 
-    <ImageView
-        android:id="@+id/menu_icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:src="@drawable/ic_more_vert"
-        android:contentDescription="menu" />
-</LinearLayout>
+    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
+        val transaction = transactions[position]
+        holder.dateText.text = transaction.date
+        holder.amountText.text = transaction.amount.toString()
+        holder.purposeText.text = transaction.purpose
+        holder.descriptionText.text = transaction.description
+    }
+
+    override fun getItemCount(): Int = transactions.size
+
+    fun setData(newList: List<Transaction>) {
+        transactions = newList
+        notifyDataSetChanged()
+    }
+}
