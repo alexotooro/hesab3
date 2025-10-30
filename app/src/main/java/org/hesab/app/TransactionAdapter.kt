@@ -2,10 +2,8 @@ package org.hesab.app
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -15,71 +13,14 @@ import java.util.Collections
 class TransactionAdapter(
     private val context: Context,
     private val transactions: MutableList<Transaction>,
-    private val db: AppDatabase
+    private val db: AppDatabase,
+    private val recyclerView: RecyclerView
 ) : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val txtDate: TextView = itemView.findViewById(R.id.txtDate)
-        val txtAmount: TextView = itemView.findViewById(R.id.txtAmount)
-        val txtCategory: TextView = itemView.findViewById(R.id.txtCategory)
-        val txtDescription: TextView = itemView.findViewById(R.id.txtDescription)
-        val btnMore: ImageButton = itemView.findViewById(R.id.btnMore)
-    }
+    private var dragEnabled = false
+    private var itemTouchHelper: ItemTouchHelper? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_transaction, parent, false)
-        return ViewHolder(view)
-    }
-
-    override fun getItemCount(): Int = transactions.size
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val transaction = transactions[position]
-        holder.txtDate.text = transaction.date
-        holder.txtAmount.text = transaction.amount.toString()
-        holder.txtCategory.text = transaction.category
-        holder.txtDescription.text = transaction.description
-
-        holder.btnMore.setOnClickListener { view ->
-            val popup = PopupMenu(context, view)
-            popup.menuInflater.inflate(R.menu.menu_transaction_item, popup.menu)
-
-            popup.setOnMenuItemClickListener { item: MenuItem ->
-                when (item.itemId) {
-                    R.id.action_edit -> {
-                        val intent =
-                            android.content.Intent(context, AddTransactionActivity::class.java)
-                        intent.putExtra("edit_transaction_id", transaction.id)
-                        context.startActivity(intent)
-                        true
-                    }
-
-                    R.id.action_delete -> {
-                        Thread {
-                            db.transactionDao().delete(transaction)
-                            (context as MainActivity).runOnUiThread {
-                                transactions.removeAt(position)
-                                notifyItemRemoved(position)
-                            }
-                        }.start()
-                        true
-                    }
-
-                    else -> false
-                }
-            }
-            popup.show()
-        }
-    }
-
-    // برای جابجایی با لمس
-    fun onItemMove(fromPosition: Int, toPosition: Int) {
-        Collections.swap(transactions, fromPosition, toPosition)
-        notifyItemMoved(fromPosition, toPosition)
-    }
-
-    fun attachItemTouchHelperTo(recyclerView: RecyclerView) {
+    init {
         val callback = object : ItemTouchHelper.SimpleCallback(
             ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
         ) {
@@ -88,12 +29,76 @@ class TransactionAdapter(
                 viewHolder: RecyclerView.ViewHolder,
                 target: RecyclerView.ViewHolder
             ): Boolean {
-                onItemMove(viewHolder.adapterPosition, target.adapterPosition)
+                val fromPos = viewHolder.adapterPosition
+                val toPos = target.adapterPosition
+                Collections.swap(transactions, fromPos, toPos)
+                notifyItemMoved(fromPos, toPos)
                 return true
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
+            override fun isLongPressDragEnabled() = dragEnabled
         }
-        ItemTouchHelper(callback).attachToRecyclerView(recyclerView)
+        itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper?.attachToRecyclerView(recyclerView)
+    }
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val txtDate: TextView = view.findViewById(R.id.txtDate)
+        val txtAmount: TextView = view.findViewById(R.id.txtAmount)
+        val txtCategory: TextView = view.findViewById(R.id.txtCategory)
+        val txtDescription: TextView = view.findViewById(R.id.txtDescription)
+        val btnMore: TextView = view.findViewById(R.id.btnMore)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false)
+        return ViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val transaction = transactions[position]
+
+        holder.txtDate.text = transaction.date
+        holder.txtAmount.text = transaction.amount.toString()
+        holder.txtCategory.text = transaction.category
+        holder.txtDescription.text = transaction.description
+
+        holder.btnMore.setOnClickListener {
+            val popup = PopupMenu(context, holder.btnMore)
+            popup.menuInflater.inflate(R.menu.transaction_item_menu, popup.menu)
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.menu_edit -> {
+                        (context as MainActivity).startEditTransaction(transaction)
+                        true
+                    }
+                    R.id.menu_delete -> {
+                        Thread {
+                            db.transactionDao().delete(transaction)
+                            (context as MainActivity).runOnUiThread {
+                                transactions.removeAt(position)
+                                notifyItemRemoved(position)
+                                context.updateBalance()
+                            }
+                        }.start()
+                        true
+                    }
+                    R.id.menu_move -> {
+                        dragEnabled = true
+                        (context as MainActivity).showToast("حالت جابجایی فعال شد. ردیف را بکشید.")
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popup.show()
+        }
+    }
+
+    override fun getItemCount() = transactions.size
+
+    fun disableDrag() {
+        dragEnabled = false
     }
 }
