@@ -5,11 +5,10 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "transactions")
 data class Transaction(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
-    val type: String,        // "درآمد" یا "هزینه"
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val date: String,
-    val amount: Double,
+    val amount: Long,
     val category: String,
-    val description: String = ""   // 🔹 دیگه nullable نیست، پیش‌فرض رشته خالی
+    val description: String,
+    val orderIndex: Int = 0 // 🆕 اضافه شد
 )
