@@ -10,5 +10,6 @@ data class Transaction(
     val amount: Long,
     val category: String,
     val description: String,
-    val orderIndex: Int = 0 // 🆕 اضافه شد
+    val type: String = "هزینه", // 🆕 اضافه شد
+    val orderIndex: Int = 0
 )
