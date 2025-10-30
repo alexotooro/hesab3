@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- تم اصلی آبی ملایم هماهنگ با طراحی فعلی -->
+    <color name="app_background">#E6F0FF</color> <!-- خیلی روشن -->
+    <color name="list_background">#D0E4FF</color> <!-- ملایم‌تر از زمینه -->
+    <color name="header_background">#B3D4FF</color> <!-- پررنگ‌تر از لیست -->
+    <color name="balance_background">#B3D4FF</color> <!-- همان رنگ سربرگ -->
+    <color name="button_blue">#0288D1</color> <!-- دکمه آبی مثل عکس -->
+    <color name="button_text">#FFFFFF</color>
+    <color name="text_dark">#000000</color>
+</resources>
