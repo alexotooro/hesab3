@@ -36,32 +36,26 @@ class AddTransactionActivity : AppCompatActivity() {
         rbExpense = findViewById(R.id.rbExpense)
         btnSave = findViewById(R.id.btnSave)
 
-        // تاریخ امروز به صورت پیش‌فرض
         val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
         tvDate.setText(sdf.format(Date()))
 
-        // انتخاب تاریخ با DatePicker
         tvDate.setOnClickListener {
-            val calendar = Calendar.getInstance()
+            val c = Calendar.getInstance()
             val dialog = DatePickerDialog(this,
-                { _, year, month, dayOfMonth ->
-                    val selected = String.format("%04d/%02d/%02d", year, month + 1, dayOfMonth)
-                    tvDate.setText(selected)
+                { _, y, m, d ->
+                    tvDate.setText(String.format("%04d/%02d/%02d", y, m + 1, d))
                 },
-                calendar.get(Calendar.YEAR),
-                calendar.get(Calendar.MONTH),
-                calendar.get(Calendar.DAY_OF_MONTH)
+                c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)
             )
             dialog.show()
         }
 
-        // بررسی ویرایش تراکنش
         editingTransactionId = intent.getIntExtra("transactionId", -1).takeIf { it != -1 }
         editingTransactionId?.let { id ->
             lifecycleScope.launch(Dispatchers.IO) {
-                val existing = dao.getById(id)
+                val t = dao.getById(id)
                 withContext(Dispatchers.Main) {
-                    existing?.let {
+                    t?.let {
                         tvDate.setText(it.date)
                         etAmount.setText(it.amount.toString())
                         etCategory.setText(it.category)
@@ -72,7 +66,6 @@ class AddTransactionActivity : AppCompatActivity() {
             }
         }
 
-        // ذخیره تراکنش
         btnSave.setOnClickListener {
             val date = tvDate.text.toString()
             val amountText = etAmount.text.toString()
@@ -89,7 +82,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
             lifecycleScope.launch(Dispatchers.IO) {
                 if (editingTransactionId != null) {
-                    // ویرایش تراکنش موجود
+                    val existingOrder = dao.getOrderIndexById(editingTransactionId!!) ?: 0
                     dao.update(
                         Transaction(
                             id = editingTransactionId!!,
@@ -98,11 +91,10 @@ class AddTransactionActivity : AppCompatActivity() {
                             category = category,
                             description = description,
                             type = type,
-                            orderIndex = dao.getOrderIndexById(editingTransactionId!!) ?: 0
+                            orderIndex = existingOrder
                         )
                     )
                 } else {
-                    // افزودن تراکنش جدید با بالاترین orderIndex موجود
                     val maxOrder = dao.getMaxOrderIndex() ?: 0
                     dao.insert(
                         Transaction(
