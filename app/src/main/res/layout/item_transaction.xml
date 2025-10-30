@@ -3,66 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:background="#F4F8FF"
-    android:padding="8dp">
+    android:padding="8dp"
+    android:background="#E6F0FA">
 
-    <!-- تاریخ -->
     <TextView
-        android:id="@+id/txtDate"
+        android:id="@+id/tvDate"
         android:layout_width="0dp"
+        android:layout_weight="2"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:text="1404/08/01"
         android:gravity="center"
-        android:text="1403/08/08"
-        android:textSize="14sp"
         android:textColor="#000000" />
 
-    <!-- مبلغ -->
     <TextView
-        android:id="@+id/txtAmount"
+        android:id="@+id/tvAmount"
         android:layout_width="0dp"
+        android:layout_weight="2"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:text="50,000"
         android:gravity="center"
-        android:text="120,000"
-        android:textSize="14sp"
-        android:textColor="#00796B" />
-
-    <!-- بابت -->
-    <TextView
-        android:id="@+id/txtCategory"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="خوراک"
-        android:textSize="14sp"
         android:textColor="#000000" />
 
-    <!-- توضیحات -->
     <TextView
-        android:id="@+id/txtDescription"
+        android:id="@+id/tvCategory"
         android:layout_width="0dp"
+        android:layout_weight="1.5"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:text="خرید"
         android:gravity="center"
-        android:text="ناهار بیرون"
-        android:textSize="14sp"
-        android:textColor="#444444" />
+        android:textColor="#000000" />
 
-    <!-- دکمه سه‌نقطه -->
     <TextView
-    android:id="@+id/btnMore"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:text="⋮"
-    android:textSize="20sp"
-    android:textColor="#555555"
-    android:gravity="center"
-    android:paddingHorizontal="8dp"
-    android:layout_gravity="center_vertical"
-    android:layout_marginStart="4dp"
-    android:layout_marginEnd="2dp" />
-
+        android:id="@+id/tvDescription"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:text="..."
+        android:gravity="center"
+        android:textColor="#000000" />
 </LinearLayout>
