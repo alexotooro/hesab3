@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp"
+    android:layoutDirection="rtl"
     android:background="#E3F2FD">
 
     <LinearLayout
@@ -31,7 +32,9 @@
             android:inputType="number"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_input"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#666666" />
 
         <!-- بابت -->
         <EditText
@@ -41,7 +44,9 @@
             android:hint="بابت"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_input"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#666666" />
 
         <!-- توضیحات -->
         <EditText
@@ -51,10 +56,13 @@
             android:hint="توضیحات"
             android:layout_marginTop="12dp"
             android:background="@drawable/bg_input"
-            android:padding="12dp" />
+            android:padding="12dp"
+            android:textColor="#000000"
+            android:textColorHint="#666666" />
 
         <!-- نوع تراکنش -->
         <RadioGroup
+            android:id="@+id/rgType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -65,7 +73,8 @@
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="هزینه" />
+                android:text="هزینه"
+                android:checked="true" />
 
             <RadioButton
                 android:id="@+id/rbIncome"
