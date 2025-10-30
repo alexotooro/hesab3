@@ -9,10 +9,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
 
+        <!-- صفحه افزودن تراکنش -->
         <activity
             android:name=".AddTransactionActivity"
             android:exported="false" />
 
+        <!-- اکتیویتی اصلی -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
