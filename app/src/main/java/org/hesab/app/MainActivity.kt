@@ -20,20 +20,28 @@ class MainActivity : AppCompatActivity() {
 
         db = AppDatabase.getInstance(this)
 
-        // تنظیم RecyclerView
+        // تنظیم RecyclerView با قابلیت حذف و ویرایش
         adapter = TransactionAdapter(
             onEdit = { transaction ->
-                Toast.makeText(this, "ویرایش: ${transaction.category}", Toast.LENGTH_SHORT).show()
+                val intent = Intent(this, AddTransactionActivity::class.java)
+                intent.putExtra("edit_transaction_id", transaction.id)
+                startActivity(intent)
             },
             onDelete = { transaction ->
-                Toast.makeText(this, "حذف: ${transaction.category}", Toast.LENGTH_SHORT).show()
+                Thread {
+                    db.transactionDao().delete(transaction)
+                    runOnUiThread {
+                        Toast.makeText(this, "حذف شد: ${transaction.category}", Toast.LENGTH_SHORT).show()
+                        loadTransactionsAndBalance()
+                    }
+                }.start()
             }
         )
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
 
-        // دکمه افزودن تراکنش
+        // دکمه افزودن تراکنش جدید
         binding.btnAddTransaction.setOnClickListener {
             val intent = Intent(this, AddTransactionActivity::class.java)
             startActivity(intent)
