@@ -1,102 +1,91 @@
 package org.hesab.app
 
 import android.content.Context
-import android.content.Intent
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
 class TransactionAdapter(
     private val context: Context,
-    private var transactions: MutableList<Transaction>,
-    private val db: AppDatabase
-) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
+    private val transactions: MutableList<Transaction>,
+    private val onEdit: (Transaction) -> Unit,
+    private val onDelete: (Transaction) -> Unit,
+    private val onOrderChanged: (List<Transaction>) -> Unit
+) : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
 
-    class TransactionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    private var touchHelper: ItemTouchHelper? = null
+    private var moveMode = false
+
+    fun attachTouchHelper(helper: ItemTouchHelper) {
+        touchHelper = helper
+    }
+
+    fun moveItem(from: Int, to: Int) {
+        val item = transactions.removeAt(from)
+        transactions.add(to, item)
+        notifyItemMoved(from, to)
+    }
+
+    fun isMoveMode() = moveMode
+    fun setMoveMode(enabled: Boolean) {
+        moveMode = enabled
+        if (enabled) {
+            Toast.makeText(
+                context,
+                "در حالت جابجایی هستید.\nبرای خروج دوبار روی جدول بزنید یا دکمه برگشت را فشار دهید.",
+                Toast.LENGTH_LONG
+            ).show()
+        } else {
+            onOrderChanged(transactions)
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_transaction, parent, false)
+        return ViewHolder(view)
+    }
+
+    override fun getItemCount(): Int = transactions.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = transactions[position]
+        holder.txtDate.text = item.date
+        holder.txtAmount.text = item.amount.toString()
+        holder.txtCategory.text = item.category
+        holder.txtDescription.text = item.description
+
+        holder.btnMore.setOnClickListener { v ->
+            val popup = PopupMenu(context, v)
+            popup.menuInflater.inflate(R.menu.menu_transaction_item, popup.menu)
+            popup.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_edit -> onEdit(item)
+                    R.id.action_delete -> onDelete(item)
+                    R.id.action_move -> setMoveMode(true)
+                }
+                true
+            }
+            popup.show()
+        }
+
+        holder.itemView.setOnLongClickListener {
+            if (moveMode) {
+                touchHelper?.startDrag(holder)
+                true
+            } else false
+        }
+    }
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val txtDate: TextView = view.findViewById(R.id.txtDate)
         val txtAmount: TextView = view.findViewById(R.id.txtAmount)
         val txtCategory: TextView = view.findViewById(R.id.txtCategory)
         val txtDescription: TextView = view.findViewById(R.id.txtDescription)
         val btnMore: ImageButton = view.findViewById(R.id.btnMore)
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_transaction, parent, false)
-        return TransactionViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        val item = transactions[position]
-
-        holder.txtDate.text = item.date
-        holder.txtAmount.text = item.amount.toString()
-        holder.txtCategory.text = item.category
-        holder.txtDescription.text = item.description
-
-        holder.btnMore.setOnClickListener {
-            showPopupMenu(it, item, position)
-        }
-    }
-
-    override fun getItemCount(): Int = transactions.size
-
-    private fun showPopupMenu(view: View, item: Transaction, position: Int) {
-        val popup = PopupMenu(context, view)
-        popup.inflate(R.menu.menu_transaction_item)
-
-        popup.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.action_edit -> {
-                    val intent = Intent(context, AddTransactionActivity::class.java)
-                    intent.putExtra("edit_transaction_id", item.id)
-                    context.startActivity(intent)
-                    true
-                }
-
-                R.id.action_delete -> {
-                    Thread {
-                        db.transactionDao().delete(item)
-                        (context as MainActivity).runOnUiThread {
-                            transactions.removeAt(position)
-                            notifyItemRemoved(position)
-                        }
-                    }.start()
-                    true
-                }
-
-                R.id.action_move_up -> {
-                    if (position > 0) {
-                        swapItems(position, position - 1)
-                    }
-                    true
-                }
-
-                R.id.action_move_down -> {
-                    if (position < transactions.size - 1) {
-                        swapItems(position, position + 1)
-                    }
-                    true
-                }
-
-                else -> false
-            }
-        }
-        popup.show()
-    }
-
-    private fun swapItems(from: Int, to: Int) {
-        val temp = transactions[from]
-        transactions[from] = transactions[to]
-        transactions[to] = temp
-
-        notifyItemMoved(from, to)
-
-        // بروزرسانی ترتیب در دیتابیس
-        Thread {
-            for (i in transactions.indices) {
-                db.transactionDao().updateOrder(transactions[i].id, transactions.size - i)
+}
