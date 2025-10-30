@@ -6,7 +6,7 @@ plugins {
 
 
 android {
-    namespace 'org.hesab.app'
+    namespace = "org.hesab.app"
     compileSdk 34
 
     defaultConfig {
