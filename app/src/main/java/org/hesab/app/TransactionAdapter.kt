@@ -1,100 +1,59 @@
 package org.hesab.app
 
-import android.content.Context
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageButton
-import android.widget.PopupMenu
 import android.widget.TextView
-import android.widget.Toast
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import androidx.core.content.ContextCompat
 
 class TransactionAdapter(
-    private val context: Context,
-    private val transactions: MutableList<Transaction>,
-    private val onEdit: (Transaction) -> Unit,
-    private val onDelete: (Transaction) -> Unit,
-    private val onOrderChanged: (List<Transaction>) -> Unit
+    private val transactions: List<Transaction>,
+    private val onEditClick: (Transaction) -> Unit,
+    private val onDeleteClick: (Transaction) -> Unit
 ) : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
 
-    private var touchHelper: ItemTouchHelper? = null
-    private var moveMode = false
-
-    fun attachTouchHelper(helper: ItemTouchHelper) {
-        touchHelper = helper
-    }
-
-    fun moveItem(from: Int, to: Int) {
-        val item = transactions.removeAt(from)
-        transactions.add(to, item)
-        notifyItemMoved(from, to)
-    }
-
-    fun isMoveMode() = moveMode
-
-    fun setMoveMode(enabled: Boolean) {
-        moveMode = enabled
-        if (!enabled) {
-            onOrderChanged(transactions)
-        } else {
-            Toast.makeText(
-                context,
-                "حالت جابجایی فعال است. برای خروج، روی لیست دابل‌کلیک کنید یا دکمه بازگشت را بزنید",
-                Toast.LENGTH_LONG
-            ).show()
-        }
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val tvDate: TextView = view.findViewById(R.id.tvDate)
+        val tvAmount: TextView = view.findViewById(R.id.tvAmount)
+        val tvCategory: TextView = view.findViewById(R.id.tvCategory)
+        val tvDescription: TextView = view.findViewById(R.id.tvDescription)
+        val btnMenu: ImageButton = view.findViewById(R.id.btnMenu)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_transaction, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_transaction, parent, false)
         return ViewHolder(view)
     }
 
-    override fun getItemCount(): Int = transactions.size
+    override fun getItemCount() = transactions.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = transactions[position]
-        holder.txtDate.text = item.date
-        holder.txtAmount.text = item.amount.toString()
-        holder.txtCategory.text = item.category
-        holder.txtDescription.text = item.description
+        val transaction = transactions[position]
+        holder.tvDate.text = transaction.date
+        holder.tvAmount.text = "%,d".format(transaction.amount)
+        holder.tvCategory.text = transaction.category
+        holder.tvDescription.text = transaction.description
 
-        // رنگ مبلغ بر اساس نوع تراکنش
-        val amountColor = if (item.type == "درآمد")
-            ContextCompat.getColor(context, android.R.color.holo_green_dark)
-        else
-            ContextCompat.getColor(context, android.R.color.holo_red_dark)
-        holder.txtAmount.setTextColor(amountColor)
+        holder.tvAmount.setTextColor(
+            if (transaction.isIncome)
+                holder.itemView.context.getColor(R.color.green_income)
+            else
+                holder.itemView.context.getColor(R.color.red_expense)
+        )
 
-        holder.btnMore.setOnClickListener { v ->
-            val popup = PopupMenu(context, v)
+        holder.btnMenu.setOnClickListener {
+            val popup = android.widget.PopupMenu(holder.itemView.context, holder.btnMenu)
             popup.menuInflater.inflate(R.menu.menu_transaction_item, popup.menu)
-            popup.setOnMenuItemClickListener {
-                when (it.itemId) {
-                    R.id.action_edit -> onEdit(item)
-                    R.id.action_delete -> onDelete(item)
-                    R.id.action_move -> setMoveMode(true)
+            popup.setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.action_edit -> onEditClick(transaction)
+                    R.id.action_delete -> onDeleteClick(transaction)
                 }
                 true
             }
             popup.show()
         }
-
-        holder.itemView.setOnLongClickListener {
-            if (moveMode) {
-                touchHelper?.startDrag(holder)
-                true
-            } else false
-        }
-    }
-
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val txtDate: TextView = view.findViewById(R.id.txtDate)
-        val txtAmount: TextView = view.findViewById(R.id.txtAmount)
-        val txtCategory: TextView = view.findViewById(R.id.txtCategory)
-        val txtDescription: TextView = view.findViewById(R.id.txtDescription)
-        val btnMore: ImageButton = view.findViewById(R.id.btnMore)
     }
 }
