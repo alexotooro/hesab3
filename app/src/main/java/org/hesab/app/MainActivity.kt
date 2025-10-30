@@ -2,51 +2,32 @@ package org.hesab.app
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import org.hesab.app.databinding.ActivityMainBinding
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
     private lateinit var db: AppDatabase
+    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TransactionAdapter
+    private lateinit var fabAdd: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_main)
 
-        db = AppDatabase.getInstance(this)
+        db = AppDatabase.getDatabase(this)
+        recyclerView = findViewById(R.id.recyclerView)
+        fabAdd = findViewById(R.id.fabAdd)
 
-        // تنظیم RecyclerView با قابلیت حذف و ویرایش
-        adapter = TransactionAdapter(
-            onEdit = { transaction ->
-                val intent = Intent(this, AddTransactionActivity::class.java)
-                intent.putExtra("edit_transaction_id", transaction.id)
-                startActivity(intent)
-            },
-            onDelete = { transaction ->
-                Thread {
-                    db.transactionDao().delete(transaction)
-                    runOnUiThread {
-                        Toast.makeText(
-                            this,
-                            "تراکنش مربوط به '${transaction.category}' حذف شد",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                        loadTransactionsAndBalance()
-                    }
-                }.start()
-            }
-        )
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(this)
-        binding.recyclerView.adapter = adapter
+        // بارگذاری تراکنش‌ها
+        loadTransactions()
 
-        // دکمه افزودن تراکنش جدید
-        binding.btnAddTransaction.setOnClickListener {
+        fabAdd.setOnClickListener {
             val intent = Intent(this, AddTransactionActivity::class.java)
             startActivity(intent)
         }
@@ -54,26 +35,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        loadTransactionsAndBalance()
+        loadTransactions()
     }
 
-    private fun loadTransactionsAndBalance() {
+    fun refreshTransactions() {
+        loadTransactions()
+    }
+
+    private fun loadTransactions() {
         Thread {
             val transactions = db.transactionDao().getAll()
-            var incomeTotal = 0.0
-            var expenseTotal = 0.0
-
-            for (t in transactions) {
-                if (t.type == "درآمد") incomeTotal += t.amount
-                else if (t.type == "هزینه") expenseTotal += t.amount
-            }
-
-            val balance = incomeTotal - expenseTotal
-            val balanceText = "مانده: %,.0f ریال".format(balance)
-
             runOnUiThread {
-                adapter.setData(transactions)
-                binding.tvBalance.text = balanceText
+                adapter = TransactionAdapter(this, transactions, db)
+                recyclerView.adapter = adapter
             }
         }.start()
     }
