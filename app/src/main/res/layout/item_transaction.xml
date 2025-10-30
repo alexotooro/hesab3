@@ -3,54 +3,60 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp"
-    android:gravity="center_vertical"
-    android:background="@color/very_light_blue">
+    android:padding="6dp"
+    android:background="#EAF2FF">
 
-    <TextView
-        android:id="@+id/txtDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="توضیحات"
-        android:textAlignment="center"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/txtCategory"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="بابت"
-        android:textAlignment="center"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/txtAmount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="مبلغ"
-        android:textAlignment="center"
-        android:textSize="14sp" />
-
+    <!-- تاریخ -->
     <TextView
         android:id="@+id/txtDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="تاریخ"
-        android:textAlignment="center"
-        android:textSize="14sp" />
+        android:layout_weight="1"
+        android:text="1403/08/09"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:gravity="center" />
 
+    <!-- مبلغ -->
+    <TextView
+        android:id="@+id/txtAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="200,000"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:gravity="center" />
+
+    <!-- بابت -->
+    <TextView
+        android:id="@+id/txtCategory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="خرید"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:gravity="center" />
+
+    <!-- توضیحات -->
+    <TextView
+        android:id="@+id/txtDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:text="سوپرمارکت"
+        android:textColor="#000000"
+        android:textSize="14sp"
+        android:gravity="center" />
+
+    <!-- دکمه منوی سه‌نقطه -->
     <ImageButton
         android:id="@+id/btnMore"
         android:layout_width="36dp"
         android:layout_height="36dp"
-        android:background="@drawable/circle_bg"
-        android:src="@drawable/ic_more_vert"
-        android:contentDescription="منو"
-        android:tint="@android:color/black"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="2dp" />
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@android:drawable/ic_menu_more"
+        android:contentDescription="بیشتر"
+        android:tint="#000000" />
 </LinearLayout>
