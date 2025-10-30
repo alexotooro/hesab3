@@ -5,7 +5,7 @@ import androidx.room.*
 @Dao
 interface TransactionDao {
 
-    @Query("SELECT * FROM transactions ORDER BY orderIndex DESC")
+    @Query("SELECT * FROM transactions ORDER BY orderIndex ASC")
     fun getAll(): List<Transaction>
 
     @Insert
@@ -17,11 +17,14 @@ interface TransactionDao {
     @Delete
     fun delete(transaction: Transaction)
 
-    // 🆕 برای جابجایی (به‌روزرسانی ترتیب ردیف‌ها)
-    @Query("UPDATE transactions SET orderIndex = :newOrder WHERE id = :id")
-    fun updateOrder(id: Int, newOrder: Int)
+    // برای ویرایش (getById)
+    @Query("SELECT * FROM transactions WHERE id = :id LIMIT 1")
+    fun getById(id: Int): Transaction?
 
-    // 🆕 برای افزودن تراکنش جدید در انتهای لیست
+    // برای جابجایی و ترتیب نمایش
     @Query("SELECT MAX(orderIndex) FROM transactions")
     fun getMaxOrderIndex(): Int?
+
+    @Query("UPDATE transactions SET orderIndex = :newOrderIndex WHERE id = :transactionId")
+    fun updateOrder(transactionId: Int, newOrderIndex: Int)
 }
