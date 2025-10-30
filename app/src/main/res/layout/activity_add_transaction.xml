@@ -2,71 +2,87 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="#E3F2FD">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal">
+        android:orientation="vertical">
 
-        <RadioGroup
-            android:id="@+id/radioGroupType"
-            android:orientation="horizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp">
-
-            <RadioButton
-                android:id="@+id/rbExpense"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="هزینه"
-                android:checked="true"/>
-
-            <RadioButton
-                android:id="@+id/rbIncome"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="درآمد"
-                android:layout_marginStart="16dp"/>
-
-        </RadioGroup>
-
-        <EditText
-            android:id="@+id/edtDate"
+        <!-- تاریخ -->
+        <TextView
+            android:id="@+id/tvDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="تاریخ"
-            android:inputType="text" />
+            android:text="انتخاب تاریخ"
+            android:padding="12dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:background="@drawable/bg_input"
+            android:textColor="#000000" />
 
+        <!-- مبلغ -->
         <EditText
-            android:id="@+id/edtAmount"
+            android:id="@+id/etAmount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="مبلغ"
-            android:inputType="numberDecimal" />
+            android:hint="مبلغ (ریال)"
+            android:inputType="number"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_input"
+            android:padding="12dp" />
 
+        <!-- بابت -->
         <EditText
-            android:id="@+id/edtCategory"
+            android:id="@+id/etCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="بابت"
-            android:inputType="text" />
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_input"
+            android:padding="12dp" />
 
+        <!-- توضیحات -->
         <EditText
-            android:id="@+id/edtDescription"
+            android:id="@+id/etDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="توضیحات"
-            android:inputType="textMultiLine" />
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_input"
+            android:padding="12dp" />
 
+        <!-- نوع تراکنش -->
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+
+            <RadioButton
+                android:id="@+id/rbExpense"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="هزینه" />
+
+            <RadioButton
+                android:id="@+id/rbIncome"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="درآمد" />
+        </RadioGroup>
+
+        <!-- دکمه ذخیره -->
         <Button
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ثبت تراکنش"
-            android:layout_marginTop="20dp" />
-
+            android:text="ذخیره تراکنش"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 </ScrollView>
