@@ -7,6 +7,9 @@
         android:id="@+id/action_delete"
         android:title="حذف" />
     <item
-        android:id="@+id/action_move"
-        android:title="جابجایی" />
+        android:id="@+id/action_move_up"
+        android:title="جابجایی به بالا" />
+    <item
+        android:id="@+id/action_move_down"
+        android:title="جابجایی به پایین" />
 </menu>
