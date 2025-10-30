@@ -10,6 +10,6 @@ data class Transaction(
     val amount: Long,
     val category: String,
     val description: String,
-    val type: String, // "expense" یا "income"
-    val orderIndex: Int // برای ذخیره ترتیب نمایش
+    val type: String, // "income" یا "expense"
+    val orderIndex: Int // ترتیب نمایش در لیست
 )
