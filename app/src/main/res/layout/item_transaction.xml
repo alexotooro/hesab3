@@ -4,41 +4,55 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp"
-    android:background="#E6F0FA">
+    android:gravity="center_vertical"
+    android:background="#E7F1FF"> <!-- آبی خیلی کمرنگ -->
 
     <TextView
-        android:id="@+id/tvDate"
+        android:id="@+id/txtDate"
         android:layout_width="0dp"
-        android:layout_weight="2"
         android:layout_height="wrap_content"
-        android:text="1404/08/01"
-        android:gravity="center"
-        android:textColor="#000000" />
+        android:layout_weight="1.2"
+        android:text="1403/08/08"
+        android:textSize="14sp"
+        android:textColor="#000000"
+        android:gravity="center" />
 
     <TextView
-        android:id="@+id/tvAmount"
+        android:id="@+id/txtAmount"
         android:layout_width="0dp"
-        android:layout_weight="2"
         android:layout_height="wrap_content"
-        android:text="50,000"
-        android:gravity="center"
-        android:textColor="#000000" />
+        android:layout_weight="1"
+        android:text="125000"
+        android:textSize="14sp"
+        android:textColor="#000000"
+        android:gravity="center" />
 
     <TextView
-        android:id="@+id/tvCategory"
+        android:id="@+id/txtCategory"
         android:layout_width="0dp"
-        android:layout_weight="1.5"
         android:layout_height="wrap_content"
-        android:text="خرید"
-        android:gravity="center"
-        android:textColor="#000000" />
+        android:layout_weight="1"
+        android:text="خوراک"
+        android:textSize="14sp"
+        android:textColor="#000000"
+        android:gravity="center" />
 
     <TextView
-        android:id="@+id/tvDescription"
+        android:id="@+id/txtDescription"
         android:layout_width="0dp"
-        android:layout_weight="2"
         android:layout_height="wrap_content"
-        android:text="..."
-        android:gravity="center"
-        android:textColor="#000000" />
+        android:layout_weight="1.4"
+        android:text="ناهار بیرون"
+        android:textSize="14sp"
+        android:textColor="#000000"
+        android:gravity="center" />
+
+    <ImageButton
+        android:id="@+id/btnMore"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@android:drawable/ic_menu_more"
+        android:contentDescription="بیشتر"
+        android:tint="#444" />
 </LinearLayout>
