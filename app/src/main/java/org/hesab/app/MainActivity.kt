@@ -2,6 +2,8 @@ package org.hesab.app
 
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -14,6 +16,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TransactionAdapter
     private lateinit var btnAddTransaction: Button
+    private var isReorderMode = false
+    private var lastClickTime = 0L
     private lateinit var touchHelper: ItemTouchHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,17 +29,32 @@ class MainActivity : AppCompatActivity() {
         btnAddTransaction = findViewById(R.id.btnAddTransaction)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        loadTransactions()
-
         btnAddTransaction.setOnClickListener {
-            val intent = Intent(this, AddTransactionActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, AddTransactionActivity::class.java))
         }
+
+        recyclerView.setOnClickListener {
+            val now = System.currentTimeMillis()
+            if (now - lastClickTime < 400 && isReorderMode) {
+                disableReorderMode()
+            }
+            lastClickTime = now
+        }
+
+        loadTransactions()
     }
 
-    override fun onResume() {
-        super.onResume()
-        loadTransactions()
+    override fun onBackPressed() {
+        if (isReorderMode) disableReorderMode()
+        else super.onBackPressed()
+    }
+
+    private fun enableReorderMode() {
+        isReorderMode = true
+    }
+
+    private fun disableReorderMode() {
+        isReorderMode = false
     }
 
     private fun loadTransactions() {
@@ -45,8 +64,9 @@ class MainActivity : AppCompatActivity() {
                 adapter = TransactionAdapter(
                     this,
                     transactions,
-                    onEdit = { /* در آینده */ },
-                    onDelete = { /* در آینده */ }
+                    onEdit = { /* ویرایش */ },
+                    onDelete = { /* حذف */ },
+                    onReorderRequested = { enableReorderMode() }
                 )
 
                 recyclerView.adapter = adapter
@@ -59,8 +79,10 @@ class MainActivity : AppCompatActivity() {
                         viewHolder: RecyclerView.ViewHolder,
                         target: RecyclerView.ViewHolder
                     ): Boolean {
-                        adapter.moveItem(viewHolder.adapterPosition, target.adapterPosition)
-                        return true
+                        return if (isReorderMode) {
+                            adapter.moveItem(viewHolder.adapterPosition, target.adapterPosition)
+                            true
+                        } else false
                     }
 
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
@@ -70,13 +92,5 @@ class MainActivity : AppCompatActivity() {
                 adapter.attachTouchHelper(touchHelper)
             }
         }.start()
-    }
-
-    override fun onBackPressed() {
-        if (::adapter.isInitialized && adapter.isMoveMode) {
-            adapter.exitMoveMode()
-        } else {
-            super.onBackPressed()
-        }
     }
 }
