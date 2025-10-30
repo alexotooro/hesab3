@@ -1,4 +1,3 @@
-// app/src/main/java/org/hesab/app/TransactionDao.kt
 package org.hesab.app
 
 import androidx.room.*
@@ -9,7 +8,7 @@ interface TransactionDao {
     @Query("SELECT * FROM transactions ORDER BY orderIndex ASC")
     suspend fun getAll(): List<Transaction>
 
-    @Query("SELECT * FROM transactions WHERE id = :id LIMIT 1")
+    @Query("SELECT * FROM transactions WHERE id = :id")
     suspend fun getById(id: Int): Transaction?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
