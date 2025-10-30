@@ -15,20 +15,17 @@ abstract class AppDatabase : RoomDatabase() {
         private var INSTANCE: AppDatabase? = null
 
         fun getInstance(context: Context): AppDatabase {
-            synchronized(this) {
-                var instance = INSTANCE
-                if (instance == null) {
-                    instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        AppDatabase::class.java,
-                        "transactions_db"
-                    )
-                        .fallbackToDestructiveMigration()
-                        .allowMainThreadQueries() // چون برای پروژه ساده‌ست
-                        .build()
-                    INSTANCE = instance
-                }
-                return instance
+            return INSTANCE ?: synchronized(this) {
+                val instance = Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java,
+                    "transactions_db"
+                )
+                    .fallbackToDestructiveMigration()
+                    // عملیات دیتابیس در پس‌زمینه اجرا می‌شود تا UI کند نشود
+                    .build()
+                INSTANCE = instance
+                instance
             }
         }
     }
