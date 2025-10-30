@@ -3,51 +3,49 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@android:color/white"
-    android:padding="8dp"
-    android:layout_marginBottom="1dp">
+    android:paddingVertical="6dp"
+    android:gravity="center_vertical"
+    android:background="#FFFFFF">
 
     <TextView
-        android:id="@+id/tvDate"
+        android:id="@+id/txtDate"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="1404/08/01" />
+        android:layout_weight="1"
+        android:text="1403/08/10"
+        android:gravity="center" />
 
     <TextView
-        android:id="@+id/tvAmount"
+        android:id="@+id/txtAmount"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="5,000"
-        android:textColor="#000000" />
+        android:layout_weight="1"
+        android:text="250000"
+        android:gravity="center" />
 
     <TextView
-        android:id="@+id/tvCategory"
+        android:id="@+id/txtCategory"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="حقوق" />
+        android:layout_weight="1"
+        android:text="خوراک"
+        android:gravity="center" />
 
     <TextView
-        android:id="@+id/tvNote"
+        android:id="@+id/txtDescription"
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="-" />
+        android:layout_weight="2"
+        android:text="ناهار"
+        android:gravity="center" />
 
-    <!-- دکمه منو سه‌نقطه -->
-    <TextView
-        android:id="@+id/btnMenu"
-        android:layout_width="24dp"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="⋮"
-        android:textSize="18sp"
-        android:textColor="#555555"
-        android:padding="4dp" />
+    <ImageButton
+        android:id="@+id/btnMore"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_more_vert"
+        android:contentDescription="منو"
+        android:tint="#000000" />
+
 </LinearLayout>
