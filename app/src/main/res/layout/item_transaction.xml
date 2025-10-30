@@ -3,62 +3,54 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="#EEF5FF"
-    android:paddingVertical="6dp"
-    android:paddingHorizontal="8dp">
+    android:padding="8dp"
+    android:gravity="center_vertical"
+    android:background="@color/very_light_blue">
 
-    <!-- دکمه دو نقطه‌ای -->
-    <TextView
-        android:id="@+id/btnMore"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:gravity="center"
-        android:text=":"
-        android:textSize="20sp"
-        android:textColor="#555"
-        android:background="?attr/selectableItemBackgroundBorderless" />
-
-    <!-- تاریخ -->
-    <TextView
-        android:id="@+id/txtDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="۱۴۰۴/۰۸/۰۲"
-        android:textColor="#000"
-        android:padding="4dp" />
-
-    <!-- مبلغ -->
-    <TextView
-        android:id="@+id/txtAmount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="2,588"
-        android:textColor="#E53935"
-        android:padding="4dp" />
-
-    <!-- بابت -->
-    <TextView
-        android:id="@+id/txtCategory"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="حقوق"
-        android:textColor="#000"
-        android:padding="4dp" />
-
-    <!-- توضیحات -->
     <TextView
         android:id="@+id/txtDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="..."
-        android:textColor="#000"
-        android:padding="4dp" />
+        android:layout_weight="2"
+        android:text="توضیحات"
+        android:textAlignment="center"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/txtCategory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="بابت"
+        android:textAlignment="center"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/txtAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="مبلغ"
+        android:textAlignment="center"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="تاریخ"
+        android:textAlignment="center"
+        android:textSize="14sp" />
+
+    <ImageButton
+        android:id="@+id/btnMore"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:background="@drawable/circle_bg"
+        android:src="@drawable/ic_more_vert"
+        android:contentDescription="منو"
+        android:tint="@android:color/black"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="2dp" />
 </LinearLayout>
