@@ -2,11 +2,11 @@ package org.hesab.app
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.widget.Button
 
 class MainActivity : AppCompatActivity() {
 
@@ -14,6 +14,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TransactionAdapter
     private lateinit var btnAddTransaction: Button
+    private lateinit var touchHelper: ItemTouchHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         db = AppDatabase.getInstance(this)
         recyclerView = findViewById(R.id.recyclerView)
         btnAddTransaction = findViewById(R.id.btnAddTransaction)
-
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         loadTransactions()
@@ -45,14 +45,13 @@ class MainActivity : AppCompatActivity() {
                 adapter = TransactionAdapter(
                     this,
                     transactions,
-                    onEdit = { /* اینجا کد ویرایش بنویس */ },
-                    onDelete = { /* اینجا کد حذف بنویس */ }
+                    onEdit = { /* در آینده */ },
+                    onDelete = { /* در آینده */ }
                 )
 
                 recyclerView.adapter = adapter
 
-                // فعال کردن جابجایی ردیف‌ها
-                val touchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+                touchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
                     ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
                 ) {
                     override fun onMove(
@@ -71,5 +70,13 @@ class MainActivity : AppCompatActivity() {
                 adapter.attachTouchHelper(touchHelper)
             }
         }.start()
+    }
+
+    override fun onBackPressed() {
+        if (::adapter.isInitialized && adapter.isMoveMode) {
+            adapter.exitMoveMode()
+        } else {
+            super.onBackPressed()
+        }
     }
 }
