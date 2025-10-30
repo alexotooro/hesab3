@@ -2,6 +2,7 @@ package org.hesab.app
 
 import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.hesab.app.databinding.ActivityMainBinding
@@ -20,11 +21,19 @@ class MainActivity : AppCompatActivity() {
         db = AppDatabase.getInstance(this)
 
         // تنظیم RecyclerView
-        adapter = TransactionAdapter()
+        adapter = TransactionAdapter(
+            onEdit = { transaction ->
+                Toast.makeText(this, "ویرایش: ${transaction.category}", Toast.LENGTH_SHORT).show()
+            },
+            onDelete = { transaction ->
+                Toast.makeText(this, "حذف: ${transaction.category}", Toast.LENGTH_SHORT).show()
+            }
+        )
+
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = adapter
 
-        // دکمه + در بالای صفحه
+        // دکمه افزودن تراکنش
         binding.btnAddTransaction.setOnClickListener {
             val intent = Intent(this, AddTransactionActivity::class.java)
             startActivity(intent)
@@ -51,7 +60,7 @@ class MainActivity : AppCompatActivity() {
             val balanceText = "مانده: %,.0f ریال".format(balance)
 
             runOnUiThread {
-                adapter.setData(transactions) // 🔧 اینجا اصلاح شد
+                adapter.setData(transactions)
                 binding.tvBalance.text = balanceText
             }
         }.start()
