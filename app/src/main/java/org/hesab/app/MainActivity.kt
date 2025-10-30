@@ -2,9 +2,7 @@ package org.hesab.app
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -25,18 +23,9 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recyclerView)
         db = AppDatabase.getInstance(this)
 
-        adapter = TransactionAdapter(transactions,
-            onEditClick = { transaction ->
-                val intent = Intent(this, AddTransactionActivity::class.java)
-                intent.putExtra("transaction_id", transaction.id)
-                startActivity(intent)
-            },
-            onDeleteClick = { transaction ->
-                CoroutineScope(Dispatchers.IO).launch {
-                    db.transactionDao().delete(transaction)
-                    loadTransactions()
-                }
-            })
+        adapter = TransactionAdapter(transactions, db) {
+            loadTransactions()
+        }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
@@ -51,5 +40,10 @@ class MainActivity : AppCompatActivity() {
             transactions.addAll(list)
             runOnUiThread { adapter.notifyDataSetChanged() }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadTransactions()
     }
 }
