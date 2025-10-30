@@ -2,13 +2,13 @@ package org.hesab.app
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MotionEvent
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.view.MotionEvent
-import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.setOnTouchListener { _, event ->
             if (event.action == MotionEvent.ACTION_DOWN) {
                 val now = System.currentTimeMillis()
-                if (now - lastTapTime < 300) { // دابل کلیک
+                if (now - lastTapTime < 300) {
                     if (adapter.isMoveMode()) {
                         adapter.setMoveMode(false)
                         Toast.makeText(this, "حالت جابجایی غیرفعال شد", Toast.LENGTH_SHORT).show()
@@ -58,11 +58,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        loadTransactions()
-    }
-
     private fun loadTransactions() {
         Thread {
             val transactions = db.transactionDao().getAll().toMutableList()
@@ -71,7 +66,8 @@ class MainActivity : AppCompatActivity() {
                     this,
                     transactions,
                     onEdit = { /* ویرایش */ },
-                    onDelete = { /* حذف */ }
+                    onDelete = { /* حذف */ },
+                    onOrderChanged = { updatedList -> saveOrderToDatabase(updatedList) } // 🆕
                 )
                 recyclerView.adapter = adapter
 
@@ -90,6 +86,14 @@ class MainActivity : AppCompatActivity() {
                 })
                 touchHelper.attachToRecyclerView(recyclerView)
                 adapter.attachTouchHelper(touchHelper)
+            }
+        }.start()
+    }
+
+    private fun saveOrderToDatabase(updatedList: List<Transaction>) {
+        Thread {
+            updatedList.forEachIndexed { index, transaction ->
+                db.transactionDao().updateOrder(transaction.id, index)
             }
         }.start()
     }
