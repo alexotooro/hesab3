@@ -6,66 +6,82 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import java.util.Collections
 
 class TransactionAdapter(
     private val context: Context,
     private val transactions: MutableList<Transaction>,
     private val onEdit: (Transaction) -> Unit,
-    private val onDelete: (Transaction) -> Unit,
-    private val onReorderRequested: () -> Unit
+    private val onDelete: (Transaction) -> Unit
 ) : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
 
     private var touchHelper: ItemTouchHelper? = null
+    private var moveMode = false
 
     fun attachTouchHelper(helper: ItemTouchHelper) {
-        this.touchHelper = helper
+        touchHelper = helper
     }
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvDate: TextView = itemView.findViewById(R.id.tvDate)
-        val tvAmount: TextView = itemView.findViewById(R.id.tvAmount)
-        val tvCategory: TextView = itemView.findViewById(R.id.tvCategory)
-        val tvNote: TextView = itemView.findViewById(R.id.tvNote)
-        val btnMenu: TextView = itemView.findViewById(R.id.btnMenu)
+    fun moveItem(from: Int, to: Int) {
+        val item = transactions.removeAt(from)
+        transactions.add(to, item)
+        notifyItemMoved(from, to)
+    }
+
+    fun isMoveMode() = moveMode
+
+    fun setMoveMode(enabled: Boolean) {
+        moveMode = enabled
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view =
-            LayoutInflater.from(context).inflate(R.layout.item_transaction, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_transaction, parent, false)
         return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val transaction = transactions[position]
-        holder.tvDate.text = transaction.date
-        holder.tvAmount.text = transaction.amount.toString()
-        holder.tvCategory.text = transaction.category
-        holder.tvNote.text = transaction.note
+    override fun getItemCount(): Int = transactions.size
 
-        holder.btnMenu.setOnClickListener {
-            val popup = PopupMenu(context, it)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = transactions[position]
+        holder.txtDate.text = item.date
+        holder.txtAmount.text = item.amount.toString()
+        holder.txtCategory.text = item.category
+        holder.txtDescription.text = item.description
+
+        holder.btnMore.setOnClickListener { v ->
+            val popup = PopupMenu(context, v)
             MenuInflater(context).inflate(R.menu.menu_transaction_item, popup.menu)
-            popup.setOnMenuItemClickListener { item: MenuItem ->
-                when (item.itemId) {
-                    R.id.action_edit -> onEdit(transaction)
-                    R.id.action_delete -> onDelete(transaction)
-                    R.id.action_reorder -> onReorderRequested()
+            popup.setOnMenuItemClickListener { menuItem: MenuItem ->
+                when (menuItem.itemId) {
+                    R.id.action_edit -> onEdit(item)
+                    R.id.action_delete -> onDelete(item)
+                    R.id.action_move -> {
+                        moveMode = true
+                    }
                 }
                 true
             }
             popup.show()
         }
+
+        holder.itemView.setOnLongClickListener {
+            if (moveMode) {
+                touchHelper?.startDrag(holder)
+                true
+            } else false
+        }
     }
 
-    override fun getItemCount(): Int = transactions.size
-
-    fun moveItem(from: Int, to: Int) {
-        Collections.swap(transactions, from, to)
-        notifyItemMoved(from, to)
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val txtDate: TextView = view.findViewById(R.id.txtDate)
+        val txtAmount: TextView = view.findViewById(R.id.txtAmount)
+        val txtCategory: TextView = view.findViewById(R.id.txtCategory)
+        val txtDescription: TextView = view.findViewById(R.id.txtDescription)
+        val btnMore: ImageButton = view.findViewById(R.id.btnMore)
     }
 }
