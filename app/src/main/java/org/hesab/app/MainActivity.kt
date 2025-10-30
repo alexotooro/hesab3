@@ -2,6 +2,8 @@ package org.hesab.app
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,25 +22,22 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         recyclerView = findViewById(R.id.recyclerView)
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        val btnAdd = findViewById<Button>(R.id.btn_add)
 
-        db = AppDatabase.getDatabase(this)
+        db = AppDatabase.getInstance(this)
 
-        loadTransactions()
-
-        findViewById<View>(R.id.btnAdd).setOnClickListener {
-            val intent = Intent(this, AddTransactionActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
-    private fun loadTransactions() {
         CoroutineScope(Dispatchers.IO).launch {
-            val list = db.transactionDao().getAll()
+            val transactions = db.transactionDao().getAll()
             runOnUiThread {
-                adapter = TransactionAdapter(list)
+                adapter = TransactionAdapter(transactions)
+                recyclerView.layoutManager = LinearLayoutManager(this@MainActivity)
                 recyclerView.adapter = adapter
             }
+        }
+
+        btnAdd.setOnClickListener {
+            val intent = Intent(this, AddTransactionActivity::class.java)
+            startActivity(intent)
         }
     }
 }
