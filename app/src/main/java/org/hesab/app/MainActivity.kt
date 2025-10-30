@@ -31,7 +31,11 @@ class MainActivity : AppCompatActivity() {
                 Thread {
                     db.transactionDao().delete(transaction)
                     runOnUiThread {
-                        Toast.makeText(this, "حذف شد: ${transaction.category}", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            this,
+                            "تراکنش مربوط به '${transaction.category}' حذف شد",
+                            Toast.LENGTH_SHORT
+                        ).show()
                         loadTransactionsAndBalance()
                     }
                 }.start()
