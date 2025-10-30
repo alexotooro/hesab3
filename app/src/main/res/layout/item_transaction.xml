@@ -7,16 +7,16 @@
     android:paddingVertical="6dp"
     android:paddingHorizontal="8dp">
 
-    <!-- دکمه سه‌نقطه‌ای -->
+    <!-- دکمه دو نقطه‌ای -->
     <TextView
         android:id="@+id/btnMore"
         android:layout_width="32dp"
         android:layout_height="32dp"
         android:gravity="center"
-        android:text="⋮"
-        android:textSize="18sp"
+        android:text=":"
+        android:textSize="20sp"
         android:textColor="#555"
-        android:background="@drawable/circle_touch_bg" />
+        android:background="?attr/selectableItemBackgroundBorderless" />
 
     <!-- تاریخ -->
     <TextView
