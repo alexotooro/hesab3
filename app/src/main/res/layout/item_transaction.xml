@@ -4,55 +4,49 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp"
-    android:gravity="center_vertical"
-    android:background="#E7F1FF"> <!-- آبی خیلی کمرنگ -->
+    android:gravity="center_vertical">
 
     <TextView
         android:id="@+id/txtDate"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.2"
-        android:text="1403/08/08"
-        android:textSize="14sp"
+        android:layout_weight="1"
+        android:gravity="center"
         android:textColor="#000000"
-        android:gravity="center" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/txtAmount"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="125000"
-        android:textSize="14sp"
+        android:gravity="center"
         android:textColor="#000000"
-        android:gravity="center" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/txtCategory"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="خوراک"
-        android:textSize="14sp"
+        android:gravity="center"
         android:textColor="#000000"
-        android:gravity="center" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/txtDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.4"
-        android:text="ناهار بیرون"
-        android:textSize="14sp"
+        android:layout_weight="1"
+        android:gravity="center"
         android:textColor="#000000"
-        android:gravity="center" />
+        android:textSize="14sp" />
 
     <ImageButton
         android:id="@+id/btnMore"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:background="@android:color/transparent"
         android:src="@android:drawable/ic_menu_more"
-        android:contentDescription="بیشتر"
-        android:tint="#444" />
+        android:contentDescription="بیشتر" />
 </LinearLayout>
