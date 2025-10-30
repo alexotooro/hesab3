@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:padding="12dp"
     android:layoutDirection="rtl"
-    android:background="#F8FAFF"
+    android:background="#F3F7FB"
     tools:context=".MainActivity">
 
     <!-- دکمه افزودن تراکنش -->
