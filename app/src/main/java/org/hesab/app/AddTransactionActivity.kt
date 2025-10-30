@@ -43,7 +43,7 @@ class AddTransactionActivity : AppCompatActivity() {
         binding.btnSave.setOnClickListener {
             val type = if (binding.rbIncome.isChecked) "درآمد" else "هزینه"
             val date = binding.edtDate.text.toString()
-            val amount = binding.edtAmount.text.toString().toDoubleOrNull() ?: 0.0
+            val amount = binding.edtAmount.text.toString().toLongOrNull() ?: 0L // 🆕 Long
             val category = binding.edtCategory.text.toString()
             val description = binding.edtDescription.text.toString()
 
@@ -66,12 +66,14 @@ class AddTransactionActivity : AppCompatActivity() {
                         db.transactionDao().update(updated)
                     }
                 } else {
+                    val lastIndex = db.transactionDao().getMaxOrderIndex() ?: 0
                     val transaction = Transaction(
                         date = date,
                         amount = amount,
                         category = category,
                         description = description,
-                        type = type
+                        type = type,
+                        orderIndex = lastIndex + 1 // 🆕 ترتیب جدید
                     )
                     db.transactionDao().insert(transaction)
                 }
