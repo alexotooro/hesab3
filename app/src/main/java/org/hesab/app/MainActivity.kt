@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
             val balanceText = "مانده: %,.0f ریال".format(balance)
 
             runOnUiThread {
-                adapter.submitList(transactions)
+                adapter.setData(transactions) // 🔧 اینجا اصلاح شد
                 binding.tvBalance.text = balanceText
             }
         }.start()
