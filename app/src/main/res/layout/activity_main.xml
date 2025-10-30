@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="➕ افزودن تراکنش"
-        android:backgroundTint="@color/teal_700"
+        android:backgroundTint="@android:color/holo_blue_dark"
         android:textColor="@android:color/white"
         android:layout_marginBottom="8dp" />
 
