@@ -1,142 +1,100 @@
 package org.hesab.app
 
 import android.content.Context
-import android.view.LayoutInflater
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import java.util.*
+import androidx.core.content.ContextCompat
 
 class TransactionAdapter(
     private val context: Context,
-    private var transactions: MutableList<Transaction>,
+    private val transactions: MutableList<Transaction>,
     private val onEdit: (Transaction) -> Unit,
     private val onDelete: (Transaction) -> Unit,
-    private val onOrderChanged: (List<Transaction>) -> Unit,
-    private val onMoveModeChanged: (Boolean) -> Unit
-) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
+    private val onOrderChanged: (List<Transaction>) -> Unit
+) : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
 
-    private var moveModeEnabled = false
-    private var itemTouchHelper: ItemTouchHelper? = null
+    private var touchHelper: ItemTouchHelper? = null
+    private var moveMode = false
 
-    inner class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val txtDate: TextView = itemView.findViewById(R.id.txtDate)
-        val txtAmount: TextView = itemView.findViewById(R.id.txtAmount)
-        val txtCategory: TextView = itemView.findViewById(R.id.txtCategory)
-        val txtDescription: TextView = itemView.findViewById(R.id.txtDescription)
-        val btnMore: ImageButton = itemView.findViewById(R.id.btnMore)
+    fun attachTouchHelper(helper: ItemTouchHelper) {
+        touchHelper = helper
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_transaction, parent, false)
-        return TransactionViewHolder(view)
+    fun moveItem(from: Int, to: Int) {
+        val item = transactions.removeAt(from)
+        transactions.add(to, item)
+        notifyItemMoved(from, to)
     }
 
-    override fun getItemCount(): Int = transactions.size
+    fun isMoveMode() = moveMode
 
-    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        val transaction = transactions[position]
-        holder.txtDate.text = transaction.date
-        holder.txtAmount.text = transaction.amount.toString()
-        holder.txtCategory.text = transaction.category
-        holder.txtDescription.text = transaction.description
-
-        // منوی سه نقطه
-        holder.btnMore.setOnClickListener { view ->
-            val popup = PopupMenu(context, view)
-            MenuInflater(context).inflate(R.menu.menu_transaction_item, popup.menu)
-
-            popup.setOnMenuItemClickListener { item: MenuItem ->
-                when (item.itemId) {
-                    R.id.action_edit -> {
-                        onEdit(transaction)
-                        true
-                    }
-
-                    R.id.action_delete -> {
-                        onDelete(transaction)
-                        true
-                    }
-
-                    R.id.action_move -> {
-                        toggleMoveMode()
-                        true
-                    }
-
-                    else -> false
-                }
-            }
-            popup.show()
-        }
-    }
-
-    private fun toggleMoveMode() {
-        moveModeEnabled = !moveModeEnabled
-        onMoveModeChanged(moveModeEnabled)
-        if (moveModeEnabled) {
+    fun setMoveMode(enabled: Boolean) {
+        moveMode = enabled
+        if (!enabled) {
+            onOrderChanged(transactions)
+        } else {
             Toast.makeText(
                 context,
-                "حالت جابجایی فعال است. برای خروج، روی لیست دابل‌کلیک کنید یا دکمه بازگشت را بزنید.",
+                "حالت جابجایی فعال است. برای خروج، روی لیست دابل‌کلیک کنید یا دکمه بازگشت را بزنید",
                 Toast.LENGTH_LONG
             ).show()
         }
     }
 
-    fun attachToRecyclerView(recyclerView: RecyclerView) {
-        val callback = object : ItemTouchHelper.SimpleCallback(
-            ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
-        ) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                if (!moveModeEnabled) return false
-                val fromPos = viewHolder.adapterPosition
-                val toPos = target.adapterPosition
-                Collections.swap(transactions, fromPos, toPos)
-                notifyItemMoved(fromPos, toPos)
-                onOrderChanged(transactions)
-                return true
-            }
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
-        }
-
-        itemTouchHelper = ItemTouchHelper(callback)
-        itemTouchHelper?.attachToRecyclerView(recyclerView)
-
-        // دابل‌کلیک برای خروج از حالت جابجایی
-        recyclerView.setOnTouchListener(object : View.OnTouchListener {
-            private var lastClickTime = 0L
-            override fun onTouch(v: View?, event: android.view.MotionEvent?): Boolean {
-                if (event?.action == android.view.MotionEvent.ACTION_DOWN) {
-                    val clickTime = System.currentTimeMillis()
-                    if (clickTime - lastClickTime < 400 && moveModeEnabled) {
-                        moveModeEnabled = false
-                        onMoveModeChanged(false)
-                        Toast.makeText(context, "حالت جابجایی غیرفعال شد", Toast.LENGTH_SHORT).show()
-                    }
-                    lastClickTime = clickTime
-                }
-                return false
-            }
-        })
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_transaction, parent, false)
+        return ViewHolder(view)
     }
 
-    fun disableMoveMode() {
-        if (moveModeEnabled) {
-            moveModeEnabled = false
-            onMoveModeChanged(false)
-            Toast.makeText(context, "حالت جابجایی غیرفعال شد", Toast.LENGTH_SHORT).show()
+    override fun getItemCount(): Int = transactions.size
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val item = transactions[position]
+        holder.txtDate.text = item.date
+        holder.txtAmount.text = item.amount.toString()
+        holder.txtCategory.text = item.category
+        holder.txtDescription.text = item.description
+
+        // رنگ مبلغ بر اساس نوع تراکنش
+        val amountColor = if (item.type == "درآمد")
+            ContextCompat.getColor(context, android.R.color.holo_green_dark)
+        else
+            ContextCompat.getColor(context, android.R.color.holo_red_dark)
+        holder.txtAmount.setTextColor(amountColor)
+
+        holder.btnMore.setOnClickListener { v ->
+            val popup = PopupMenu(context, v)
+            popup.menuInflater.inflate(R.menu.menu_transaction_item, popup.menu)
+            popup.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_edit -> onEdit(item)
+                    R.id.action_delete -> onDelete(item)
+                    R.id.action_move -> setMoveMode(true)
+                }
+                true
+            }
+            popup.show()
         }
+
+        holder.itemView.setOnLongClickListener {
+            if (moveMode) {
+                touchHelper?.startDrag(holder)
+                true
+            } else false
+        }
+    }
+
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val txtDate: TextView = view.findViewById(R.id.txtDate)
+        val txtAmount: TextView = view.findViewById(R.id.txtAmount)
+        val txtCategory: TextView = view.findViewById(R.id.txtCategory)
+        val txtDescription: TextView = view.findViewById(R.id.txtDescription)
+        val btnMore: ImageButton = view.findViewById(R.id.btnMore)
     }
 }
