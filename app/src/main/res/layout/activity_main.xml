@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="12dp"
+    android:layoutDirection="rtl"
     android:background="#F8FAFF"
     tools:context=".MainActivity">
 
@@ -30,20 +31,19 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        tools:listitem="@layout/item_transaction"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        tools:listitem="@layout/item_transaction" />
 
     <!-- نمایش مانده -->
     <TextView
         android:id="@+id/tvBalance"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#FFFFFF"
+        android:text="مانده: ۰ ریال"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:gravity="center"
         android:padding="8dp"
-        android:text="مانده: ۰ ریال"
-        android:textColor="#000000"
-        android:textSize="16sp"
-        android:textStyle="bold" />
-
+        android:background="#E3F2FD"
+        android:textColor="#000000" />
 </LinearLayout>
