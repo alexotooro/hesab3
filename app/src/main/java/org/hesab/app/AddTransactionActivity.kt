@@ -1,71 +1,84 @@
 package org.hesab.app
 
 import android.os.Bundle
-import android.widget.*
+import android.widget.RadioButton
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import org.hesab.app.databinding.ActivityAddTransactionBinding
 
 class AddTransactionActivity : AppCompatActivity() {
 
+    private lateinit var binding: ActivityAddTransactionBinding
     private lateinit var db: AppDatabase
+    private var editTransactionId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_transaction)
+        binding = ActivityAddTransactionBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         db = AppDatabase.getInstance(this)
 
-        val rbExpense = findViewById<RadioButton>(R.id.rbExpense)
-        val rbIncome = findViewById<RadioButton>(R.id.rbIncome)
-        val edtDate = findViewById<EditText>(R.id.edtDate)
-        val edtAmount = findViewById<EditText>(R.id.edtAmount)
-        val edtCategory = findViewById<EditText>(R.id.edtCategory)
-        val edtDescription = findViewById<EditText>(R.id.edtDescription)
-        val btnSave = findViewById<Button>(R.id.btnSave)
-
-        // پیش‌فرض روی هزینه
-        rbExpense.isChecked = true
-
-        btnSave.setOnClickListener {
-            val type = if (rbIncome.isChecked) "درآمد" else "هزینه"
-            val date = edtDate.text.toString()
-            val amountText = edtAmount.text.toString()
-            val category = edtCategory.text.toString()
-            val description = edtDescription.text.toString()
-
-            if (date.isEmpty() || amountText.isEmpty() || category.isEmpty()) {
-                Toast.makeText(this, "لطفاً همه فیلدهای لازم را پر کنید", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            val amount = amountText.toDoubleOrNull()
-            if (amount == null) {
-                Toast.makeText(this, "مبلغ نامعتبر است", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            val transaction = Transaction(
-                type = type,
-                date = date,
-                amount = amount,
-                category = category,
-                description = description
-            )
-
-            // ✅ اجرای در Thread جدا تا روی اندروید 7 کرش نکنه
-            Thread {
-    try {
-        db.transactionDao().insert(transaction)
-        runOnUiThread {
-            Toast.makeText(this, "تراکنش با موفقیت ذخیره شد", Toast.LENGTH_SHORT).show()
-            finish()
+        // اگر در حالت ویرایش هستیم
+        editTransactionId = intent.getIntExtra("edit_transaction_id", -1)
+        if (editTransactionId != -1) {
+            loadTransactionForEdit(editTransactionId!!)
         }
-    } catch (e: Exception) {
-        runOnUiThread {
-            Toast.makeText(this, "خطا: ${e.message}", Toast.LENGTH_LONG).show()
+
+        binding.btnSave.setOnClickListener {
+            saveTransaction()
         }
     }
-}.start()
 
+    private fun loadTransactionForEdit(id: Int) {
+        Thread {
+            val transaction = db.transactionDao().getById(id)
+            transaction?.let {
+                runOnUiThread {
+                    binding.etDate.setText(it.date)
+                    binding.etAmount.setText(it.amount.toString())
+                    binding.etCategory.setText(it.category)
+                    binding.etDescription.setText(it.description)
+
+                    if (it.type == "درآمد") {
+                        binding.radioIncome.isChecked = true
+                    } else {
+                        binding.radioExpense.isChecked = true
+                    }
+
+                    binding.btnSave.text = "ویرایش تراکنش"
+                }
+            }
+        }.start()
+    }
+
+    private fun saveTransaction() {
+        val date = binding.etDate.text.toString()
+        val amount = binding.etAmount.text.toString().toDoubleOrNull() ?: 0.0
+        val category = binding.etCategory.text.toString()
+        val description = binding.etDescription.text.toString()
+        val type = findViewById<RadioButton>(binding.radioGroupType.checkedRadioButtonId).text.toString()
+
+        if (date.isBlank() || category.isBlank()) {
+            Toast.makeText(this, "لطفاً تمام فیلدها را پر کنید", Toast.LENGTH_SHORT).show()
+            return
         }
+
+        Thread {
+            if (editTransactionId != null && editTransactionId != -1) {
+                // حالت ویرایش
+                val transaction = Transaction(editTransactionId!!, date, amount, category, description, type)
+                db.transactionDao().update(transaction)
+            } else {
+                // حالت افزودن جدید
+                val transaction = Transaction(0, date, amount, category, description, type)
+                db.transactionDao().insert(transaction)
+            }
+
+            runOnUiThread {
+                Toast.makeText(this, "ذخیره شد", Toast.LENGTH_SHORT).show()
+                finish()
+            }
+        }.start()
     }
 }
