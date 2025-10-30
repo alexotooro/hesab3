@@ -2,115 +2,113 @@ package org.hesab.app
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.MotionEvent
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var db: AppDatabase
     private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: TransactionAdapter
     private lateinit var btnAddTransaction: Button
-    private lateinit var txtMoveBanner: TextView
+    private lateinit var tvBalance: TextView
+    private lateinit var db: AppDatabase
+    private lateinit var transactionDao: TransactionDao
+    private lateinit var adapter: TransactionAdapter
 
-    private var lastTapTime = 0L
+    private var transactions = mutableListOf<Transaction>()
+    private var moveModeActive = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        db = AppDatabase.getInstance(this)
         recyclerView = findViewById(R.id.recyclerView)
         btnAddTransaction = findViewById(R.id.btnAddTransaction)
-        txtMoveBanner = findViewById(R.id.txtMoveBanner)
+        tvBalance = findViewById(R.id.tvBalance)
+
+        db = Room.databaseBuilder(
+            applicationContext,
+            AppDatabase::class.java, "transactions-db"
+        ).allowMainThreadQueries().build()
+        transactionDao = db.transactionDao()
+
+        transactions = transactionDao.getAll().toMutableList()
+
+        adapter = TransactionAdapter(
+            this,
+            transactions,
+            onEdit = { transaction ->
+                val intent = Intent(this, AddTransactionActivity::class.java)
+                intent.putExtra("transaction_id", transaction.id)
+                startActivity(intent)
+            },
+            onDelete = { transaction ->
+                transactionDao.delete(transaction)
+                refreshData()
+            },
+            onOrderChanged = { newList ->
+                // ذخیره‌ی ترتیب جدید در DB
+                for ((index, item) in newList.withIndex()) {
+                    item.orderIndex = index
+                    transactionDao.update(item)
+                }
+            },
+            onMoveModeChanged = { active ->
+                moveModeActive = active
+                if (active) {
+                    Toast.makeText(
+                        this,
+                        "حالت جابجایی فعال است. برای خروج، روی لیست دابل‌کلیک کنید یا دکمه بازگشت را بزنید.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        )
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        txtMoveBanner.text = "حالت جابجایی فعال است. برای خروج، روی لیست دابل‌کلیک کنید یا دکمه بازگشت را بزنید."
-        txtMoveBanner.visibility = TextView.GONE
+        recyclerView.adapter = adapter
+        adapter.attachToRecyclerView(recyclerView)
 
+        // دکمه افزودن تراکنش
         btnAddTransaction.setOnClickListener {
+            if (moveModeActive) {
+                Toast.makeText(this, "ابتدا از حالت جابجایی خارج شوید.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
             startActivity(Intent(this, AddTransactionActivity::class.java))
         }
 
-        recyclerView.setOnTouchListener { _, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                val now = System.currentTimeMillis()
-                if (now - lastTapTime < 300 && adapter.isMoveMode()) {
-                    adapter.setMoveMode(false)
-                    showMoveModeBanner(false)
-                    Toast.makeText(this, "حالت جابجایی غیرفعال شد", Toast.LENGTH_SHORT).show()
+        // واکنش به دکمه برگشت برای خروج از حالت جابجایی
+        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (moveModeActive) {
+                    adapter.disableMoveMode()
+                    moveModeActive = false
+                } else {
+                    finish()
                 }
-                lastTapTime = now
             }
-            false
-        }
+        })
     }
 
     override fun onResume() {
         super.onResume()
-        loadTransactions()
+        refreshData()
     }
 
-    private fun loadTransactions() {
-        Thread {
-            val transactions = db.transactionDao().getAll().toMutableList().asReversed()
+    private fun refreshData() {
+        transactions.clear()
+        transactions.addAll(transactionDao.getAll())
+        adapter.notifyDataSetChanged()
 
-            runOnUiThread {
-                adapter = TransactionAdapter(
-                    this,
-                    transactions,
-                    onEdit = { /* TODO: ویرایش */ },
-                    onDelete = { /* TODO: حذف */ },
-                    onOrderChanged = { updatedList -> saveOrderToDatabase(updatedList) }
-                )
-                recyclerView.adapter = adapter
-
-                val touchHelper = ItemTouchHelper(object :
-                    ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
-                    override fun onMove(
-                        recyclerView: RecyclerView,
-                        viewHolder: RecyclerView.ViewHolder,
-                        target: RecyclerView.ViewHolder
-                    ): Boolean {
-                        if (adapter.isMoveMode()) {
-                            adapter.moveItem(viewHolder.adapterPosition, target.adapterPosition)
-                        }
-                        return true
-                    }
-
-                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
-                })
-                touchHelper.attachToRecyclerView(recyclerView)
-                adapter.attachTouchHelper(touchHelper)
-            }
-        }.start()
-    }
-
-    fun showMoveModeBanner(show: Boolean) {
-        txtMoveBanner.visibility = if (show) TextView.VISIBLE else TextView.GONE
-    }
-
-    private fun saveOrderToDatabase(updatedList: List<Transaction>) {
-        Thread {
-            updatedList.forEachIndexed { index, transaction ->
-                db.transactionDao().updateOrder(transaction.id, index)
-            }
-        }.start()
-    }
-
-    override fun onBackPressed() {
-        if (this::adapter.isInitialized && adapter.isMoveMode()) {
-            adapter.setMoveMode(false)
-            showMoveModeBanner(false)
-            Toast.makeText(this, "حالت جابجایی غیرفعال شد", Toast.LENGTH_SHORT).show()
-        } else {
-            super.onBackPressed()
+        val balance = transactionDao.getAll().sumOf {
+            if (it.type == "income") it.amount else -it.amount
         }
+        tvBalance.text = "مانده: %,d ریال".format(balance)
     }
 }
