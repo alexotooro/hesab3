@@ -3,54 +3,51 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:background="@android:color/white"
     android:padding="8dp"
-    android:gravity="center_vertical"
-    android:background="#EDF4FF">
+    android:layout_marginBottom="1dp">
 
     <TextView
-        android:id="@+id/txtDate"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:text="1403/08/08"
-        android:textColor="#000"
-        android:textSize="14sp" />
-
-    <TextView
-        android:id="@+id/txtAmount"
+        android:id="@+id/tvDate"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="25,000"
-        android:textColor="#000"
-        android:textSize="14sp" />
+        android:text="1404/08/01" />
 
     <TextView
-        android:id="@+id/txtCategory"
+        android:id="@+id/tvAmount"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="خوراک"
-        android:textColor="#000"
-        android:textSize="14sp" />
+        android:text="5,000"
+        android:textColor="#000000" />
 
     <TextView
-        android:id="@+id/txtDescription"
+        android:id="@+id/tvCategory"
         android:layout_width="0dp"
-        android:layout_weight="1.5"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="ناهار"
-        android:textColor="#000"
-        android:textSize="14sp" />
+        android:text="حقوق" />
 
-    <ImageButton
-        android:id="@+id/btnMore"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:background="@drawable/circle_lightblue"
-        android:src="@drawable/ic_more_vert_black_24dp"
-        android:contentDescription="More options" />
+    <TextView
+        android:id="@+id/tvNote"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="-" />
+
+    <!-- دکمه منو سه‌نقطه -->
+    <TextView
+        android:id="@+id/btnMenu"
+        android:layout_width="24dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="⋮"
+        android:textSize="18sp"
+        android:textColor="#555555"
+        android:padding="4dp" />
 </LinearLayout>
