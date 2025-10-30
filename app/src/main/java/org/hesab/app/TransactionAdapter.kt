@@ -6,15 +6,14 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class TransactionAdapter(
-    private var transactions: List<Transaction>
-) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
+class TransactionAdapter(private val transactions: List<Transaction>) :
+    RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
     class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val dateText: TextView = itemView.findViewById(R.id.textDate)
-        val amountText: TextView = itemView.findViewById(R.id.textAmount)
-        val purposeText: TextView = itemView.findViewById(R.id.textPurpose)
-        val descriptionText: TextView = itemView.findViewById(R.id.textDescription)
+        val textDate: TextView = itemView.findViewById(R.id.textDate)
+        val textAmount: TextView = itemView.findViewById(R.id.textAmount)
+        val textCategory: TextView = itemView.findViewById(R.id.textCategory)
+        val textDescription: TextView = itemView.findViewById(R.id.textDescription)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
@@ -25,16 +24,11 @@ class TransactionAdapter(
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         val transaction = transactions[position]
-        holder.dateText.text = transaction.date
-        holder.amountText.text = transaction.amount.toString()
-        holder.purposeText.text = transaction.purpose
-        holder.descriptionText.text = transaction.description
+        holder.textDate.text = transaction.date
+        holder.textAmount.text = transaction.amount.toString()
+        holder.textCategory.text = transaction.category
+        holder.textDescription.text = transaction.description
     }
 
-    override fun getItemCount(): Int = transactions.size
-
-    fun setData(newList: List<Transaction>) {
-        transactions = newList
-        notifyDataSetChanged()
-    }
+    override fun getItemCount() = transactions.size
 }
