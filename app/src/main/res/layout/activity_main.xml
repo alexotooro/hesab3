@@ -9,6 +9,7 @@
     android:background="#D9E9FF"
     tools:context=".MainActivity">
 
+    <!-- دکمه افزودن تراکنش -->
     <Button
         android:id="@+id/btnAddTransaction"
         android:layout_width="match_parent"
@@ -18,55 +19,61 @@
         android:textColor="@android:color/white"
         android:layout_marginBottom="8dp" />
 
+    <!-- سربرگ جدول -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:background="#C1DBFF"
+        android:background="#B3D4FF"
         android:padding="6dp">
 
         <TextView
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="تاریخ"
+            android:textColor="#000000"
             android:textStyle="bold"
-            android:textColor="#000"
             android:gravity="center" />
 
         <TextView
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="مبلغ (ریال)"
+            android:textColor="#000000"
             android:textStyle="bold"
-            android:textColor="#000"
             android:gravity="center" />
 
         <TextView
             android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="بابت"
+            android:textColor="#000000"
             android:textStyle="bold"
-            android:textColor="#000"
             android:gravity="center" />
 
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1.5"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="توضیحات"
+            android:textColor="#000000"
             android:textStyle="bold"
-            android:textColor="#000"
             android:gravity="center" />
     </LinearLayout>
 
+    <!-- لیست تراکنش‌ها -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:scrollbars="vertical"
-        android:background="#EDF4FF"
         tools:listitem="@layout/item_transaction" />
 
+    <!-- نمایش مانده -->
     <TextView
         android:id="@+id/tvBalance"
         android:layout_width="match_parent"
