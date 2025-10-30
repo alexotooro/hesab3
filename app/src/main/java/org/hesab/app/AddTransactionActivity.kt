@@ -18,10 +18,10 @@ class AddTransactionActivity : AppCompatActivity() {
 
         db = AppDatabase.getInstance(this)
 
-        // اگر تراکنش برای ویرایش فرستاده شده باشد
+        // بررسی حالت ویرایش
         editTransactionId = intent.getIntExtra("edit_transaction_id", -1).takeIf { it != -1 }
 
-        // اگر ویرایش است، مقادیر را پر کن
+        // اگر حالت ویرایش است، پر کردن فیلدها
         editTransactionId?.let { id ->
             Thread {
                 val transaction = db.transactionDao().getById(id)
@@ -52,36 +52,4 @@ class AddTransactionActivity : AppCompatActivity() {
             }
 
             Thread {
-                if (editTransactionId != null) {
-                    val existing = db.transactionDao().getById(editTransactionId!!)
-                    if (existing != null) {
-                        val updated = existing.copy(
-                            date = date,
-                            amount = amount,
-                            category = category,
-                            description = description,
-                            type = type
-                        )
-                        db.transactionDao().update(updated)
-                    }
-                } else {
-                    val lastIndex = db.transactionDao().getMaxOrderIndex() ?: 0
-                    val transaction = Transaction(
-                        date = date,
-                        amount = amount,
-                        category = category,
-                        description = description,
-                        type = type,
-                        orderIndex = lastIndex + 1
-                    )
-                    db.transactionDao().insert(transaction)
-                }
-
-                runOnUiThread {
-                    Toast.makeText(this, "ذخیره شد", Toast.LENGTH_SHORT).show()
-                    finish()
-                }
-            }.start()
-        }
-    }
-}
+                if (editTransactionId
