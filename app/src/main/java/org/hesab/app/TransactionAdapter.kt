@@ -1,11 +1,7 @@
 package org.hesab.app
 
 import android.content.Context
-import android.view.LayoutInflater
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
@@ -16,7 +12,8 @@ class TransactionAdapter(
     private val context: Context,
     private val transactions: MutableList<Transaction>,
     private val onEdit: (Transaction) -> Unit,
-    private val onDelete: (Transaction) -> Unit
+    private val onDelete: (Transaction) -> Unit,
+    private val onOrderChanged: (List<Transaction>) -> Unit // 🆕
 ) : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
 
     private var touchHelper: ItemTouchHelper? = null
@@ -33,9 +30,12 @@ class TransactionAdapter(
     }
 
     fun isMoveMode() = moveMode
-
     fun setMoveMode(enabled: Boolean) {
         moveMode = enabled
+        if (!enabled) {
+            // وقتی از حالت جابجایی خارج میشه، ترتیب جدید رو برگردون
+            onOrderChanged(transactions)
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -55,14 +55,12 @@ class TransactionAdapter(
 
         holder.btnMore.setOnClickListener { v ->
             val popup = PopupMenu(context, v)
-            MenuInflater(context).inflate(R.menu.menu_transaction_item, popup.menu)
-            popup.setOnMenuItemClickListener { menuItem: MenuItem ->
-                when (menuItem.itemId) {
+            popup.menuInflater.inflate(R.menu.menu_transaction_item, popup.menu)
+            popup.setOnMenuItemClickListener {
+                when (it.itemId) {
                     R.id.action_edit -> onEdit(item)
                     R.id.action_delete -> onDelete(item)
-                    R.id.action_move -> {
-                        moveMode = true
-                    }
+                    R.id.action_move -> moveMode = true
                 }
                 true
             }
