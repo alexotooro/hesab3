@@ -4,88 +4,86 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#EEF5FF"
+    android:padding="12dp"
+    android:layoutDirection="rtl"
+    android:background="@color/app_background"
     tools:context=".MainActivity">
 
-    <!-- 🔹 مانده -->
-    <TextView
-        android:id="@+id/tvBalance"
+    <Button
+        android:id="@+id/btnAddTransaction"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#82B1FF"
-        android:padding="12dp"
-        android:text="مانده: ۰ ریال"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:gravity="center"
-        android:textStyle="bold" />
+        android:text="➕ افزودن تراکنش"
+        android:backgroundTint="@color/button_blue"
+        android:textColor="@color/button_text"
+        android:layout_marginBottom="8dp" />
 
-    <!-- 🔹 سربرگ -->
+    <!-- سربرگ جدول -->
     <LinearLayout
+        android:id="@+id/headerRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#AFCBFF"
         android:orientation="horizontal"
-        android:paddingVertical="6dp"
-        android:paddingHorizontal="4dp">
+        android:paddingVertical="8dp"
+        android:background="@color/header_background">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.2"
+            android:layout_weight="1"
             android:text="تاریخ"
-            android:textStyle="bold"
-            android:textColor="#1B1B1B"
-            android:gravity="center" />
+            android:textColor="@color/text_dark"
+            android:gravity="center"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="مبلغ (ریال)"
-            android:textStyle="bold"
-            android:textColor="#1B1B1B"
-            android:gravity="center" />
+            android:textColor="@color/text_dark"
+            android:gravity="center"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="بابت"
-            android:textStyle="bold"
-            android:textColor="#1B1B1B"
-            android:gravity="center" />
+            android:textColor="@color/text_dark"
+            android:gravity="center"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1.2"
+            android:layout_weight="2"
             android:text="توضیحات"
-            android:textStyle="bold"
-            android:textColor="#1B1B1B"
-            android:gravity="center" />
+            android:textColor="@color/text_dark"
+            android:gravity="center"
+            android:textStyle="bold" />
     </LinearLayout>
 
-    <!-- 🔹 لیست -->
+    <!-- لیست تراکنش‌ها -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#D9E9FF"
-        android:padding="4dp" />
+        android:background="@color/list_background"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/item_transaction" />
 
-    <!-- 🔹 دکمه افزودن -->
-    <Button
-        android:id="@+id/btnAddTransaction"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_gravity="center|bottom"
-        android:layout_margin="12dp"
-        android:background="@drawable/rounded_add_button"
-        android:text="+"
-        android:textColor="@android:color/white"
-        android:textSize="32sp"
+    <!-- بخش مانده -->
+    <TextView
+        android:id="@+id/tvBalance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="مانده: ۰ ریال"
+        android:textSize="18sp"
+        android:textStyle="bold"
         android:gravity="center"
-        android:elevation="6dp" />
+        android:padding="8dp"
+        android:background="@color/balance_background"
+        android:textColor="@color/text_dark" />
 </LinearLayout>
