@@ -3,8 +3,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="6dp"
-    android:background="#EAF2FF">
+    android:gravity="center_vertical"
+    android:background="#E8F0FF"
+    android:padding="8dp">
 
     <!-- تاریخ -->
     <TextView
@@ -12,10 +13,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="1403/08/09"
-        android:textColor="#000000"
+        android:gravity="center"
+        android:text="1403/08/08"
         android:textSize="14sp"
-        android:gravity="center" />
+        android:textColor="#000000" />
 
     <!-- مبلغ -->
     <TextView
@@ -23,10 +24,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="200,000"
-        android:textColor="#000000"
+        android:gravity="center"
+        android:text="120,000"
         android:textSize="14sp"
-        android:gravity="center" />
+        android:textColor="#00796B" />
 
     <!-- بابت -->
     <TextView
@@ -34,29 +35,31 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="خرید"
-        android:textColor="#000000"
+        android:gravity="center"
+        android:text="خوراک"
         android:textSize="14sp"
-        android:gravity="center" />
+        android:textColor="#000000" />
 
     <!-- توضیحات -->
     <TextView
         android:id="@+id/txtDescription"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1.5"
-        android:text="سوپرمارکت"
-        android:textColor="#000000"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="ناهار بیرون"
         android:textSize="14sp"
-        android:gravity="center" />
+        android:textColor="#444444" />
 
-    <!-- دکمه منوی سه‌نقطه -->
-    <ImageButton
+    <!-- دکمه منو (سه‌نقطه) -->
+    <TextView
         android:id="@+id/btnMore"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@android:drawable/ic_menu_more"
-        android:contentDescription="بیشتر"
-        android:tint="#000000" />
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:text="⋮"
+        android:textSize="20sp"
+        android:textColor="#555555"
+        android:gravity="center"
+        android:background="@drawable/circle_button_bg"
+        android:layout_marginStart="4dp" />
 </LinearLayout>
