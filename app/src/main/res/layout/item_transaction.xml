@@ -12,12 +12,11 @@
         android:id="@+id/btnMore"
         android:layout_width="24dp"
         android:layout_height="match_parent"
-        android:layout_marginHorizontal="2dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_more_vert"
         android:contentDescription="منو"
-        android:tint="#111111"
-        android:padding="4dp"
+        android:tint="#333333"
+        android:paddingHorizontal="8dp"
         android:scaleType="centerInside" />
 
     <!-- تاریخ -->
@@ -41,7 +40,7 @@
         android:textSize="15sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:textColor="#111111" />
+        android:textColor="#000000" />
 
     <!-- بابت -->
     <TextView
