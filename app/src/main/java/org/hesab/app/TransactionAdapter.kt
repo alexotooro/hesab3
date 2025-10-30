@@ -4,23 +4,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.PopupMenu
 import android.widget.TextView
-import android.widget.Toast
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.*
 
 class TransactionAdapter(
     private val transactions: MutableList<Transaction>,
     private val db: AppDatabase,
-    private val onEditClick: (Transaction) -> Unit,
-    private val onDeleteClick: (Transaction) -> Unit,
     private val onListUpdated: () -> Unit
 ) : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvDate: TextView = view.findViewById(R.id.tvDate)
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvAmount: TextView = view.findViewById(R.id.tvAmount)
         val tvCategory: TextView = view.findViewById(R.id.tvCategory)
         val tvDescription: TextView = view.findViewById(R.id.tvDescription)
@@ -33,90 +32,82 @@ class TransactionAdapter(
         return ViewHolder(view)
     }
 
-    override fun getItemCount() = transactions.size
+    override fun getItemCount(): Int = transactions.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val transaction = transactions[position]
-        holder.tvDate.text = transaction.date
-        holder.tvAmount.text = "%,d".format(transaction.amount)
+
+        holder.tvAmount.text = transaction.amount.toString()
         holder.tvCategory.text = transaction.category
         holder.tvDescription.text = transaction.description
 
-        holder.tvAmount.setTextColor(
-            if (transaction.isIncome)
-                holder.itemView.context.getColor(R.color.green_income)
-            else
-                holder.itemView.context.getColor(R.color.red_expense)
-        )
-
-        holder.btnMenu.setOnClickListener {
-            val popup = android.widget.PopupMenu(holder.itemView.context, holder.btnMenu)
-            popup.menuInflater.inflate(R.menu.menu_transaction_item, popup.menu)
+        holder.btnMenu.setOnClickListener { view ->
+            val popup = PopupMenu(view.context, view)
+            popup.inflate(R.menu.menu_transaction_item)
             popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_edit -> {
-                        onEditClick(transaction)
+                        val intent = android.content.Intent(view.context, AddTransactionActivity::class.java)
+                        intent.putExtra("transaction_id", transaction.id)
+                        view.context.startActivity(intent)
+                        true
                     }
-
                     R.id.action_delete -> {
-                        onDeleteClick(transaction)
+                        CoroutineScope(Dispatchers.IO).launch {
+                            db.transactionDao().delete(transaction)
+                            transactions.removeAt(holder.adapterPosition)
+                            onListUpdated()
+                        }
+                        true
                     }
-
-                    R.id.action_move -> {
-                        showMoveMenu(holder, transaction)
-                    }
+                    else -> false
                 }
-                true
             }
             popup.show()
         }
     }
 
-    private fun showMoveMenu(holder: ViewHolder, transaction: Transaction) {
-        val moveMenu = android.widget.PopupMenu(holder.itemView.context, holder.btnMenu)
-        moveMenu.menu.add("انتقال به بالا")
-        moveMenu.menu.add("انتقال به پایین")
+    // 🟩 جابجایی آیتم‌ها (Drag & Drop)
+    fun attachItemTouchHelper(recyclerView: RecyclerView) {
+        val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+            ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0
+        ) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                val fromPosition = viewHolder.adapterPosition
+                val toPosition = target.adapterPosition
 
-        moveMenu.setOnMenuItemClickListener { moveItem ->
-            val currentIndex = transactions.indexOf(transaction)
-            when (moveItem.title) {
-                "انتقال به بالا" -> {
-                    if (currentIndex > 0) {
-                        swapOrder(currentIndex, currentIndex - 1)
-                    } else {
-                        Toast.makeText(holder.itemView.context, "در بالاترین موقعیت است", Toast.LENGTH_SHORT).show()
+                if (fromPosition < toPosition) {
+                    for (i in fromPosition until toPosition) {
+                        Collections.swap(transactions, i, i + 1)
+                    }
+                } else {
+                    for (i in fromPosition downTo toPosition + 1) {
+                        Collections.swap(transactions, i, i - 1)
                     }
                 }
-                "انتقال به پایین" -> {
-                    if (currentIndex < transactions.size - 1) {
-                        swapOrder(currentIndex, currentIndex + 1)
-                    } else {
-                        Toast.makeText(holder.itemView.context, "در پایین‌ترین موقعیت است", Toast.LENGTH_SHORT).show()
+
+                notifyItemMoved(fromPosition, toPosition)
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    for ((index, t) in transactions.withIndex()) {
+                        db.transactionDao().updateOrder(t.id, index)
                     }
                 }
+
+                return true
             }
-            true
-        }
 
-        moveMenu.show()
-    }
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                // هیچ کاری نکن
+            }
 
-    private fun swapOrder(fromIndex: Int, toIndex: Int) {
-        val t1 = transactions[fromIndex]
-        val t2 = transactions[toIndex]
-        val tempOrder = t1.orderIndex
-        t1.orderIndex = t2.orderIndex
-        t2.orderIndex = tempOrder
+            override fun isLongPressDragEnabled(): Boolean = true
+        })
 
-        CoroutineScope(Dispatchers.IO).launch {
-            db.transactionDao().update(t1)
-            db.transactionDao().update(t2)
-        }
-
-        transactions[fromIndex] = t2
-        transactions[toIndex] = t1
-
-        notifyItemMoved(fromIndex, toIndex)
-        onListUpdated()
+        itemTouchHelper.attachToRecyclerView(recyclerView)
     }
 }
