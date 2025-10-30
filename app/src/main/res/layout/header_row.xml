@@ -4,52 +4,39 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:background="#E3F2FD"
-    android:layoutDirection="rtl"
     android:paddingVertical="8dp"
-    android:elevation="2dp">
+    android:layoutDirection="rtl">
 
-    <!-- تاریخ -->
+    <!-- ترتیب: تاریخ | مبلغ | بابت | توضیحات -->
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.2"
         android:text="تاریخ"
         android:textStyle="bold"
-        android:textSize="14sp"
-        android:textColor="#000000"
         android:gravity="center" />
 
-    <!-- مبلغ -->
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.3"
         android:text="مبلغ (ریال)"
         android:textStyle="bold"
-        android:textSize="14sp"
-        android:textColor="#000000"
         android:gravity="center" />
 
-    <!-- بابت -->
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="بابت"
         android:textStyle="bold"
-        android:textSize="14sp"
-        android:textColor="#000000"
         android:gravity="center" />
 
-    <!-- توضیحات -->
     <TextView
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1.2"
         android:text="توضیحات"
         android:textStyle="bold"
-        android:textSize="14sp"
-        android:textColor="#000000"
         android:gravity="center" />
-
 </LinearLayout>
