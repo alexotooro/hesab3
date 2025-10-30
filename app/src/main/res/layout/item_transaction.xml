@@ -53,14 +53,16 @@
 
     <!-- دکمه سه‌نقطه -->
     <TextView
-        android:id="@+id/btnMore"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="⋮"
-        android:textSize="20sp"
-        android:textColor="#555555"
-        android:padding="8dp"
-        android:gravity="center"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="2dp" />
+    android:id="@+id/btnMore"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:text="⋮"
+    android:textSize="20sp"
+    android:textColor="#555555"
+    android:gravity="center"
+    android:paddingHorizontal="8dp"
+    android:layout_gravity="center_vertical"
+    android:layout_marginStart="4dp"
+    android:layout_marginEnd="2dp" />
+
 </LinearLayout>
