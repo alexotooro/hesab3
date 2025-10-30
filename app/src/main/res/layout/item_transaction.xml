@@ -3,53 +3,50 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="#F8FAFF"
-    android:layoutDirection="rtl"
     android:padding="8dp"
-    android:gravity="center_vertical">
+    android:layoutDirection="rtl"
+    android:gravity="center_vertical"
+    android:background="#F8FAFF"
+    android:layout_marginVertical="4dp">
 
-    <!-- تاریخ -->
+    <!-- ترتیب در XML: تاریخ | مبلغ | بابت | توضیحات -->
     <TextView
         android:id="@+id/txtDate"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_weight="1.2"
+        android:layout_height="wrap_content"
         android:text="1404/08/01"
+        android:gravity="center"
         android:textSize="14sp"
-        android:textColor="#000000"
-        android:gravity="center" />
+        android:textColor="#000000" />
 
-    <!-- مبلغ -->
     <TextView
         android:id="@+id/txtAmount"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_weight="1.3"
+        android:layout_height="wrap_content"
         android:text="1,000,000"
-        android:textSize="15sp"
+        android:gravity="center"
         android:textStyle="bold"
-        android:textColor="#000000"
-        android:gravity="center" />
+        android:textSize="14sp" />
 
-    <!-- بابت -->
     <TextView
         android:id="@+id/txtCategory"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="خرید"
+        android:layout_height="wrap_content"
+        android:text="بابت"
+        android:gravity="center"
         android:textSize="14sp"
-        android:textColor="#000000"
-        android:gravity="center" />
+        android:textColor="#000000" />
 
-    <!-- توضیحات -->
     <TextView
         android:id="@+id/txtDescription"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
         android:layout_weight="1.2"
-        android:text="برای منزل"
+        android:layout_height="wrap_content"
+        android:text="توضیحات"
+        android:gravity="center"
         android:textSize="13sp"
-        android:textColor="#555555"
-        android:gravity="center" />
+        android:textColor="#555555" />
 </LinearLayout>
