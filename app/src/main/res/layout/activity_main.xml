@@ -20,10 +20,58 @@
         android:layout_marginBottom="8dp" />
 
     <!-- سربرگ جدول -->
-    <include
-        layout="@layout/header_row"
+    <LinearLayout
+        android:id="@+id/headerRow"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#BBDEFB"
+        android:padding="6dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="توضیحات"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="بابت"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="مبلغ (ریال)"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="تاریخ"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:textSize="14sp" />
+
+        <View
+            android:layout_width="36dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <!-- لیست تراکنش‌ها -->
     <androidx.recyclerview.widget.RecyclerView
@@ -46,4 +94,5 @@
         android:padding="8dp"
         android:background="#E3F2FD"
         android:textColor="#000000" />
+
 </LinearLayout>
