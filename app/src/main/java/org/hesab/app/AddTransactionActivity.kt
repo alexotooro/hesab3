@@ -52,4 +52,37 @@ class AddTransactionActivity : AppCompatActivity() {
             }
 
             Thread {
-                if (editTransactionId
+                if (editTransactionId != null) {
+                    // 🔹 حالت ویرایش
+                    val existing = db.transactionDao().getById(editTransactionId!!)
+                    if (existing != null) {
+                        val updated = existing.copy(
+                            date = date,
+                            amount = amount,
+                            category = category,
+                            description = description,
+                            type = type
+                        )
+                        db.transactionDao().update(updated)
+                    }
+                } else {
+                    // 🔹 حالت افزودن تراکنش جدید
+                    val lastOrderIndex = db.transactionDao().getMaxOrderIndex() ?: 0
+                    val transaction = Transaction(
+                        date = date,
+                        amount = amount,
+                        category = category,
+                        description = description,
+                        orderIndex = lastOrderIndex + 1
+                    )
+                    db.transactionDao().insert(transaction)
+                }
+
+                runOnUiThread {
+                    Toast.makeText(this, "ذخیره شد", Toast.LENGTH_SHORT).show()
+                    finish()
+                }
+            }.start()
+        }
+    }
+}
