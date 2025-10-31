@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 
 class SettingsActivity : AppCompatActivity() {
@@ -13,76 +14,85 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        prefs = getSharedPreferences("hesab_prefs", MODE_PRIVATE)
+        title = "تنظیمات"
 
-        // فونت و سایز
-        val fontSizeSeekBar = findViewById<SeekBar>(R.id.seekFontSize)
-        val txtFontSizeValue = findViewById<TextView>(R.id.txtFontSizeValue)
+        prefs = getSharedPreferences("hesab_settings", MODE_PRIVATE)
 
-        // رنگ متن
-        val colorSpinner = findViewById<Spinner>(R.id.spinnerTextColor)
+        val switchDarkMode = findViewById<Switch>(R.id.switchDarkMode)
+        val switchShowLines = findViewById<Switch>(R.id.switchShowLines)
+        val switchAlternateRows = findViewById<Switch>(R.id.switchAlternateRows)
+        val switchShowInTomans = findViewById<Switch>(R.id.switchShowInTomans)
+        val btnFontSizeUp = findViewById<Button>(R.id.btnFontSizeUp)
+        val btnFontSizeDown = findViewById<Button>(R.id.btnFontSizeDown)
+        val tvPreview = findViewById<TextView>(R.id.tvPreview)
 
-        // تم
-        val themeSpinner = findViewById<Spinner>(R.id.spinnerTheme)
+        // بازیابی مقادیر قبلی
+        switchDarkMode.isChecked = prefs.getBoolean("darkMode", false)
+        switchShowLines.isChecked = prefs.getBoolean("showLines", true)
+        switchAlternateRows.isChecked = prefs.getBoolean("alternateRows", false)
+        switchShowInTomans.isChecked = prefs.getBoolean("showInTomans", false)
 
-        // خطوط بین ردیف‌ها
-        val chkLines = findViewById<CheckBox>(R.id.chkLines)
-        val chkExcelMode = findViewById<CheckBox>(R.id.chkExcelMode)
+        val fontSize = prefs.getFloat("fontSize", 16f)
+        tvPreview.textSize = fontSize
 
-        // گزینه نمایش مبلغ به تومان
-        val chkShowToman = findViewById<CheckBox>(R.id.chkShowToman)
-
-        // دکمه ذخیره
-        val btnSave = findViewById<Button>(R.id.btnSaveSettings)
-
-        // ---------- مقداردهی اولیه ----------
-        val savedFontSize = prefs.getInt("fontSize", 16)
-        fontSizeSeekBar.progress = savedFontSize
-        txtFontSizeValue.text = "$savedFontSize sp"
-
-        val savedColorIndex = prefs.getInt("colorIndex", 0)
-        colorSpinner.setSelection(savedColorIndex)
-
-        val savedThemeIndex = prefs.getInt("themeIndex", 0)
-        themeSpinner.setSelection(savedThemeIndex)
-
-        chkLines.isChecked = prefs.getBoolean("lines", true)
-        chkExcelMode.isChecked = prefs.getBoolean("excelMode", false)
-        chkShowToman.isChecked = prefs.getBoolean("showToman", false)
-
-        // ---------- رفتار کنترل‌ها ----------
-        fontSizeSeekBar.setOnSeekBarChangeListener(object :
-            SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                txtFontSizeValue.text = "$progress sp"
-            }
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
-
-        // ---------- دکمه ذخیره ----------
-        btnSave.setOnClickListener {
-            prefs.edit()
-                .putInt("fontSize", fontSizeSeekBar.progress)
-                .putInt("colorIndex", colorSpinner.selectedItemPosition)
-                .putInt("themeIndex", themeSpinner.selectedItemPosition)
-                .putBoolean("lines", chkLines.isChecked)
-                .putBoolean("excelMode", chkExcelMode.isChecked)
-                .putBoolean("showToman", chkShowToman.isChecked)
-                .apply()
-
-            Toast.makeText(this, "تنظیمات ذخیره شد ✅", Toast.LENGTH_SHORT).show()
-            finish()
+        // حالت شب
+        switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("darkMode", isChecked).apply()
+            AppCompatDelegate.setDefaultNightMode(
+                if (isChecked) AppCompatDelegate.MODE_NIGHT_YES
+                else AppCompatDelegate.MODE_NIGHT_NO
+            )
         }
 
-        // ---------- رنگ‌ها ----------
-        val colors = arrayOf("پیش‌فرض (درآمد سبز، هزینه قرمز)", "آبی", "نارنجی", "خاکستری", "گرادینت")
-        val colorAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, colors)
-        colorSpinner.adapter = colorAdapter
+        // نمایش خطوط بین ردیف‌ها
+        switchShowLines.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("showLines", isChecked).apply()
+            Toast.makeText(this, "نمایش خطوط: ${if (isChecked) "فعال" else "غیرفعال"}", Toast.LENGTH_SHORT).show()
+        }
 
-        // ---------- تم‌ها ----------
-        val themes = arrayOf("پیش‌فرض (آبی روشن)", "تیره", "سبز", "طلایی")
-        val themeAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, themes)
-        themeSpinner.adapter = themeAdapter
+        // ردیف‌های یکی‌درمیان رنگ متفاوت
+        switchAlternateRows.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("alternateRows", isChecked).apply()
+            Toast.makeText(this, "حالت اکسل: ${if (isChecked) "فعال" else "غیرفعال"}", Toast.LENGTH_SHORT).show()
+        }
+
+        // نمایش مبلغ به تومان
+        switchShowInTomans.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("showInTomans", isChecked).apply()
+            Toast.makeText(this, "واحد نمایش مبلغ: ${if (isChecked) "تومان" else "ریال"}", Toast.LENGTH_SHORT).show()
+        }
+
+        // سایز فونت
+        btnFontSizeUp.setOnClickListener {
+            val newSize = fontSize + 1
+            prefs.edit().putFloat("fontSize", newSize).apply()
+            tvPreview.textSize = newSize
+        }
+
+        btnFontSizeDown.setOnClickListener {
+            val newSize = fontSize - 1
+            prefs.edit().putFloat("fontSize", newSize).apply()
+            tvPreview.textSize = newSize
+        }
+
+        // پیش‌نمایش رنگ و متن
+        val colorPreview = findViewById<ImageView>(R.id.colorPreview)
+        val btnColorGreen = findViewById<Button>(R.id.btnColorGreen)
+        val btnColorRed = findViewById<Button>(R.id.btnColorRed)
+        val btnColorGradient = findViewById<Button>(R.id.btnColorGradient)
+
+        btnColorGreen.setOnClickListener {
+            prefs.edit().putInt("textColor", ContextCompat.getColor(this, R.color.income_green)).apply()
+            colorPreview.setBackgroundColor(ContextCompat.getColor(this, R.color.income_green))
+        }
+
+        btnColorRed.setOnClickListener {
+            prefs.edit().putInt("textColor", ContextCompat.getColor(this, R.color.expense_red)).apply()
+            colorPreview.setBackgroundColor(ContextCompat.getColor(this, R.color.expense_red))
+        }
+
+        btnColorGradient.setOnClickListener {
+            Toast.makeText(this, "در نسخه بعدی فعال می‌شود", Toast.LENGTH_SHORT).show()
+        }
     }
 }
