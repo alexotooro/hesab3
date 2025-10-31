@@ -23,7 +23,7 @@ class SettingsActivity : AppCompatActivity() {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
 
-        // --- سوییچ‌ها ---
+        // --- سوئیچ‌ها ---
         val switchDarkMode = findViewById<SwitchMaterial>(R.id.switchDarkMode)
         val switchShowTotal = findViewById<SwitchMaterial>(R.id.switchShowTotal)
         val switchSortOrder = findViewById<SwitchMaterial>(R.id.switchSortOrder)
@@ -38,6 +38,7 @@ class SettingsActivity : AppCompatActivity() {
                 if (isChecked) AppCompatDelegate.MODE_NIGHT_YES
                 else AppCompatDelegate.MODE_NIGHT_NO
             )
+            ThemeHelper.refreshTheme(this)
         }
 
         switchShowTotal.setOnCheckedChangeListener { _, isChecked ->
@@ -70,7 +71,7 @@ class SettingsActivity : AppCompatActivity() {
                 else -> "light_blue"
             }
             prefs.edit().putString("app_theme", value).apply()
-            recreate() // تم جدید اعمال می‌شود
+            ThemeHelper.refreshTheme(this)
         }
 
         // --- انتخاب فونت ---
@@ -95,8 +96,8 @@ class SettingsActivity : AppCompatActivity() {
                 else -> "vazir"
             }
             prefs.edit().putString("app_font", value).apply()
-            FontHelper.applyFont(this) // ✅ فونت بلافاصله تغییر کند
-            recreate()
+            FontHelper.applyFont(this)
+            FontHelper.refreshFont(window.decorView.rootView) // ✅ بدون ری‌استارت
         }
 
         // --- نوار بالا ---
