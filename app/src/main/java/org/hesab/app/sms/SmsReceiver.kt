@@ -1,17 +1,11 @@
 package org.hesab.app
 
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.os.Build
+import android.app.*
+import android.content.*
+import android.os.*
 import android.telephony.SmsMessage
 import androidx.core.app.NotificationCompat
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -23,12 +17,13 @@ class SmsReceiver : BroadcastReceiver() {
 
         for (pdu in pdus) {
             val message = SmsMessage.createFromPdu(pdu as ByteArray)
-            val msgBody = message.messageBody ?: return
+            val msgBody = message.messageBody ?: continue
 
             if (msgBody.contains("برداشت") || msgBody.contains("واریز")) {
                 val amountRegex = Regex("([\\d,]+) ?ریال")
                 val amount = amountRegex.find(msgBody)?.groupValues?.get(1)?.replace(",", "")?.toLongOrNull() ?: 0L
                 val isIncome = msgBody.contains("واریز")
+
                 val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
                 val date = sdf.format(Date())
 
