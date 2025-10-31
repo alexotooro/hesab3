@@ -3,94 +3,108 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background"
-    android:padding="16dp"
-    android:layoutDirection="rtl">
+    android:padding="16dp">
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:gravity="right"
+        android:layoutDirection="rtl">
 
-        <TextView
-            android:text="⚙️ تنظیمات برنامه حساب"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/text_dark"
+        <Switch
+            android:id="@+id/switchDarkMode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="فعال‌سازی حالت تیره" />
+
+        <Switch
+            android:id="@+id/switchShowLines"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="نمایش خطوط بین ردیف‌ها" />
+
+        <Switch
+            android:id="@+id/switchAlternateRows"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="فعال‌سازی حالت اکسل (رنگ یکی‌درمیان)" />
+
+        <Switch
+            android:id="@+id/switchShowInTomans"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="نمایش مبلغ به تومان" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginBottom="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_marginTop="12dp">
 
-        <!-- فونت و سایز -->
+            <Button
+                android:id="@+id/btnFontSizeDown"
+                android:text="-"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+
+            <TextView
+                android:id="@+id/tvPreview"
+                android:text="پیش‌نمایش متن"
+                android:layout_marginHorizontal="12dp"
+                android:textSize="16sp"
+                android:textColor="@color/text_dark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnFontSizeUp"
+                android:text="+"
+                android:layout_width="48dp"
+                android:layout_height="48dp" />
+        </LinearLayout>
+
         <TextView
-            android:text="اندازه فونت:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <SeekBar
-            android:id="@+id/seekFontSize"
-            android:max="30"
-            android:progress="16"
+            android:text="رنگ متن تراکنش‌ها:"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginTop="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/txtFontSizeValue"
-            android:text="16 sp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" />
 
-        <!-- رنگ متن -->
-        <TextView
-            android:text="رنگ متن:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Spinner
-            android:id="@+id/spinnerTextColor"
+        <LinearLayout
+            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" />
+            android:layout_marginTop="6dp"
+            android:gravity="center">
 
-        <!-- تم برنامه -->
-        <TextView
-            android:text="تم برنامه:"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <Spinner
-            android:id="@+id/spinnerTheme"
+            <Button
+                android:id="@+id/btnColorGreen"
+                android:text="سبز (درآمد)"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnColorRed"
+                android:text="قرمز (هزینه)"
+                android:layout_marginHorizontal="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <Button
+                android:id="@+id/btnColorGradient"
+                android:text="گرادینت"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/colorPreview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" />
-
-        <!-- خطوط و اکسل -->
-        <CheckBox
-            android:id="@+id/chkLines"
-            android:text="نمایش خطوط بین ردیف‌ها"
-            android:checked="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <CheckBox
-            android:id="@+id/chkExcelMode"
-            android:text="فعال‌سازی حالت اکسل (ردیف‌های یکی‌درمیون رنگ متفاوت)"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp" />
-
-        <!-- تومان -->
-        <CheckBox
-            android:id="@+id/chkShowToman"
-            android:text="نمایش مبلغ به تومان به‌جای ریال"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp" />
-
-        <!-- دکمه ذخیره -->
-        <Button
-            android:id="@+id/btnSaveSettings"
-            android:text="💾 ذخیره تنظیمات"
-            android:backgroundTint="@color/button_blue"
-            android:textColor="@color/button_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="32dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/income_green" />
     </LinearLayout>
 </ScrollView>
