@@ -1,110 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<!-- app/src/main/res/layout/activity_settings.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="24dp"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
-    android:padding="16dp">
+    android:background="#EAF3FF">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="right"
-        android:layoutDirection="rtl">
+        android:text="اعلان‌ها"
+        android:textSize="18sp"
+        android:textColor="#333"
+        android:layout_marginBottom="10dp" />
 
-        <Switch
-            android:id="@+id/switchDarkMode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="فعال‌سازی حالت تیره" />
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/switchNotifications"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
-        <Switch
-            android:id="@+id/switchShowLines"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="نمایش خطوط بین ردیف‌ها" />
-
-        <Switch
-            android:id="@+id/switchAlternateRows"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="فعال‌سازی حالت اکسل (رنگ یکی‌درمیان)" />
-
-        <Switch
-            android:id="@+id/switchShowInTomans"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="نمایش مبلغ به تومان" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginTop="12dp">
-
-            <Button
-                android:id="@+id/btnFontSizeDown"
-                android:text="-"
-                android:layout_width="48dp"
-                android:layout_height="48dp" />
-
-            <TextView
-                android:id="@+id/tvPreview"
-                android:text="پیش‌نمایش متن"
-                android:layout_marginHorizontal="12dp"
-                android:textSize="16sp"
-                android:textColor="@color/text_dark"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/btnFontSizeUp"
-                android:text="+"
-                android:layout_width="48dp"
-                android:layout_height="48dp" />
-        </LinearLayout>
-
-        <TextView
-            android:text="رنگ متن تراکنش‌ها:"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/btnColorGreen"
-                android:text="سبز (درآمد)"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/btnColorRed"
-                android:text="قرمز (هزینه)"
-                android:layout_marginHorizontal="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-
-            <Button
-                android:id="@+id/btnColorGradient"
-                android:text="گرادینت"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
-        </LinearLayout>
-
-        <ImageView
-            android:id="@+id/colorPreview"
-            android:layout_width="match_parent"
-            android:layout_height="32dp"
-            android:layout_marginTop="12dp"
-            android:background="@color/income_green" />
-    </LinearLayout>
-</ScrollView>
+</LinearLayout>
