@@ -12,5 +12,5 @@ data class Transaction(
     val category: String,
     val description: String,
     val isIncome: Boolean,
-    val orderIndex: Int
+    val orderIndex: Int = 0
 )
