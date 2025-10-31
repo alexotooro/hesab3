@@ -1,8 +1,3 @@
 <resources>
-    <color name="app_background">#FAFAFA</color>
-    <color name="text_dark">#212121</color>
-    <color name="incomeGreen">#2E7D32</color>
-    <color name="expenseRed">#C62828</color>
-    <color name="rowAlternate">#FFF5F5F5</color>
-    <color name="accent">#1976D2</color>
+   
 </resources>
