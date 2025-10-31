@@ -1,17 +1,11 @@
-package org.hesab.app
-
-import android.app.*
-import android.content.*
-import android.os.*
-import android.telephony.SmsMessage
-import androidx.core.app.NotificationCompat
-import kotlinx.coroutines.*
-import java.text.SimpleDateFormat
-import java.util.*
-
 class SmsReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val enableSms = prefs.getBoolean("enable_sms", true) // دریافت وضعیت فعال/غیرفعال بودن
+
+        if (!enableSms) return // اگر غیرفعال باشد، هیچ چیزی پردازش نکنیم
+
         val extras = intent.extras ?: return
         val pdus = extras.get("pdus") as? Array<*> ?: return
 
