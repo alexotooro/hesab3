@@ -4,15 +4,14 @@ plugins {
     id 'kotlin-kapt'
 }
 
-
 android {
-    namespace = "org.hesab.app"
-    compileSdk 34
+    namespace = "org.hesab.app"  // استفاده از namespace به جای package برای سازگاری با Gradle جدید
+    compileSdk 30  // برای Android 7 (API 24) سازگار است
 
     defaultConfig {
         applicationId "org.hesab.app"
-        minSdk 24
-        targetSdk 34
+        minSdk 24  // حداقل نسخه اندروید 7
+        targetSdk 30  // هدف روی نسخه 30 (Android 11) تنظیم می‌شود تا با نسخه‌های جدیدتر هم سازگار باشد
         versionCode 1
         versionName "1.0"
 
@@ -46,10 +45,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
 
     // Room Database
-implementation "androidx.room:room-runtime:2.5.2"
-kapt "androidx.room:room-compiler:2.5.2"
-implementation "androidx.room:room-ktx:2.5.2"
-
-
-    // PersianDate به صورت سورس داخل پروژه موجود است
+    implementation "androidx.room:room-runtime:2.5.2"
+    kapt "androidx.room:room-compiler:2.5.2"
+    implementation "androidx.room:room-ktx:2.5.2"
 }
