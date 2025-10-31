@@ -1,61 +1,57 @@
-<!-- app/src/main/res/layout/item_transaction.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="8dp"
-    android:background="@drawable/bg_transaction_item"
-    android:gravity="center_vertical"
-    android:layout_marginVertical="4dp">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/txtDate"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1.3"
-        android:text="1403/08/10"
-        android:textColor="#222"
-        android:textSize="14sp"
-        android:gravity="center" />
+        android:weightSum="4">
 
-    <TextView
-        android:id="@+id/txtAmount"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.5"
-        android:text="120,000"
-        android:textStyle="bold"
-        android:textColor="#000"
-        android:textSize="14sp"
-        android:gravity="center" />
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="1403/08/09"
+            android:gravity="center"
+            android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/txtCategory"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1.3"
-        android:text="سایر"
-        android:textColor="#333"
-        android:textSize="14sp"
-        android:gravity="center" />
+        <TextView
+            android:id="@+id/tvAmount"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="100,000 ریال"
+            android:gravity="center"
+            android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/txtDescription"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="توضیحات"
-        android:textColor="#555"
-        android:textSize="13sp"
-        android:gravity="center" />
+        <TextView
+            android:id="@+id/tvCategory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="خوراک"
+            android:gravity="center"
+            android:textSize="14sp" />
 
-    <ImageButton
-        android:id="@+id/btnMenu"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_more_vert"
-        android:tint="#666"
-        android:contentDescription="گزینه‌ها" />
+        <TextView
+            android:id="@+id/tvDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="ناهار"
+            android:gravity="center"
+            android:textSize="14sp" />
+    </LinearLayout>
 
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC"
+        android:layout_marginTop="4dp" />
 </LinearLayout>
