@@ -1,58 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- app/src/main/res/layout/item_transaction.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:background="@drawable/box_background"
-    android:padding="6dp"
-    android:layout_marginBottom="4dp"
-    android:gravity="center_vertical">
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1">
-
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="1404/01/10"
-            android:textSize="13sp"
-            android:textColor="@color/dark_gray" />
-
-        <TextView
-            android:id="@+id/tvCategory"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="سایر"
-            android:textSize="14sp"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="توضیح"
-            android:textSize="13sp"
-            android:textColor="@color/dark_gray" />
-    </LinearLayout>
+    android:padding="8dp"
+    android:background="@drawable/bg_transaction_item"
+    android:gravity="center_vertical"
+    android:layout_marginVertical="4dp">
 
     <TextView
-        android:id="@+id/tvAmount"
-        android:layout_width="wrap_content"
+        android:id="@+id/txtDate"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:text="10,000"
-        android:textSize="15sp"
+        android:layout_weight="1.3"
+        android:text="1403/08/10"
+        android:textColor="#222"
+        android:textSize="14sp"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/txtAmount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.5"
+        android:text="120,000"
         android:textStyle="bold"
-        android:layout_marginEnd="8dp" />
+        android:textColor="#000"
+        android:textSize="14sp"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/txtCategory"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.3"
+        android:text="سایر"
+        android:textColor="#333"
+        android:textSize="14sp"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/txtDescription"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="توضیحات"
+        android:textColor="#555"
+        android:textSize="13sp"
+        android:gravity="center" />
 
     <ImageButton
         android:id="@+id/btnMenu"
         android:layout_width="32dp"
         android:layout_height="32dp"
-        android:src="@drawable/ic_more"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="منو" />
+        android:src="@drawable/ic_more_vert"
+        android:tint="#666"
+        android:contentDescription="گزینه‌ها" />
+
 </LinearLayout>
