@@ -2,65 +2,57 @@ package org.hesab.app
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.widget.*
+import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
+import androidx.preference.PreferenceManager
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
+
     private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        title = "تنظیمات"
 
-        prefs = getSharedPreferences("hesab_settings", MODE_PRIVATE)
-        val switchDarkMode = findViewById<Switch>(R.id.switchDarkMode)
-        val switchShowLines = findViewById<Switch>(R.id.switchShowLines)
-        val switchAlternateRows = findViewById<Switch>(R.id.switchAlternateRows)
-        val switchShowInTomans = findViewById<Switch>(R.id.switchShowInTomans)
-        val btnFontSizeUp = findViewById<Button>(R.id.btnFontSizeUp)
-        val btnFontSizeDown = findViewById<Button>(R.id.btnFontSizeDown)
-        val tvPreview = findViewById<TextView>(R.id.tvPreview)
+        prefs = PreferenceManager.getDefaultSharedPreferences(this)
 
-        switchDarkMode.isChecked = prefs.getBoolean("darkMode", false)
-        switchShowLines.isChecked = prefs.getBoolean("showLines", true)
-        switchAlternateRows.isChecked = prefs.getBoolean("alternateRows", false)
-        switchShowInTomans.isChecked = prefs.getBoolean("showInTomans", false)
+        val switchDarkMode = findViewById<SwitchMaterial>(R.id.switchDarkMode)
+        val switchShowTotal = findViewById<SwitchMaterial>(R.id.switchShowTotal)
+        val switchSortOrder = findViewById<SwitchMaterial>(R.id.switchSortOrder)
 
-        val fontSize = prefs.getFloat("fontSize", 16f)
-        tvPreview.textSize = fontSize
+        // مقداردهی اولیه از تنظیمات ذخیره‌شده
+        switchDarkMode.isChecked = prefs.getBoolean("dark_mode", false)
+        switchShowTotal.isChecked = prefs.getBoolean("show_total", true)
+        switchSortOrder.isChecked = prefs.getBoolean("sort_descending", false)
 
-        switchDarkMode.setOnCheckedChangeListener { _, isChecked ->
-            prefs.edit().putBoolean("darkMode", isChecked).apply()
+        // رویدادها
+        switchDarkMode.setOnCheckedChangeListener { _: CompoundButton, isChecked: Boolean ->
+            prefs.edit().putBoolean("dark_mode", isChecked).apply()
             AppCompatDelegate.setDefaultNightMode(
-                if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+                if (isChecked)
+                    AppCompatDelegate.MODE_NIGHT_YES
+                else
+                    AppCompatDelegate.MODE_NIGHT_NO
             )
         }
 
-        switchShowLines.setOnCheckedChangeListener { _, isChecked ->
-            prefs.edit().putBoolean("showLines", isChecked).apply()
+        switchShowTotal.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("show_total", isChecked).apply()
         }
 
-        switchAlternateRows.setOnCheckedChangeListener { _, isChecked ->
-            prefs.edit().putBoolean("alternateRows", isChecked).apply()
+        switchSortOrder.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("sort_descending", isChecked).apply()
         }
 
-        switchShowInTomans.setOnCheckedChangeListener { _, isChecked ->
-            prefs.edit().putBoolean("showInTomans", isChecked).apply()
-        }
+        // دکمه بازگشت در نوار بالا
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.title = "تنظیمات"
+    }
 
-        btnFontSizeUp.setOnClickListener {
-            val newSize = fontSize + 1
-            prefs.edit().putFloat("fontSize", newSize).apply()
-            tvPreview.textSize = newSize
-        }
-
-        btnFontSizeDown.setOnClickListener {
-            val newSize = fontSize - 1
-            prefs.edit().putFloat("fontSize", newSize).apply()
-            tvPreview.textSize = newSize
-        }
+    override fun onSupportNavigateUp(): Boolean {
+        finish()
+        return true
     }
 }
