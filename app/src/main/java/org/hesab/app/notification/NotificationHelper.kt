@@ -16,7 +16,7 @@ object NotificationHelper {
     fun showTransactionAddedNotification(context: Context, insertedId: Long, tx: Transaction, bankGuess: String) {
         val nm = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val ch = NotificationChannel(CHANNEL_ID, "Hesab notifications", NotificationManager.IMPORTANCE_DEFAULT)
+            val ch = NotificationChannel(CHANNEL_ID, "Hesab", NotificationManager.IMPORTANCE_DEFAULT)
             nm.createNotificationChannel(ch)
         }
 
@@ -26,7 +26,8 @@ object NotificationHelper {
             putExtra("transaction_id_prefill", insertedId)
             putExtra("bank_guess", bankGuess)
         }
-        val pi = PendingIntent.getActivity(context, insertedId.toInt(), intent, PendingIntent.FLAG_UPDATE_CURRENT)
+        val piFlags = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE else PendingIntent.FLAG_UPDATE_CURRENT
+        val pi = PendingIntent.getActivity(context, insertedId.toInt(), intent, piFlags)
 
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setContentTitle("تراکنش افزوده شد")
@@ -36,6 +37,6 @@ object NotificationHelper {
             .setAutoCancel(true)
             .build()
 
-        nm.notify((1000 + insertedId % 1000).toInt(), notification)
+        nm.notify((1000 + (insertedId % 1000)).toInt(), notification)
     }
 }
