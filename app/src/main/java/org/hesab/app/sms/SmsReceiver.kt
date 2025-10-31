@@ -1,107 +1,108 @@
-package org.hesab.app
+package org.hesab.app.sms
 
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.Telephony
-import android.telephony.SmsMessage
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.hesab.app.AppDatabase
+import org.hesab.app.R
+import org.hesab.app.Transaction
+import org.hesab.app.AddTransactionActivity
+import java.text.SimpleDateFormat
 import java.util.*
-import samanzamani.persiandate.PersianDate
-import samanzamani.persiandate.PersianDateFormat
 
-class SmsReceiver : BroadcastReceiver() {
+class SMSReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
+        if (Build.VERSION.SDK_INT > 25) return // فقط برای اندروید 7 و پایین فعال است
+
         if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION == intent.action) {
-            val bundle = intent.extras
-            try {
-                if (bundle != null) {
-                    val pdus = bundle["pdus"] as Array<*>
-                    for (pdu in pdus) {
-                        val smsMessage = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            val format = bundle.getString("format")
-                            SmsMessage.createFromPdu(pdu as ByteArray, format)
-                        } else {
-                            SmsMessage.createFromPdu(pdu as ByteArray)
-                        }
+            for (sms in Telephony.Sms.Intents.getMessagesFromIntent(intent)) {
+                val msgBody = sms.messageBody
+                val bankGuess = guessBank(msgBody)
+                val amount = extractAmount(msgBody)
+                val type = detectType(msgBody)
 
-                        val messageBody = smsMessage.messageBody ?: ""
-                        val sender = smsMessage.displayOriginatingAddress ?: ""
-                        Log.d("SmsReceiver", "پیامک از $sender : $messageBody")
+                if (amount > 0) {
+                    val transaction = Transaction(
+                        id = 0,
+                        date = getTodayJalali(),
+                        amount = amount,
+                        category = type,
+                        description = "ثبت خودکار از پیامک بانکی",
+                        bank = bankGuess,
+                        orderIndex = 0
+                    )
 
-                        // بررسی کلمات کلیدی و استخراج مبلغ
-                        if (messageBody.contains("واریز") || messageBody.contains("برداشت") || messageBody.contains("برداشتی")) {
-                            val isIncome = messageBody.contains("واریز")
-                            val amount = extractAmount(messageBody)
-                            val bankName = guessBank(sender, messageBody)
-
-                            // تاریخ شمسی امروز
-                            val persianDate = PersianDate()
-                            val persianFormat = PersianDateFormat("Y/m/d")
-                            val date = persianFormat.format(persianDate)
-
-                            // افزودن به دیتابیس
-                            val transaction = Transaction(
-                                date = date,
-                                amount = amount,
-                                category = "سایر",
-                                description = "ثبت خودکار از پیامک",
-                                isIncome = isIncome,
-                                orderIndex = (Date().time / 1000).toInt()
-                            )
-
-                            CoroutineScope(Dispatchers.IO).launch {
-                                val db = AppDatabase.getDatabase(context)
-                                db.transactionDao().insert(transaction)
-
-                                showNotification(context, amount, isIncome)
-                            }
-                        }
+                    CoroutineScope(Dispatchers.IO).launch {
+                        val dao = AppDatabase.getInstance(context).transactionDao()
+                        dao.insert(transaction)
                     }
+
+                    showNotification(context, transaction)
                 }
-            } catch (e: Exception) {
-                Log.e("SmsReceiver", "خطا در پردازش پیامک: ${e.message}")
             }
         }
     }
 
-    private fun extractAmount(message: String): Long {
-        val regex = Regex("([0-9,]+)")
-        val match = regex.find(message)
-        return match?.value?.replace(",", "")?.toLongOrNull() ?: 0L
+    private fun detectType(text: String): String {
+        return when {
+            text.contains("واریز") || text.contains("deposit", true) -> "درآمد"
+            text.contains("برداشت") || text.contains("withdraw", true) -> "هزینه"
+            else -> "سایر"
+        }
     }
 
-    private fun guessBank(sender: String, message: String): String {
+    private fun extractAmount(text: String): Long {
+        val regex = Regex("(\\d{1,3}(,\\d{3})*)\\s*ریال")
+        val match = regex.find(text)
+        return match?.groupValues?.get(1)?.replace(",", "")?.toLongOrNull() ?: 0L
+    }
+
+    private fun guessBank(text: String): String {
         return when {
-            sender.contains("Sepah", true) -> "سپه"
-            sender.contains("Resalat", true) -> "رسالت"
-            sender.contains("Saderat", true) -> "صادرات"
-            message.contains("سپه") -> "سپه"
-            message.contains("رسالت") -> "رسالت"
-            message.contains("صادرات") -> "صادرات"
+            text.contains("ملی") -> "ملی"
+            text.contains("ملت") -> "ملت"
+            text.contains("صادرات") -> "صادرات"
+            text.contains("تجارت") -> "تجارت"
+            text.contains("رفاه") -> "رفاه"
             else -> "صادرات"
         }
     }
 
-    private fun showNotification(context: Context, amount: Long, isIncome: Boolean) {
-        val channelId = "transaction_channel"
-        val text = if (isIncome) "درآمد جدید افزوده شد" else "هزینه جدید افزوده شد"
+    private fun getTodayJalali(): String {
+        val f = SimpleDateFormat("yyyy/MM/dd", Locale("fa"))
+        return f.format(Date())
+    }
 
+    private fun showNotification(context: Context, t: Transaction) {
+        val channelId = "transaction_added"
         val builder = NotificationCompat.Builder(context, channelId)
             .setSmallIcon(R.drawable.ic_add)
-            .setContentTitle("تراکنش افزوده شد")
-            .setContentText("$text (${String.format("%,d", amount)} ریال)")
+            .setContentTitle("تراکنش جدید افزوده شد")
+            .setContentText("${t.amount} ریال - ${t.category}")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
 
+        val intent = Intent(context, AddTransactionActivity::class.java).apply {
+            putExtra("id", t.id)
+        }
+
+        val pendingIntent = android.app.PendingIntent.getActivity(
+            context,
+            0,
+            intent,
+            android.app.PendingIntent.FLAG_UPDATE_CURRENT or android.app.PendingIntent.FLAG_IMMUTABLE
+        )
+        builder.setContentIntent(pendingIntent)
+
         with(NotificationManagerCompat.from(context)) {
-            notify((System.currentTimeMillis() % 10000).toInt(), builder.build())
+            notify((0..9999).random(), builder.build())
         }
     }
 }
