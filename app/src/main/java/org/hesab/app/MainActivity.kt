@@ -25,9 +25,7 @@ class MainActivity : AppCompatActivity() {
 
         recyclerView = findViewById(R.id.recyclerViewTransactions)
         btnMenu = findViewById(R.id.btnMenu)
-
         transactionDao = AppDatabase.getDatabase(this).transactionDao()
-
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         // بارگذاری لیست تراکنش‌ها
@@ -39,7 +37,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
-        // نمایش منوی سه‌نقطه
+        // دکمه سه‌نقطه بالا سمت چپ
         btnMenu.setOnClickListener { showPopupMenu(it) }
     }
 
