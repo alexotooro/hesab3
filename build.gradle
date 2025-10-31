@@ -12,6 +12,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url 'https://jitpack.io' } // ← مخزن JitPack برای کتابخانه تقویم شمسی
+        maven { url 'https://jitpack.io' } // مخزن JitPack برای کتابخانه تقویم شمسی
     }
 }
