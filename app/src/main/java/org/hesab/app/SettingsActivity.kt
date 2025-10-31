@@ -4,7 +4,6 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -27,10 +26,12 @@ class SettingsActivity : AppCompatActivity() {
         val switchDarkMode = findViewById<SwitchMaterial>(R.id.switchDarkMode)
         val switchShowTotal = findViewById<SwitchMaterial>(R.id.switchShowTotal)
         val switchSortOrder = findViewById<SwitchMaterial>(R.id.switchSortOrder)
+        val switchEnableSms = findViewById<SwitchMaterial>(R.id.switchEnableSms)
 
         switchDarkMode.isChecked = prefs.getBoolean("dark_mode", false)
         switchShowTotal.isChecked = prefs.getBoolean("show_total", true)
         switchSortOrder.isChecked = prefs.getBoolean("sort_descending", false)
+        switchEnableSms.isChecked = prefs.getBoolean("enable_sms", true)
 
         switchDarkMode.setOnCheckedChangeListener { _: CompoundButton, isChecked: Boolean ->
             prefs.edit().putBoolean("dark_mode", isChecked).apply()
@@ -47,6 +48,10 @@ class SettingsActivity : AppCompatActivity() {
 
         switchSortOrder.setOnCheckedChangeListener { _, isChecked ->
             prefs.edit().putBoolean("sort_descending", isChecked).apply()
+        }
+
+        switchEnableSms.setOnCheckedChangeListener { _, isChecked ->
+            prefs.edit().putBoolean("enable_sms", isChecked).apply()
         }
 
         // --- انتخاب تم ---
