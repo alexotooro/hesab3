@@ -1,6 +1,5 @@
 package org.hesab.app
 
-import android.app.AlertDialog
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -9,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -71,26 +69,13 @@ class TransactionAdapter(
                     }
                     R.id.menu_delete -> {
                         // Handle delete action
-                        AlertDialog.Builder(v.context)
-                            .setTitle("حذف تراکنش")
-                            .setMessage("آیا از حذف این تراکنش مطمئن هستید؟")
-                            .setPositiveButton("بله") { _, _ ->
-                                CoroutineScope(Dispatchers.IO).launch {
-                                    db.transactionDao().delete(t)
-                                    CoroutineScope(Dispatchers.Main).launch {
-                                        transactions.removeAt(position)
-                                        notifyItemRemoved(position)
-                                        Toast.makeText(v.context, "تراکنش حذف شد", Toast.LENGTH_SHORT).show()
-                                    }
-                                }
+                        CoroutineScope(Dispatchers.IO).launch {
+                            db.transactionDao().delete(t)
+                            CoroutineScope(Dispatchers.Main).launch {
+                                transactions.removeAt(position)
+                                notifyItemRemoved(position)
                             }
-                            .setNegativeButton("خیر", null)
-                            .show()
-                        true
-                    }
-                    R.id.menu_move -> {
-                        // Handle move action (swap positions)
-                        Toast.makeText(v.context, "حالت جابجایی فعال است. برای خروج دوبار کلیک روی لیست یا دکمه بازگشت.", Toast.LENGTH_LONG).show()
+                        }
                         true
                     }
                     else -> false
