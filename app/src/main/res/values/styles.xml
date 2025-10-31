@@ -1,0 +1,34 @@
+<resources>
+
+    <!-- تم اصلی -->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryVariant">@color/primary_dark</item>
+        <item name="colorAccent">@color/accent</item>
+    </style>
+
+    <!-- تم‌ها -->
+    <style name="AppTheme_Blue" parent="AppTheme">
+        <item name="colorPrimary">#64B5F6</item>
+        <item name="colorAccent">#2196F3</item>
+    </style>
+
+    <style name="AppTheme_Green" parent="AppTheme">
+        <item name="colorPrimary">#81C784</item>
+        <item name="colorAccent">#388E3C</item>
+    </style>
+
+    <!-- فونت‌ها -->
+    <style name="Font_IranSans">
+        <item name="android:fontFamily">@font/iransans</item>
+    </style>
+
+    <style name="Font_Vazir">
+        <item name="android:fontFamily">@font/vazir</item>
+    </style>
+
+    <style name="Font_Diana">
+        <item name="android:fontFamily">@font/diana</item>
+    </style>
+
+</resources>
