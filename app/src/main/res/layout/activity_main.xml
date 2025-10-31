@@ -4,35 +4,56 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/app_background"   <!-- آبی روشن پروژه -->
+    android:background="@color/app_background"
     android:padding="12dp"
     android:layoutDirection="rtl">
 
-    <!-- دکمه بزرگ مستطیلی آبی بالا -->
-    <Button
-        android:id="@+id/btnAddTransaction"
+    <!-- 🔹 نوار بالایی: افزودن تراکنش + منوی تنظیمات -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:text="➕ افزودن تراکنش"
-        android:textColor="@color/button_text"
-        android:backgroundTint="@color/button_blue"
-        android:textSize="18sp"
-        android:layout_marginBottom="12dp"
-        android:stateListAnimator="@null" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="12dp">
 
-    <!-- جدول سربرگ شبیه اکسل -->
+        <Button
+            android:id="@+id/btnAddTransaction"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="3"
+            android:text="➕ افزودن تراکنش"
+            android:textColor="@color/button_text"
+            android:backgroundTint="@color/button_blue"
+            android:textSize="18sp"
+            android:stateListAnimator="@null"
+            android:elevation="2dp" />
+
+        <Button
+            android:id="@+id/btnSettings"
+            android:layout_width="0dp"
+            android:layout_height="56dp"
+            android:layout_weight="1"
+            android:layout_marginStart="8dp"
+            android:text="⚙️"
+            android:textSize="20sp"
+            android:backgroundTint="@color/button_blue"
+            android:textColor="@color/button_text"
+            android:stateListAnimator="@null"
+            android:elevation="2dp" />
+    </LinearLayout>
+
+    <!-- 🔹 سربرگ جدول -->
     <TableLayout
         android:id="@+id/headerRow"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:orientation="horizontal"
         android:background="@color/header_background"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
         android:gravity="center_vertical">
 
-        <!-- ردیف سربرگ -->
         <TableRow>
+
             <TextView
                 android:id="@+id/hDate"
                 android:layout_width="0dp"
@@ -41,7 +62,8 @@
                 android:text="تاریخ"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:textColor="@color/text_dark" />
+                android:textColor="@color/text_dark"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/hAmount"
@@ -51,7 +73,8 @@
                 android:text="مبلغ (ریال)"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:textColor="@color/text_dark" />
+                android:textColor="@color/text_dark"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/hCategory"
@@ -61,7 +84,8 @@
                 android:text="بابت"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:textColor="@color/text_dark" />
+                android:textColor="@color/text_dark"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/hDescription"
@@ -71,11 +95,13 @@
                 android:text="توضیحات"
                 android:textStyle="bold"
                 android:gravity="center"
-                android:textColor="@color/text_dark" />
+                android:textColor="@color/text_dark"
+                android:textSize="14sp" />
+
         </TableRow>
     </TableLayout>
 
-    <!-- RecyclerView اصلی -->
+    <!-- 🔹 RecyclerView داده‌ها -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
@@ -84,9 +110,10 @@
         android:clipToPadding="false"
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        android:background="@color/list_background" />
 
-    <!-- پایین صفحه: فیلتر چک‌باکس‌ها و مانده -->
+    <!-- 🔹 پایین صفحه: فیلتر و مانده -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -94,7 +121,7 @@
         android:padding="6dp"
         android:gravity="center_vertical">
 
-        <!-- چک‌باکس‌ها سمت چپ -->
+        <!-- چک‌باکس‌ها -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
@@ -120,7 +147,7 @@
                 android:textColor="@color/text_dark" />
         </LinearLayout>
 
-        <!-- مانده سمت راست (بزرگ) -->
+        <!-- مانده -->
         <TextView
             android:id="@+id/tvBalance"
             android:layout_width="0dp"
@@ -133,5 +160,4 @@
             android:textStyle="bold"
             android:textColor="@color/text_dark" />
     </LinearLayout>
-
 </LinearLayout>
