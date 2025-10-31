@@ -1,6 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.hesab.app">  <!-- این باید حذف شود -->
-
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    
     <!-- دسترسی‌های لازم -->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -17,8 +16,8 @@
         <activity android:name=".AddTransactionActivity" />
         <activity android:name=".SettingsActivity" />
         
-        <activity android:name=".MainActivity" 
-            android:exported="true">  <!-- اضافه کردن این خط -->
+        <activity android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -29,7 +28,7 @@
         <receiver
             android:name=".SmsReceiver"
             android:permission="android.permission.BROADCAST_SMS"
-            android:exported="true">  <!-- اضافه کردن این خط -->
+            android:exported="true">
             <intent-filter android:priority="999">
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
