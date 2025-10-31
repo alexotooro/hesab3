@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- 🎨 انتخاب تم -->
+    <ListPreference
+        android:key="app_theme"
+        android:title="انتخاب تم"
+        android:summary="تم موردنظر را انتخاب کنید"
+        android:entries="@array/theme_names"
+        android:entryValues="@array/theme_values"
+        android:defaultValue="light_blue" />
+
+    <!-- 🔤 انتخاب فونت -->
+    <ListPreference
+        android:key="app_font"
+        android:title="انتخاب فونت"
+        android:summary="فونت موردنظر را انتخاب کنید"
+        android:entries="@array/font_names"
+        android:entryValues="@array/font_values"
+        android:defaultValue="vazir" />
+
+    <!-- 🌗 حالت شب -->
+    <SwitchPreferenceCompat
+        android:key="dark_mode"
+        android:title="حالت شب"
+        android:summary="فعال‌سازی حالت تیره سیستم"
+        android:defaultValue="false" />
+
+    <!-- 🧮 نمایش مجموع -->
+    <SwitchPreferenceCompat
+        android:key="show_total"
+        android:title="نمایش مجموع تراکنش‌ها"
+        android:summary="مجموع درآمد و هزینه در بالای لیست نمایش داده شود"
+        android:defaultValue="true" />
+
+    <!-- 🔄 ترتیب مرتب‌سازی -->
+    <SwitchPreferenceCompat
+        android:key="sort_descending"
+        android:title="مرتب‌سازی نزولی"
+        android:summary="نمایش جدیدترین تراکنش‌ها در بالا"
+        android:defaultValue="false" />
+
+</PreferenceScreen>
