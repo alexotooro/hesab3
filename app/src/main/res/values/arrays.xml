@@ -1,10 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- 💬 اندازه فونت -->
     <string-array name="font_sizes">
         <item>کوچک</item>
         <item>متوسط</item>
         <item>بزرگ</item>
     </string-array>
 
+    <!-- 🎨 رنگ‌ها -->
     <string-array name="colors">
         <item>پیش‌فرض</item>
         <item>سبز و قرمز</item>
@@ -12,10 +16,42 @@
         <item>تیره</item>
     </string-array>
 
+    <!-- 🌈 تم‌های قبلی -->
     <string-array name="themes">
         <item>روشن</item>
         <item>تیره</item>
         <item>آبی</item>
         <item>سبز</item>
     </string-array>
+
+    <!-- 🎨 تم‌های جدید قابل انتخاب از تنظیمات -->
+    <string-array name="theme_names">
+        <item>آبی روشن</item>
+        <item>سبز ملایم</item>
+        <item>تیره</item>
+        <item>روشن ساده</item>
+    </string-array>
+
+    <string-array name="theme_values">
+        <item>light_blue</item>
+        <item>soft_green</item>
+        <item>dark</item>
+        <item>light</item>
+    </string-array>
+
+    <!-- 🔤 فونت‌های قابل انتخاب -->
+    <string-array name="font_names">
+        <item>سیستم</item>
+        <item>ایران‌سنس</item>
+        <item>وزیر</item>
+        <item>دیانا</item>
+    </string-array>
+
+    <string-array name="font_values">
+        <item>system</item>
+        <item>iransans</item>
+        <item>vazir</item>
+        <item>diana</item>
+    </string-array>
+
 </resources>
