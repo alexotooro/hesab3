@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/itemRoot"
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="72dp"
-    android:orientation="horizontal"
-    android:padding="8dp"
+    android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:background="@color/item_background"
-    android:layoutDirection="rtl">
+    android:padding="8dp"
+    android:background="@color/item_background">
 
     <!-- سه نقطه منو (چپ ردیف) -->
     <ImageView
@@ -16,7 +13,6 @@
         android:layout_height="28dp"
         android:src="@drawable/ic_more_vert"
         android:contentDescription="menu"
-        android:layout_marginStart="8dp"
         android:tint="@color/text_dark" />
 
     <!-- ستون توضیحات -->
@@ -63,4 +59,4 @@
         android:gravity="center"
         android:textColor="@color/text_dark" />
 
-</LinearLayout>
+</TableRow>
