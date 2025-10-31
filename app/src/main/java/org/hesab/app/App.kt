@@ -1,20 +1,20 @@
 package org.hesab.app
 
 import android.app.Application
-import androidx.room.Room
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.preference.PreferenceManager
 
 class App : Application() {
-    companion object {
-        lateinit var db: AppDatabase
-            private set
-    }
-
     override fun onCreate() {
         super.onCreate()
-        db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "hesab_db"
-        ).fallbackToDestructiveMigration()
-         .build()
+
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val darkMode = prefs.getBoolean("dark_mode", false)
+        AppCompatDelegate.setDefaultNightMode(
+            if (darkMode)
+                AppCompatDelegate.MODE_NIGHT_YES
+            else
+                AppCompatDelegate.MODE_NIGHT_NO
+        )
     }
 }
