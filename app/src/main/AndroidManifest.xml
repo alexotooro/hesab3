@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    
+
     <!-- دسترسی‌های لازم -->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -11,13 +11,13 @@
         android:allowBackup="true"
         android:label="حساب"
         android:theme="@style/Theme.Hesab"
-        android:supportsRtl="true">
-
+        android:supportsRtl="true"
+        android:exported="true"  <!-- اضافه کردن این خط -->
+        >
         <activity android:name=".AddTransactionActivity" />
         <activity android:name=".SettingsActivity" />
         
-        <activity android:name=".MainActivity"
-            android:exported="true">
+        <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
