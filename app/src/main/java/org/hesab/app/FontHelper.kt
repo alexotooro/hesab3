@@ -1,14 +1,3 @@
-package org.hesab.app
-
-import android.content.Context
-import android.graphics.Typeface
-import android.util.Log
-import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
-import androidx.preference.PreferenceManager
-import java.lang.reflect.Field
-
 object FontHelper {
     private const val TAG = "FontHelper"
     private var currentTypeface: Typeface? = null
@@ -33,13 +22,28 @@ object FontHelper {
             else -> "fonts/vazir.ttf"
         }
 
-        if (assetName == null) return
-
+        // ابتدا از res/font استفاده می‌کنیم
         try {
-            currentTypeface = Typeface.createFromAsset(context.assets, assetName)
-            replaceDefaultFont(currentTypeface!!)
+            val tf = if (assetName != null) {
+                Typeface.createFromAsset(context.assets, assetName)
+            } else {
+                null
+            }
+
+            if (tf == null) {
+                // اگر فونت از assets بارگذاری نشد، از res/font استفاده می‌کنیم
+                when (fontKey) {
+                    "iransans" -> Typeface.create(context, R.font.iransans)
+                    "vazir" -> Typeface.create(context, R.font.vazir)
+                    "diana" -> Typeface.create(context, R.font.diana)
+                    else -> Typeface.create(context, R.font.vazir)
+                }
+            } else {
+                currentTypeface = tf
+                replaceDefaultFont(currentTypeface!!)
+            }
         } catch (e: Exception) {
-            Log.e(TAG, "applyFont: failed to load font $assetName", e)
+            Log.e(TAG, "applyFont: failed to load font", e)
         }
     }
 
