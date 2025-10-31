@@ -1,8 +1,26 @@
+package org.hesab.app
+
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.os.Build
+import android.telephony.SmsMessage
+import android.widget.Toast
+import androidx.core.app.NotificationCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
+
 class SmsReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val enableSms = prefs.getBoolean("enable_sms", true) // دریافت وضعیت فعال/غیرفعال بودن
+        val enableSms = prefs.getBoolean("enable_sms", true)
 
         if (!enableSms) return // اگر غیرفعال باشد، هیچ چیزی پردازش نکنیم
 
