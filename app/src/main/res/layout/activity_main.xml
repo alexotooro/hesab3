@@ -1,32 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rootMain"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/app_background"   <!-- آبی روشن پروژه -->
+    android:padding="12dp"
+    android:layoutDirection="rtl">
 
+    <!-- دکمه بزرگ مستطیلی آبی بالا -->
+    <Button
+        android:id="@+id/btnAddTransaction"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:text="➕ افزودن تراکنش"
+        android:textColor="@color/button_text"
+        android:backgroundTint="@color/button_blue"
+        android:textSize="18sp"
+        android:layout_marginBottom="12dp"
+        android:stateListAnimator="@null" />
+
+    <!-- سربرگ شبیه اکسل -->
+    <LinearLayout
+        android:id="@+id/headerRow"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:orientation="horizontal"
+        android:background="@color/header_background"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:gravity="center_vertical">
+
+        <!-- تاریخ -->
+        <TextView
+            android:id="@+id/hDate"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="تاریخ"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/text_dark" />
+
+        <!-- مبلغ -->
+        <TextView
+            android:id="@+id/hAmount"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="مبلغ (ریال)"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/text_dark" />
+
+        <!-- بابت -->
+        <TextView
+            android:id="@+id/hCategory"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="wrap_content"
+            android:text="بابت"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/text_dark" />
+
+        <!-- توضیحات -->
+        <TextView
+            android:id="@+id/hDescription"
+            android:layout_width="0dp"
+            android:layout_weight="3"
+            android:layout_height="wrap_content"
+            android:text="توضیحات"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="@color/text_dark" />
+    </LinearLayout>
+
+    <!-- RecyclerView اصلی -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_above="@+id/fabAdd"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="70dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:scrollbars="vertical" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add"
-        android:contentDescription="افزودن" />
+    <!-- پایین صفحه: فیلتر چک‌باکس‌ها و مانده -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:orientation="horizontal"
+        android:padding="6dp"
+        android:gravity="center_vertical">
 
-    <ImageButton
-        android:id="@+id/btnSettings"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_settings"
-        android:contentDescription="تنظیمات" />
-</RelativeLayout>
+        <!-- چک‌باکس‌ها سمت چپ -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_weight="1">
+
+            <CheckBox
+                android:id="@+id/chkOnlyExpense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="فقط هزینه‌ها"
+                android:textSize="12sp"
+                android:textColor="@color/text_dark" />
+
+            <CheckBox
+                android:id="@+id/chkOnlyIncome"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="فقط درآمدها"
+                android:textSize="12sp"
+                android:layout_marginStart="8dp"
+                android:textColor="@color/text_dark" />
+        </LinearLayout>
+
+        <!-- مانده سمت راست (بزرگ) -->
+        <TextView
+            android:id="@+id/tvBalance"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:background="@color/balance_background"
+            android:gravity="center"
+            android:text="مانده: ۰ ریال"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/text_dark" />
+    </LinearLayout>
+
+</LinearLayout>
