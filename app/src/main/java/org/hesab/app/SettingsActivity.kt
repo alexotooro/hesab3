@@ -14,7 +14,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // اعمال تم و فونت قبل از نمایش صفحه
+        // ✅ اعمال تم و فونت قبل از inflate layout
         ThemeHelper.applyTheme(this)
         FontHelper.applyFont(this)
 
@@ -35,7 +35,8 @@ class SettingsActivity : AppCompatActivity() {
         switchDarkMode.setOnCheckedChangeListener { _: CompoundButton, isChecked: Boolean ->
             prefs.edit().putBoolean("dark_mode", isChecked).apply()
             AppCompatDelegate.setDefaultNightMode(
-                if (isChecked) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+                if (isChecked) AppCompatDelegate.MODE_NIGHT_YES
+                else AppCompatDelegate.MODE_NIGHT_NO
             )
         }
 
@@ -49,28 +50,40 @@ class SettingsActivity : AppCompatActivity() {
 
         // --- انتخاب تم ---
         val themeSelector = findViewById<MaterialAutoCompleteTextView>(R.id.selectTheme)
-        val themes = listOf("روشن", "تیره", "آبی روشن", "سبز ملایم")
+        val themes = listOf("آبی روشن", "سبز ملایم", "تیره کلاسیک", "روشن ساده")
         themeSelector.setSimpleItems(themes.toTypedArray())
-        val currentTheme = prefs.getString("app_theme", "روشن")
+
+        val currentTheme = when (prefs.getString("app_theme", "light_blue")) {
+            "soft_green" -> "سبز ملایم"
+            "dark" -> "تیره کلاسیک"
+            "light" -> "روشن ساده"
+            else -> "آبی روشن"
+        }
         themeSelector.setText(currentTheme, false)
 
         themeSelector.setOnItemClickListener { _, _, position, _ ->
             val value = when (themes[position]) {
-                "روشن" -> "light"
-                "تیره" -> "dark"
-                "آبی روشن" -> "blue"
-                "سبز ملایم" -> "green"
-                else -> "light"
+                "آبی روشن" -> "light_blue"
+                "سبز ملایم" -> "soft_green"
+                "تیره کلاسیک" -> "dark"
+                "روشن ساده" -> "light"
+                else -> "light_blue"
             }
             prefs.edit().putString("app_theme", value).apply()
-            recreate()
+            recreate() // تم جدید اعمال می‌شود
         }
 
         // --- انتخاب فونت ---
         val fontSelector = findViewById<MaterialAutoCompleteTextView>(R.id.selectFont)
         val fonts = listOf("سیستم", "ایران‌سنس", "وزیر", "دیانا")
         fontSelector.setSimpleItems(fonts.toTypedArray())
-        val currentFont = prefs.getString("app_font", "سیستم")
+
+        val currentFont = when (prefs.getString("app_font", "vazir")) {
+            "system" -> "سیستم"
+            "iransans" -> "ایران‌سنس"
+            "diana" -> "دیانا"
+            else -> "وزیر"
+        }
         fontSelector.setText(currentFont, false)
 
         fontSelector.setOnItemClickListener { _, _, position, _ ->
@@ -79,9 +92,10 @@ class SettingsActivity : AppCompatActivity() {
                 "ایران‌سنس" -> "iransans"
                 "وزیر" -> "vazir"
                 "دیانا" -> "diana"
-                else -> "system"
+                else -> "vazir"
             }
             prefs.edit().putString("app_font", value).apply()
+            FontHelper.applyFont(this) // ✅ فونت بلافاصله تغییر کند
             recreate()
         }
 
