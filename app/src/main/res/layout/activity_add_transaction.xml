@@ -2,26 +2,24 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/background_gray">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layoutDirection="rtl">
+        android:orientation="vertical">
 
         <EditText
-            android:id="@+id/tvDate"
+            android:id="@+id/etDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="تاریخ"
-            android:inputType="none"
+            android:hint="تاریخ (مثلاً 1404/01/10)"
             android:focusable="false"
-            android:backgroundTint="@color/button_blue"
-            android:textColor="@color/text_dark"
-            android:padding="10dp"
-            android:layout_marginBottom="12dp" />
+            android:inputType="none"
+            android:drawableRight="@drawable/ic_calendar"
+            android:padding="8dp"
+            android:background="@drawable/box_background" />
 
         <EditText
             android:id="@+id/etAmount"
@@ -29,64 +27,64 @@
             android:layout_height="wrap_content"
             android:hint="مبلغ (ریال)"
             android:inputType="number"
-            android:backgroundTint="@color/button_blue"
-            android:textColor="@color/text_dark"
-            android:padding="10dp"
-            android:layout_marginBottom="12dp" />
+            android:padding="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/box_background" />
 
         <EditText
             android:id="@+id/etCategory"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="بابت"
-            android:backgroundTint="@color/button_blue"
-            android:textColor="@color/text_dark"
-            android:padding="10dp"
-            android:layout_marginBottom="12dp" />
+            android:padding="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/box_background" />
 
         <EditText
             android:id="@+id/etDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="توضیحات"
-            android:backgroundTint="@color/button_blue"
-            android:textColor="@color/text_dark"
-            android:padding="10dp"
-            android:layout_marginBottom="16dp" />
+            android:padding="8dp"
+            android:layout_marginTop="8dp"
+            android:background="@drawable/box_background" />
 
-        <!-- انتخاب نوع تراکنش -->
+        <Spinner
+            android:id="@+id/spBank"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp" />
+
         <RadioGroup
-            android:id="@+id/radioGroupType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginBottom="16dp">
+            android:layout_marginTop="8dp">
 
             <RadioButton
                 android:id="@+id/rbExpense"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="هزینه"
-                android:checked="true"
-                android:textColor="@color/text_dark"
-                android:layout_marginEnd="20dp" />
+                android:checked="true" />
 
             <RadioButton
                 android:id="@+id/rbIncome"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="درآمد"
-                android:textColor="@color/text_dark" />
+                android:layout_marginStart="16dp" />
         </RadioGroup>
 
         <Button
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ذخیره تراکنش"
-            android:backgroundTint="@color/button_blue"
-            android:textColor="@color/button_text" />
+            android:text="💾 ذخیره تراکنش"
+            android:textSize="18sp"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/white" />
 
     </LinearLayout>
 </ScrollView>
