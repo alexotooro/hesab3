@@ -94,12 +94,16 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.menu_settings -> {
-                startActivity(Intent(this, SettingsActivity::class.java))
-                return true
-            }
+    when (item.itemId) {
+        R.id.menu_settings -> {
+            startActivity(Intent(this, SettingsActivity::class.java))
+            return true
         }
-        return super.onOptionsItemSelected(item)
+        R.id.menu_sms -> {
+            startActivity(Intent(this, SmsListActivity::class.java))
+            return true
+        }
     }
+    return super.onOptionsItemSelected(item)
+}
 }
