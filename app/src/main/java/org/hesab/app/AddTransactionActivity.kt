@@ -1,65 +1,72 @@
 package org.hesab.app
 
+import android.app.Activity
 import android.os.Bundle
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.coroutines.*
-import java.text.SimpleDateFormat
-import java.util.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AddTransactionActivity : AppCompatActivity() {
+
+    private var editingId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_transaction)
-        title = "تراکنش جدید"
 
-        val etAmount = findViewById<EditText>(R.id.etAmount)
-        val etDescription = findViewById<EditText>(R.id.etDescription)
-        val etDate = findViewById<EditText>(R.id.etDate)
-        val etCategory = findViewById<EditText>(R.id.etCategory)
-        val rbIncome = findViewById<RadioButton>(R.id.rbIncome)
-        val rbExpense = findViewById<RadioButton>(R.id.rbExpense)
+        val editDate = findViewById<EditText>(R.id.editDate)
+        val editAmount = findViewById<EditText>(R.id.editAmount)
+        val editCategory = findViewById<EditText>(R.id.editCategory)
+        val editDescription = findViewById<EditText>(R.id.editDescription)
+        val radioExpense = findViewById<RadioButton>(R.id.radioExpense)
+        val radioIncome = findViewById<RadioButton>(R.id.radioIncome)
         val btnSave = findViewById<Button>(R.id.btnSave)
 
-        val sdf = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
-        etDate.setText(sdf.format(Date()))
-
-        val extras = intent.extras
-        extras?.let {
-            etAmount.setText(it.getString("amount", ""))
-            etDate.setText(it.getString("date", sdf.format(Date())))
-            etCategory.setText(it.getString("category", ""))
-            etDescription.setText(it.getString("description", ""))
+        // بررسی اگر در حالت ویرایش باز شده باشد
+        intent?.let {
+            if (it.hasExtra("transaction_id")) {
+                editingId = it.getIntExtra("transaction_id", 0)
+                editDate.setText(it.getStringExtra("date") ?: "")
+                editAmount.setText(it.getStringExtra("amount") ?: "")
+                editCategory.setText(it.getStringExtra("category") ?: "")
+                editDescription.setText(it.getStringExtra("description") ?: "")
+                val isIncome = it.getBooleanExtra("isIncome", false)
+                radioIncome.isChecked = isIncome
+                radioExpense.isChecked = !isIncome
+            }
         }
 
-        rbExpense.isChecked = true
-
         btnSave.setOnClickListener {
-            val amount = etAmount.text.toString().replace(",", "").toLongOrNull()
-            val date = etDate.text.toString()
-            val category = etCategory.text.toString()
-            val desc = etDescription.text.toString()
-            val isIncome = rbIncome.isChecked
-
-            if (amount == null || amount <= 0) {
-                Toast.makeText(this, "مبلغ نامعتبر است", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
+            val date = editDate.text.toString()
+            val amount = editAmount.text.toString().toLongOrNull() ?: 0L
+            val category = editCategory.text.toString()
+            val description = editDescription.text.toString()
+            val isIncome = radioIncome.isChecked
 
             val transaction = Transaction(
+                id = editingId ?: 0,
                 date = date,
                 amount = amount,
-                category = category.ifBlank { "سایر" },
-                description = desc,
+                category = category,
+                description = description,
                 isIncome = isIncome,
                 orderIndex = 0
             )
 
             CoroutineScope(Dispatchers.IO).launch {
-                App.db.transactionDao().insert(transaction)
-                withContext(Dispatchers.Main) {
-                    Toast.makeText(this@AddTransactionActivity, "تراکنش ذخیره شد", Toast.LENGTH_SHORT).show()
+                val db = AppDatabase.getDatabase(this@AddTransactionActivity)
+                val dao = db.transactionDao()
+
+                if (editingId != null && editingId != 0) {
+                    dao.update(transaction)
+                } else {
+                    dao.insert(transaction)
+                }
+
+                runOnUiThread {
+                    setResult(Activity.RESULT_OK)
                     finish()
                 }
             }
