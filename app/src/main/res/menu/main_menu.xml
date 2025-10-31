@@ -5,4 +5,10 @@
         android:title="تنظیمات"
         android:icon="@drawable/ic_settings"
         android:showAsAction="always" />
+    <item
+    android:id="@+id/menu_sms"
+    android:title="پیامک‌ها"
+    android:icon="@drawable/ic_sms"
+    android:showAsAction="ifRoom" />
+
 </menu>
