@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- app/src/main/AndroidManifest.xml -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.hesab.app">
 
-    <!-- دسترسی‌های لازم برای دریافت و خواندن پیامک‌ها -->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
@@ -24,7 +23,6 @@
             </intent-filter>
         </activity>
 
-        <!-- گیرنده پیامک بانکی -->
         <receiver
             android:name=".sms.SMSReceiver"
             android:permission="android.permission.BROADCAST_SMS"
@@ -34,5 +32,4 @@
             </intent-filter>
         </receiver>
     </application>
-
 </manifest>
