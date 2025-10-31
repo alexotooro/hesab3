@@ -2,34 +2,46 @@ package org.hesab.app
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.content.ContextCompat
+import androidx.preference.PreferenceManager
 
 object ThemeHelper {
 
+    /**
+     * خواندن تنظیمات تم از SharedPreferences و اعمال تم/حالت شب.
+     *
+     * کلیدها (سازگاری):
+     * - app_theme    (values: "light_blue", "soft_green", "dark", "light")
+     * - theme_name   (legacy / alternative: "آبی روشن", "سبز ملایم", "تیره کلاسیک", "روشن ساده")
+     * - dark_mode    (boolean) -- اگر true باشد حالت شب فعال می‌شود
+     *
+     * فراخوانی: قبل از setContentView در Activity
+     */
     fun applyTheme(context: Context) {
-        val prefs = context.getSharedPreferences("org.hesab.app_preferences", Context.MODE_PRIVATE)
-        val darkMode = prefs.getBoolean("dark_mode", false)
-        val themeName = prefs.getString("theme_name", "آبی روشن")
+        // تلاش برای خواندن از default prefs و در صورت نبودن از prefs اختصاصی
+        val defaultPrefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val legacyPrefs = context.getSharedPreferences("org.hesab.app_preferences", Context.MODE_PRIVATE)
 
-        // حالت تیره/روشن
+        // dark mode
+        val darkMode = defaultPrefs.getBoolean("dark_mode", legacyPrefs.getBoolean("dark_mode", false))
         AppCompatDelegate.setDefaultNightMode(
-            if (darkMode)
-                AppCompatDelegate.MODE_NIGHT_YES
-            else
-                AppCompatDelegate.MODE_NIGHT_NO
+            if (darkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
         )
 
-        // انتخاب رنگ اصلی بر اساس تم
-        when (themeName) {
-            "آبی روشن" -> context.setTheme(R.style.Theme_Hesab_LightBlue)
-            "سبز ملایم" -> context.setTheme(R.style.Theme_Hesab_SoftGreen)
-            "تیره کلاسیک" -> context.setTheme(R.style.Theme_Hesab_Dark)
-            "روشن ساده" -> context.setTheme(R.style.Theme_Hesab_Light)
-            else -> context.setTheme(R.style.Theme_Hesab_LightBlue)
-        }
-    }
+        // theme key: اول app_theme (new), بعد theme_name (legacy فارسی) -> تبدیل به مقادیر استاندارد
+        val themeKey = defaultPrefs.getString("app_theme",
+            legacyPrefs.getString("theme_name", "light_blue")
+        ) ?: "light_blue"
 
-    fun getThemeColor(context: Context, colorResId: Int): Int {
-        return ContextCompat.getColor(context, colorResId)
+        val themeRes = when (themeKey) {
+            // ممکنه کاربر فارسی مقدار گذاشته باشه (legacy)، لذا چند حالت را پشتیبانی می‌کنیم
+            "آبی روشن", "light_blue", "blue", "آبی" -> R.style.Theme_Hesab_LightBlue
+            "سبز ملایم", "soft_green", "green", "سبز" -> R.style.Theme_Hesab_SoftGreen
+            "تیره", "dark", "dark_mode", "تیره کلاسیک" -> R.style.Theme_Hesab_Dark
+            "روشن", "light", "light_simple", "روشن ساده" -> R.style.Theme_Hesab_Light
+            else -> R.style.Theme_Hesab_LightBlue
+        }
+
+        // اعمال تم روی کانتکست
+        context.setTheme(themeRes)
     }
 }
