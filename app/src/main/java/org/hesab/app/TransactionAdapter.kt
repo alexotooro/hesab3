@@ -37,27 +37,28 @@ class TransactionAdapter(
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val t = transactions[position]
 
+        // Display the transaction data
         holder.tvDate.text = t.date
         holder.tvCategory.text = t.category
         holder.tvDescription.text = t.description
 
-        // فرمت هزارگان
+        // Formatting amount with thousands separator
         val df = DecimalFormat("#,###")
         holder.tvAmount.text = df.format(t.amount)
 
-        // رنگ مقدار بر اساس درآمد/هزینه
+        // Set amount color based on income/expense
         val ctx = holder.itemView.context
         val color = if (t.isIncome) ctx.getColor(R.color.income_green) else ctx.getColor(R.color.expense_red)
         holder.tvAmount.setTextColor(color)
 
-        // منوی سه‌نقطه
+        // Set up the menu
         holder.ivMenu.setOnClickListener { v ->
             val popup = PopupMenu(v.context, v)
             popup.menuInflater.inflate(R.menu.menu_transaction_item, popup.menu)
             popup.setOnMenuItemClickListener { item: MenuItem ->
                 when (item.itemId) {
                     R.id.menu_edit -> {
-                        // باز کردن AddTransactionActivity برای ویرایش
+                        // Handle edit action
                         val intent = Intent(v.context, AddTransactionActivity::class.java)
                         intent.putExtra("transaction_id", t.id)
                         intent.putExtra("date", t.date)
@@ -69,7 +70,7 @@ class TransactionAdapter(
                         true
                     }
                     R.id.menu_delete -> {
-                        // حذف از DB و لیست
+                        // Handle delete action
                         AlertDialog.Builder(v.context)
                             .setTitle("حذف تراکنش")
                             .setMessage("آیا از حذف این تراکنش مطمئن هستید؟")
@@ -88,8 +89,7 @@ class TransactionAdapter(
                         true
                     }
                     R.id.menu_move -> {
-                        // فعال کردن حالت جابجایی: چون ItemTouchHelper در MainActivity فعال است،
-                        // نمایش پیام راهنما کفایت می‌کند.
+                        // Handle move action (swap positions)
                         Toast.makeText(v.context, "حالت جابجایی فعال است. برای خروج دوبار کلیک روی لیست یا دکمه بازگشت.", Toast.LENGTH_LONG).show()
                         true
                     }
@@ -102,14 +102,14 @@ class TransactionAdapter(
 
     override fun getItemCount(): Int = transactions.size
 
-    // برای جابجایی ردیف‌ها از MainActivity فراخوانی شود
+    // Function to move items (swap positions)
     fun moveItem(from: Int, to: Int) {
         if (from < 0 || to < 0 || from >= transactions.size || to >= transactions.size) return
         val item = transactions.removeAt(from)
         transactions.add(to, item)
         notifyItemMoved(from, to)
 
-        // به‌روزرسانی orderIndex در DB (در پس‌زمینه)
+        // Update orderIndex in DB (background operation)
         CoroutineScope(Dispatchers.IO).launch {
             transactions.forEachIndexed { idx, tr ->
                 val updated = tr.copy(orderIndex = idx)
