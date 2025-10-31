@@ -1,0 +1,21 @@
+<resources>
+    <string-array name="font_sizes">
+        <item>کوچک</item>
+        <item>متوسط</item>
+        <item>بزرگ</item>
+    </string-array>
+
+    <string-array name="colors">
+        <item>پیش‌فرض</item>
+        <item>سبز و قرمز</item>
+        <item>گرادینت</item>
+        <item>تیره</item>
+    </string-array>
+
+    <string-array name="themes">
+        <item>روشن</item>
+        <item>تیره</item>
+        <item>آبی</item>
+        <item>سبز</item>
+    </string-array>
+</resources>
