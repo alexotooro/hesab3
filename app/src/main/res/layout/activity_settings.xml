@@ -1,33 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp">
+    android:padding="16dp"
+    tools:context=".SettingsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:divider="?android:attr/dividerHorizontal"
-        android:showDividers="middle">
+        android:divider="?android:attr/dividerVertical"
+        android:showDividers="middle"
+        android:dividerPadding="12dp">
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
+        <!-- 🔹 حالت تیره -->
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/switchDarkMode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="حالت تیره (Dark Mode)" />
+            android:text="حالت تیره"
+            android:textSize="16sp"
+            android:paddingVertical="8dp"
+            app:switchPadding="12dp" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
+        <!-- 🔹 نمایش مجموع -->
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/switchShowTotal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="نمایش جمع کل تراکنش‌ها" />
+            android:text="نمایش جمع کل در پایین لیست"
+            android:textSize="16sp"
+            android:paddingVertical="8dp"
+            app:switchPadding="12dp" />
 
-        <com.google.android.material.switchmaterial.SwitchMaterial
+        <!-- 🔹 ترتیب نزولی -->
+        <com.google.android.material.materialswitch.MaterialSwitch
             android:id="@+id/switchSortOrder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="مرتب‌سازی نزولی (جدیدترین در بالا)" />
+            android:text="مرتب‌سازی از جدید به قدیم"
+            android:textSize="16sp"
+            android:paddingVertical="8dp"
+            app:switchPadding="12dp" />
+
+        <!-- 🔹 انتخاب تم -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="انتخاب تم"
+            android:layout_marginTop="24dp"
+            app:endIconMode="dropdown_menu">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/selectTheme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- 🔹 انتخاب فونت -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="انتخاب فونت"
+            android:layout_marginTop="16dp"
+            app:endIconMode="dropdown_menu">
+
+            <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                android:id="@+id/selectFont"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="none"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
+
 </ScrollView>
