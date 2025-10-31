@@ -1,96 +1,88 @@
 package org.hesab.app
 
-import android.Manifest
-import android.app.Activity
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.database.Cursor
-import android.net.Uri
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.provider.Telephony
-import android.widget.LinearLayout
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
 class SettingsActivity : AppCompatActivity() {
 
-    private val REQUEST_SMS_PERMISSION = 101
-    private val REQUEST_PICK_SMS = 102
+    private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+        prefs = getSharedPreferences("hesab_prefs", MODE_PRIVATE)
 
-        val addFromSmsLayout = findViewById<LinearLayout>(R.id.layoutAddFromSms)
+        // فونت و سایز
+        val fontSizeSeekBar = findViewById<SeekBar>(R.id.seekFontSize)
+        val txtFontSizeValue = findViewById<TextView>(R.id.txtFontSizeValue)
 
-        addFromSmsLayout.setOnClickListener {
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS)
-                != PackageManager.PERMISSION_GRANTED
-            ) {
-                ActivityCompat.requestPermissions(
-                    this,
-                    arrayOf(Manifest.permission.READ_SMS),
-                    REQUEST_SMS_PERMISSION
-                )
-            } else {
-                openSmsList()
+        // رنگ متن
+        val colorSpinner = findViewById<Spinner>(R.id.spinnerTextColor)
+
+        // تم
+        val themeSpinner = findViewById<Spinner>(R.id.spinnerTheme)
+
+        // خطوط بین ردیف‌ها
+        val chkLines = findViewById<CheckBox>(R.id.chkLines)
+        val chkExcelMode = findViewById<CheckBox>(R.id.chkExcelMode)
+
+        // گزینه نمایش مبلغ به تومان
+        val chkShowToman = findViewById<CheckBox>(R.id.chkShowToman)
+
+        // دکمه ذخیره
+        val btnSave = findViewById<Button>(R.id.btnSaveSettings)
+
+        // ---------- مقداردهی اولیه ----------
+        val savedFontSize = prefs.getInt("fontSize", 16)
+        fontSizeSeekBar.progress = savedFontSize
+        txtFontSizeValue.text = "$savedFontSize sp"
+
+        val savedColorIndex = prefs.getInt("colorIndex", 0)
+        colorSpinner.setSelection(savedColorIndex)
+
+        val savedThemeIndex = prefs.getInt("themeIndex", 0)
+        themeSpinner.setSelection(savedThemeIndex)
+
+        chkLines.isChecked = prefs.getBoolean("lines", true)
+        chkExcelMode.isChecked = prefs.getBoolean("excelMode", false)
+        chkShowToman.isChecked = prefs.getBoolean("showToman", false)
+
+        // ---------- رفتار کنترل‌ها ----------
+        fontSizeSeekBar.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                txtFontSizeValue.text = "$progress sp"
             }
-        }
-    }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
 
-    private fun openSmsList() {
-        val intent = Intent(Intent.ACTION_PICK, Uri.parse("content://sms/inbox"))
-        startActivityForResult(intent, REQUEST_PICK_SMS)
-    }
+        // ---------- دکمه ذخیره ----------
+        btnSave.setOnClickListener {
+            prefs.edit()
+                .putInt("fontSize", fontSizeSeekBar.progress)
+                .putInt("colorIndex", colorSpinner.selectedItemPosition)
+                .putInt("themeIndex", themeSpinner.selectedItemPosition)
+                .putBoolean("lines", chkLines.isChecked)
+                .putBoolean("excelMode", chkExcelMode.isChecked)
+                .putBoolean("showToman", chkShowToman.isChecked)
+                .apply()
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_PICK_SMS && resultCode == Activity.RESULT_OK) {
-            val uri = data?.data ?: return
-            val cursor: Cursor? = contentResolver.query(uri, null, null, null, null)
-            cursor?.use {
-                if (it.moveToFirst()) {
-                    val bodyIndex = it.getColumnIndexOrThrow(Telephony.Sms.BODY)
-                    val body = it.getString(bodyIndex)
-                    parseSmsAndOpenAddTransaction(body)
-                }
-            }
-        }
-    }
-
-    private fun parseSmsAndOpenAddTransaction(body: String) {
-        if (!body.contains("برداشت") && !body.contains("واریز")) {
-            Toast.makeText(this, "پیامک بانکی معتبر یافت نشد", Toast.LENGTH_SHORT).show()
-            return
+            Toast.makeText(this, "تنظیمات ذخیره شد ✅", Toast.LENGTH_SHORT).show()
+            finish()
         }
 
-        val amountRegex = Regex("([\\d,]+) ?ریال")
-        val amount = amountRegex.find(body)?.groupValues?.get(1)?.replace(",", "") ?: "0"
-        val isIncome = body.contains("واریز")
+        // ---------- رنگ‌ها ----------
+        val colors = arrayOf("پیش‌فرض (درآمد سبز، هزینه قرمز)", "آبی", "نارنجی", "خاکستری", "گرادینت")
+        val colorAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, colors)
+        colorSpinner.adapter = colorAdapter
 
-        val intent = Intent(this, AddTransactionActivity::class.java).apply {
-            putExtra("amount", amount)
-            putExtra("date", JalaliDate.today())
-            putExtra("category", "سایر")
-            putExtra("description", "افزوده از پیامک بانکی")
-        }
-        startActivity(intent)
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == REQUEST_SMS_PERMISSION &&
-            grantResults.isNotEmpty() &&
-            grantResults[0] == PackageManager.PERMISSION_GRANTED
-        ) {
-            openSmsList()
-        } else {
-            Toast.makeText(this, "اجازه دسترسی به پیامک داده نشد", Toast.LENGTH_SHORT).show()
-        }
+        // ---------- تم‌ها ----------
+        val themes = arrayOf("پیش‌فرض (آبی روشن)", "تیره", "سبز", "طلایی")
+        val themeAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, themes)
+        themeSpinner.adapter = themeAdapter
     }
 }
