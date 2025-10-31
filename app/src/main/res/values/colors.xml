@@ -1,11 +1,9 @@
 <resources>
-    <color name="app_background">#E3F2FD</color>
-    <color name="button_blue">#0288D1</color>
-    <color name="button_text">#FFFFFF</color>
-    <color name="header_background">#BBDEFB</color>
-    <color name="list_background">#D9EDFF</color>
-    <color name="balance_background">#90CAF9</color>
-    <color name="text_dark">#111111</color>
-    <color name="amount_income">#2E7D32</color>
-    <color name="amount_expense">#C62828</color>
+    <color name="primary">#2E7D32</color>
+    <color name="income_green">#007E33</color>
+    <color name="expense_red">#C62828</color>
+    <color name="background_gray">#FAFAFA</color>
+    <color name="dark_gray">#555555</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 </resources>
