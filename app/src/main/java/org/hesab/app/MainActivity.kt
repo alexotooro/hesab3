@@ -5,8 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.CheckBox
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity() {
         itemTouchHelper.attachToRecyclerView(recyclerView)
 
         loadTransactions()
+        setupFilters()
     }
 
     private fun loadTransactions() {
@@ -76,8 +78,29 @@ class MainActivity : AppCompatActivity() {
                 transactions.clear()
                 transactions.addAll(list)
                 adapter.notifyDataSetChanged()
+                updateBalance()
             }
         }
+    }
+
+    private fun setupFilters() {
+        val chkOnlyExpense = findViewById<CheckBox>(R.id.chkOnlyExpense)
+        val chkOnlyIncome = findViewById<CheckBox>(R.id.chkOnlyIncome)
+
+        chkOnlyExpense.setOnCheckedChangeListener { _, _ -> loadTransactions() }
+        chkOnlyIncome.setOnCheckedChangeListener { _, _ -> loadTransactions() }
+    }
+
+    private fun updateBalance() {
+        val chkOnlyExpense = findViewById<CheckBox>(R.id.chkOnlyExpense)
+        val chkOnlyIncome = findViewById<CheckBox>(R.id.chkOnlyIncome)
+
+        val filteredTransactions = transactions.filter {
+            (chkOnlyExpense.isChecked && !it.isIncome) || (chkOnlyIncome.isChecked && it.isIncome)
+        }
+
+        val totalBalance = filteredTransactions.sumOf { if (it.isIncome) it.amount else -it.amount }
+        findViewById<TextView>(R.id.tvBalance).text = "مانده: ${totalBalance} ریال"
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
