@@ -1,81 +1,73 @@
+// app/src/main/java/org/hesab/app/TransactionAdapter.kt
 package org.hesab.app
 
 import android.view.LayoutInflater
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
-class TransactionAdapter(
-    private var transactions: MutableList<Transaction>,
-    private val listener: OnTransactionInteractionListener
-) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
-
-    interface OnTransactionInteractionListener {
-        fun onEdit(transaction: Transaction)
-        fun onDelete(transaction: Transaction)
-        fun onRequestMoveMode()
-    }
+class TransactionAdapter(private var transactions: MutableList<Transaction>) :
+    RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
     inner class TransactionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val txtDate: TextView = view.findViewById(R.id.textDate)
-        val txtAmount: TextView = view.findViewById(R.id.textAmount)
-        val txtCategory: TextView = view.findViewById(R.id.textCategory)
-        val txtDescription: TextView = view.findViewById(R.id.textDescription)
-        val menuIcon: ImageView = view.findViewById(R.id.menu_icon)
+        val txtDate: TextView = view.findViewById(R.id.txtDate)
+        val txtAmount: TextView = view.findViewById(R.id.txtAmount)
+        val txtCategory: TextView = view.findViewById(R.id.txtCategory)
+        val txtDescription: TextView = view.findViewById(R.id.txtDescription)
+        val btnMenu: ImageButton = view.findViewById(R.id.btnMenu)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_transaction, parent, false)
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_transaction, parent, false)
         return TransactionViewHolder(view)
     }
 
+    override fun getItemCount(): Int = transactions.size
+
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        val tx = transactions[position]
-        holder.txtDate.text = tx.date
-        holder.txtAmount.text = formatAmount(tx.amount)
-        holder.txtCategory.text = tx.category
-        holder.txtDescription.text = tx.description
+        val item = transactions[position]
 
-        // color amount
-        holder.txtAmount.setTextColor(if (tx.isIncome) holder.itemView.context.getColor(R.color.amount_income) else holder.itemView.context.getColor(R.color.amount_expense))
+        holder.txtDate.text = item.date
+        holder.txtAmount.text = String.format("%,d", item.amount)
+        holder.txtCategory.text = item.category
+        holder.txtDescription.text = item.description
 
-        holder.menuIcon.setOnClickListener {
-            val popup = PopupMenu(holder.itemView.context, holder.menuIcon)
-            MenuInflater(holder.itemView.context).inflate(R.menu.menu_transaction_item, popup.menu)
-            popup.setOnMenuItemClickListener { item: MenuItem ->
-                when (item.itemId) {
-                    R.id.menu_edit -> listener.onEdit(tx)
-                    R.id.menu_delete -> listener.onDelete(tx)
-                    R.id.menu_move -> listener.onRequestMoveMode()
+        // رنگ مبلغ براساس نوع تراکنش
+        holder.txtAmount.setTextColor(
+            if (item.isIncome) 0xFF007E33.toInt() else 0xFFB71C1C.toInt()
+        )
+
+        holder.btnMenu.setOnClickListener { v ->
+            val popup = PopupMenu(v.context, v)
+            popup.menuInflater.inflate(R.menu.transaction_item_menu, popup.menu)
+            popup.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.menu_delete -> {
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val db = AppDatabase.getDatabase(v.context)
+                            db.transactionDao().delete(item)
+                            transactions.removeAt(position)
+                            launch(Dispatchers.Main) { notifyItemRemoved(position) }
+                        }
+                        true
+                    }
+                    else -> false
                 }
-                true
             }
             popup.show()
         }
     }
 
-    override fun getItemCount(): Int = transactions.size
-
-    fun replaceAll(newList: List<Transaction>) {
+    fun updateData(newList: List<Transaction>) {
         transactions.clear()
         transactions.addAll(newList)
         notifyDataSetChanged()
-    }
-
-    fun swap(from: Int, to: Int) {
-        val item = transactions.removeAt(from)
-        transactions.add(to, item)
-        notifyItemMoved(from, to)
-    }
-
-    fun getList(): List<Transaction> = transactions
-
-    private fun formatAmount(amount: Long): String {
-        return android.icu.text.NumberFormat.getInstance().format(amount)
     }
 }
