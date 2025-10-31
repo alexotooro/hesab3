@@ -1,21 +1,29 @@
 package org.hesab.app
 
-import android.content.Context
-import android.view.*
-import android.widget.*
+import android.content.Intent
+import android.view.LayoutInflater
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import android.widget.PopupMenu
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.core.content.ContextCompat
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class TransactionAdapter(
-    private val transactions: MutableList<Transaction>,
-    private val context: Context
+    private var transactions: MutableList<Transaction>
 ) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
-    class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvDate: TextView = itemView.findViewById(R.id.tvDate)
         val tvAmount: TextView = itemView.findViewById(R.id.tvAmount)
         val tvCategory: TextView = itemView.findViewById(R.id.tvCategory)
         val tvDescription: TextView = itemView.findViewById(R.id.tvDescription)
+        val menuButton: ImageView = itemView.findViewById(R.id.menuButton)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
@@ -27,38 +35,107 @@ class TransactionAdapter(
     override fun getItemCount(): Int = transactions.size
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        val item = transactions[position]
+        val transaction = transactions[position]
 
-        holder.tvDate.text = item.date
-        holder.tvAmount.text = "%,d ریال".format(item.amount)
-        holder.tvCategory.text = item.category
-        holder.tvDescription.text = item.description
+        holder.tvDate.text = transaction.date
+        holder.tvAmount.text = String.format("%,d ریال", transaction.amount)
+        holder.tvCategory.text = transaction.category
+        holder.tvDescription.text = transaction.description
 
-        val prefs = context.getSharedPreferences("hesab_settings", Context.MODE_PRIVATE)
-        val showLines = prefs.getBoolean("showLines", true)
-        val alternateRows = prefs.getBoolean("alternateRows", false)
-        val showInTomans = prefs.getBoolean("showInTomans", false)
-
-        if (showInTomans) {
-            holder.tvAmount.text = "%,d تومان".format(item.amount / 10)
+        // مقداردهی دکمه منو
+        holder.menuButton.setOnClickListener { view ->
+            showPopupMenu(view, holder.adapterPosition)
         }
 
-        if (alternateRows && position % 2 == 1) {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, R.color.rowAlternate))
-        } else {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
+        // کلیک روی ردیف -> باز کردن ویرایش (همان رفتن به AddTransactionActivity برای ویرایش)
+        holder.itemView.setOnClickListener {
+            openEdit(holder.itemView, transaction)
         }
+    }
 
-        if (!showLines) {
-            holder.itemView.findViewById<View>(R.id.divider)?.visibility = View.GONE
-        } else {
-            holder.itemView.findViewById<View>(R.id.divider)?.visibility = View.VISIBLE
+    private fun showPopupMenu(view: View, position: Int) {
+        val context = view.context
+        val popup = PopupMenu(context, view)
+        val inflater: MenuInflater = popup.menuInflater
+        inflater.inflate(R.menu.transaction_item_menu, popup.menu)
+
+        popup.setOnMenuItemClickListener { item: MenuItem ->
+            when (item.itemId) {
+                R.id.action_edit -> {
+                    // ویرایش: باز کردن AddTransactionActivity با اطلاعات ردیف
+                    openEdit(view, transactions[position])
+                    true
+                }
+                R.id.action_move_up -> {
+                    moveItem(position, -1)
+                    true
+                }
+                R.id.action_move_down -> {
+                    moveItem(position, 1)
+                    true
+                }
+                R.id.action_delete -> {
+                    deleteItem(position)
+                    true
+                }
+                else -> false
+            }
         }
+        popup.show()
+    }
 
-        holder.tvAmount.setTextColor(
-            ContextCompat.getColor(context,
-                if (item.isIncome) R.color.incomeGreen else R.color.expenseRed
-            )
-        )
+    private fun openEdit(view: View, transaction: Transaction) {
+        val ctx = view.context
+        val intent = Intent(ctx, AddTransactionActivity::class.java).apply {
+            putExtra("id", transaction.id)
+            putExtra("date", transaction.date)
+            putExtra("amount", transaction.amount.toString())
+            putExtra("category", transaction.category)
+            putExtra("description", transaction.description)
+            putExtra("isIncome", transaction.isIncome)
+        }
+        ctx.startActivity(intent)
+    }
+
+    private fun moveItem(position: Int, direction: Int) {
+        val newPosition = position + direction
+        if (position < 0 || position >= transactions.size) return
+        if (newPosition < 0 || newPosition >= transactions.size) return
+
+        // جابجایی در لیست محلی
+        val temp = transactions[position]
+        transactions[position] = transactions[newPosition]
+        transactions[newPosition] = temp
+
+        notifyItemMoved(position, newPosition)
+
+        // ذخیره ترتیب جدید در دیتابیس (orderIndex)
+        CoroutineScope(Dispatchers.IO).launch {
+            // استفاده از App.db (که در App.kt مقداردهی شده)
+            transactions.forEachIndexed { idx, t ->
+                t.orderIndex = idx
+                App.db.transactionDao().update(t)
+            }
+        }
+    }
+
+    private fun deleteItem(position: Int) {
+        if (position < 0 || position >= transactions.size) return
+        val transaction = transactions[position]
+
+        // حذف در UI
+        transactions.removeAt(position)
+        notifyItemRemoved(position)
+
+        // حذف در DB
+        CoroutineScope(Dispatchers.IO).launch {
+            App.db.transactionDao().delete(transaction)
+        }
+    }
+
+    // برای به‌روزرسانی داده‌ها از بیرون
+    fun updateList(newList: MutableList<Transaction>) {
+        transactions = newList
+        notifyDataSetChanged()
     }
 }
