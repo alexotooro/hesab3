@@ -1,57 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="8dp"
+    android:id="@+id/itemRoot"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="72dp"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:gravity="center_vertical"
+    android:background="@color/item_background"
+    android:layoutDirection="rtl">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
+    <!-- سه نقطه منو (چپ ردیف) -->
+    <ImageView
+        android:id="@+id/ivMenu"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:src="@drawable/ic_more_vert"
+        android:contentDescription="menu"
+        android:layout_marginStart="8dp"
+        android:tint="@color/text_dark" />
+
+    <!-- ستون توضیحات -->
+    <TextView
+        android:id="@+id/tvDescription"
+        android:layout_width="0dp"
+        android:layout_weight="3"
         android:layout_height="wrap_content"
-        android:weightSum="4">
+        android:text="توضیحات نمونه"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:textColor="@color/text_light" />
 
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="1403/08/09"
-            android:gravity="center"
-            android:textSize="14sp" />
+    <!-- ستون بابت -->
+    <TextView
+        android:id="@+id/tvCategory"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:text="بابت"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textColor="@color/text_dark" />
 
-        <TextView
-            android:id="@+id/tvAmount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="100,000 ریال"
-            android:gravity="center"
-            android:textSize="14sp" />
+    <!-- ستون مبلغ -->
+    <TextView
+        android:id="@+id/tvAmount"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:text="1,000"
+        android:textSize="16sp"
+        android:gravity="center"
+        android:textColor="@color/text_dark" />
 
-        <TextView
-            android:id="@+id/tvCategory"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="خوراک"
-            android:gravity="center"
-            android:textSize="14sp" />
+    <!-- ستون تاریخ -->
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:layout_height="wrap_content"
+        android:text="1404/08/01"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:textColor="@color/text_dark" />
 
-        <TextView
-            android:id="@+id/tvDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="ناهار"
-            android:gravity="center"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <View
-        android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#CCCCCC"
-        android:layout_marginTop="4dp" />
 </LinearLayout>
