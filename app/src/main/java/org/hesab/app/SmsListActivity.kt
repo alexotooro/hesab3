@@ -14,7 +14,7 @@ class SmsListActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: SmsAdapter
     private lateinit var db: AppDatabase
-    private var smsList = mutableListOf<Transaction>()
+    private var transactions = mutableListOf<Transaction>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +24,7 @@ class SmsListActivity : AppCompatActivity() {
         db = AppDatabase.getDatabase(this)
         recyclerView = findViewById(R.id.recyclerViewSms)
         recyclerView.layoutManager = LinearLayoutManager(this)
-        adapter = SmsAdapter(smsList)
+        adapter = SmsAdapter(transactions)
         recyclerView.adapter = adapter
 
         loadSmsTransactions()
@@ -32,12 +32,11 @@ class SmsListActivity : AppCompatActivity() {
 
     private fun loadSmsTransactions() {
         CoroutineScope(Dispatchers.IO).launch {
-            val list = db.transactionDao().getAll().filter {
-                it.description.contains("پیامک", ignoreCase = true)
-            }
+            val list = db.transactionDao().getAll()
+                .filter { it.description.contains("پیامک بانکی") } // فقط تراکنش‌های خودکار
             withContext(Dispatchers.Main) {
-                smsList.clear()
-                smsList.addAll(list)
+                transactions.clear()
+                transactions.addAll(list)
                 adapter.notifyDataSetChanged()
             }
         }
