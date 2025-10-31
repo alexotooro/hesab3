@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="@color/background"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp">
 
-    <!-- دکمه افزودن تراکنش از پیامک دلخواه -->
-    <Button
-        android:id="@+id/btnAddFromSms"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="افزودن تراکنش از پیامک دلخواه"
-        android:textAllCaps="false"
-        android:layout_marginBottom="16dp" />
+        android:orientation="vertical">
 
-    <!-- سایر تنظیمات شما اینجا قرار می‌گیرند -->
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="تنظیمات برنامه حساب"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:paddingBottom="12dp" />
+
+        <!-- دکمه افزودن تراکنش از پیامک -->
+        <Button
+            android:id="@+id/btn_add_from_sms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="افزودن تراکنش دلخواه از پیامک"
+            android:backgroundTint="@color/teal_700"
+            android:textColor="@android:color/white"
+            android:layout_marginBottom="12dp" />
+
+        <!-- تنظیمات دیگر (رنگ، فونت، تم و...) اینجا هستند -->
+        <!-- ... -->
+
+    </LinearLayout>
+</ScrollView>
