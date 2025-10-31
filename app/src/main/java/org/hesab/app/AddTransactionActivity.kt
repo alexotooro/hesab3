@@ -1,3 +1,4 @@
+// app/src/main/java/org/hesab/app/AddTransactionActivity.kt
 package org.hesab.app
 
 import android.os.Bundle
@@ -21,7 +22,6 @@ class AddTransactionActivity : AppCompatActivity() {
         val radioIncome = findViewById<RadioButton>(R.id.radioIncome)
         val btnSave = findViewById<Button>(R.id.btnSave)
 
-        // اگر از نوتیفیکیشن یا پیامک باز شده:
         intent?.let {
             editAmount.setText(it.getStringExtra("amount") ?: "")
             editDate.setText(it.getStringExtra("date") ?: "")
