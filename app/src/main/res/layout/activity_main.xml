@@ -1,64 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="8dp"
-    android:background="@color/background_gray">
+    android:padding="12dp"
+    android:background="@color/background_light"
+    tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/tvBalance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="مانده: ۰ ریال"
-        android:textSize="18sp"
-        android:textColor="@color/black"
-        android:gravity="center"
-        android:padding="8dp"
-        android:background="@drawable/box_background" />
-
+    <!-- نوار بالایی شامل دکمه سه‌نقطه و افزودن تراکنش -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:orientation="horizontal"
-        android:layout_marginTop="4dp">
+        android:gravity="center_vertical"
+        android:layout_marginBottom="8dp">
 
-        <CheckBox
-            android:id="@+id/cbOnlyExpenses"
-            android:text="فقط هزینه‌ها"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+        <!-- دکمه سه‌نقطه بالا سمت چپ -->
+        <ImageButton
+            android:id="@+id/btnMenu"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@drawable/ic_more_vertical"
+            android:contentDescription="منو"
+            android:tint="@color/button_blue"
+            android:layout_gravity="start" />
 
-        <CheckBox
-            android:id="@+id/cbOnlyIncomes"
-            android:text="فقط درآمدها"
+        <!-- فضای خالی برای فاصله بین دکمه‌ها -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- دکمه افزودن تراکنش -->
+        <Button
+            android:id="@+id/btnAddTransaction"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp" />
-
-        <Spinner
-            android:id="@+id/bankFilter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp" />
+            android:text="➕ افزودن تراکنش"
+            android:backgroundTint="@color/button_blue"
+            android:textColor="@color/button_text"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:layout_gravity="end" />
     </LinearLayout>
 
+    <!-- RecyclerView برای نمایش لیست تراکنش‌ها -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recyclerViewTransactions"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:layout_marginTop="8dp" />
-
-    <Button
-        android:id="@+id/btnAddTransaction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="➕ افزودن تراکنش"
-        android:textSize="18sp"
-        android:backgroundTint="@color/primary"
-        android:textColor="@color/white"
-        android:layout_marginTop="8dp" />
+        android:divider="@drawable/divider"
+        android:dividerHeight="1dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
 
 </LinearLayout>
