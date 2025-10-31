@@ -5,12 +5,11 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "transactions")
 data class Transaction(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val date: String,
     val amount: Long,
     val category: String,
     val description: String,
     val isIncome: Boolean,
-    val orderIndex: Int = 0
+    val orderIndex: Int
 )
