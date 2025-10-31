@@ -1,11 +1,12 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- 🌞 تم روشن آبی روشن (پیش‌فرض) -->
-    <style name="Theme.Hesab.LightBlue" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Hesab.LightBlue" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">#2196F3</item>
-        <item name="colorPrimaryVariant">#1976D2</item>
+        <item name="colorPrimaryContainer">#E3F2FD</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#03A9F4</item>
+        <item name="colorSurface">#FFFFFF</item>
         <item name="colorBackground">#F8FBFF</item>
         <item name="android:statusBarColor">#1976D2</item>
         <item name="android:navigationBarColor">#1976D2</item>
@@ -14,11 +15,12 @@
     </style>
 
     <!-- 🌿 تم سبز ملایم -->
-    <style name="Theme.Hesab.SoftGreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Hesab.SoftGreen" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">#4CAF50</item>
-        <item name="colorPrimaryVariant">#388E3C</item>
+        <item name="colorPrimaryContainer">#E8F5E9</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#8BC34A</item>
+        <item name="colorSurface">#FFFFFF</item>
         <item name="colorBackground">#F4FFF4</item>
         <item name="android:statusBarColor">#388E3C</item>
         <item name="android:navigationBarColor">#388E3C</item>
@@ -27,11 +29,12 @@
     </style>
 
     <!-- ⚫ تم تیره کلاسیک -->
-    <style name="Theme.Hesab.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Hesab.Dark" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">#212121</item>
-        <item name="colorPrimaryVariant">#000000</item>
+        <item name="colorPrimaryContainer">#333333</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#424242</item>
+        <item name="colorSurface">#1E1E1E</item>
         <item name="colorBackground">#121212</item>
         <item name="android:statusBarColor">#000000</item>
         <item name="android:navigationBarColor">#000000</item>
@@ -40,16 +43,17 @@
     </style>
 
     <!-- ⚪ تم روشن ساده -->
-    <style name="Theme.Hesab.Light" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Hesab.Light" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">#E0E0E0</item>
-        <item name="colorPrimaryVariant">#BDBDBD</item>
+        <item name="colorPrimaryContainer">#FAFAFA</item>
         <item name="colorOnPrimary">#000000</item>
         <item name="colorSecondary">#9E9E9E</item>
+        <item name="colorSurface">#FFFFFF</item>
         <item name="colorBackground">#FFFFFF</item>
         <item name="android:statusBarColor">#BDBDBD</item>
         <item name="android:navigationBarColor">#BDBDBD</item>
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:fontFamily">@font/system</item>
+        <item name="android:fontFamily">@font/vazir</item>
     </style>
 
     <!-- 🅰️ فونت‌ها -->
