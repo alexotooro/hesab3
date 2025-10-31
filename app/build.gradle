@@ -6,12 +6,12 @@ plugins {
 
 android {
     namespace = "org.hesab.app"  // استفاده از namespace به جای package برای سازگاری با Gradle جدید
-    compileSdk 30  // برای Android 7 (API 24) سازگار است
+    compileSdk 34  // برای Android 7 (API 24) سازگار است
 
     defaultConfig {
         applicationId "org.hesab.app"
         minSdk 24  // حداقل نسخه اندروید 7
-        targetSdk 30  // هدف روی نسخه 30 (Android 11) تنظیم می‌شود تا با نسخه‌های جدیدتر هم سازگار باشد
+        targetSdk 34  // هدف روی نسخه 34 (Android 11) تنظیم می‌شود تا با نسخه‌های جدیدتر هم سازگار باشد
         versionCode 1
         versionName "1.0"
 
