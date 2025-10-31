@@ -1,80 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="12dp"
-    android:layoutDirection="rtl"
-    android:background="@color/app_background"
-    tools:context=".MainActivity">
-
-    <Button
-        android:id="@+id/btnAddTransaction"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="➕ افزودن تراکنش"
-        android:backgroundTint="@color/button_blue"
-        android:textColor="@color/button_text"
-        android:layout_marginBottom="8dp" />
-
-    <LinearLayout
-        android:id="@+id/headerRow"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingVertical="8dp"
-        android:background="@color/header_background">
-
-        <TextView
-            android:id="@+id/headerDate"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="تاریخ"
-            android:textColor="@color/text_dark"
-            android:gravity="center"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/headerAmount"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="مبلغ (ریال)"
-            android:textColor="@color/text_dark"
-            android:gravity="center"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/headerCategory"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="بابت"
-            android:textColor="@color/text_dark"
-            android:gravity="center"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/headerDescription"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:text="توضیحات"
-            android:textColor="@color/text_dark"
-            android:gravity="center"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="@color/list_background"
-        android:scrollbars="vertical"
-        tools:listitem="@layout/item_transaction" />
+    android:padding="8dp"
+    android:background="@color/background_gray">
 
     <TextView
         android:id="@+id/tvBalance"
@@ -82,9 +12,53 @@
         android:layout_height="wrap_content"
         android:text="مانده: ۰ ریال"
         android:textSize="18sp"
-        android:textStyle="bold"
+        android:textColor="@color/black"
         android:gravity="center"
         android:padding="8dp"
-        android:background="@color/balance_background"
-        android:textColor="@color/text_dark" />
+        android:background="@drawable/box_background" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:layout_marginTop="4dp">
+
+        <CheckBox
+            android:id="@+id/cbOnlyExpenses"
+            android:text="فقط هزینه‌ها"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:id="@+id/cbOnlyIncomes"
+            android:text="فقط درآمدها"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp" />
+
+        <Spinner
+            android:id="@+id/bankFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/btnAddTransaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="➕ افزودن تراکنش"
+        android:textSize="18sp"
+        android:backgroundTint="@color/primary"
+        android:textColor="@color/white"
+        android:layout_marginTop="8dp" />
+
 </LinearLayout>
