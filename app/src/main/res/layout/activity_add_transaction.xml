@@ -2,73 +2,61 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="@color/app_background">
+    android:padding="16dp">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layoutDirection="rtl"
-        android:gravity="right">
+        android:orientation="vertical">
 
         <EditText
             android:id="@+id/etAmount"
-            android:hint="مبلغ (ریال)"
-            android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp" />
+            android:hint="مبلغ (ریال)"
+            android:inputType="number" />
 
         <EditText
             android:id="@+id/etCategory"
-            android:hint="بابت"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp" />
+            android:hint="بابت" />
 
         <EditText
-            android:id="@+id/etDescription"
-            android:hint="توضیحات"
+            android:id="@+id/etNote"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp" />
-
-        <EditText
-            android:id="@+id/etDate"
-            android:hint="تاریخ"
-            android:inputType="date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp" />
+            android:hint="توضیحات" />
 
         <RadioGroup
             android:id="@+id/radioGroupType"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp">
 
             <RadioButton
                 android:id="@+id/rbExpense"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="هزینه"
-                android:checked="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:checked="true" />
 
             <RadioButton
                 android:id="@+id/rbIncome"
-                android:text="درآمد"
-                android:layout_marginStart="24dp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="درآمد" />
         </RadioGroup>
 
         <Button
             android:id="@+id/btnSave"
-            android:text="ذخیره"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:text="ثبت تراکنش"
             android:layout_marginTop="16dp" />
+
     </LinearLayout>
 </ScrollView>
