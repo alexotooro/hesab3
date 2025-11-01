@@ -15,8 +15,6 @@ class TransactionAdapter(
     private val onDelete: (Transaction) -> Unit
 ) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
-    private val dateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
-
     inner class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val tvDate: TextView = itemView.findViewById(R.id.tvDate)
         val tvAmount: TextView = itemView.findViewById(R.id.tvAmount)
@@ -31,20 +29,21 @@ class TransactionAdapter(
     }
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        val item = transactions[position]
+        val transaction = transactions[position]
 
-        holder.tvDate.text = dateFormat.format(item.date)
-        holder.tvAmount.text = String.format("%,d", item.amount)
-        holder.tvCategory.text = item.category
-        holder.tvNote.text = item.note ?: ""
+        val formatter = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
+        holder.tvDate.text = formatter.format(Date(transaction.date))
+        holder.tvAmount.text = transaction.amount.toString()
+        holder.tvCategory.text = transaction.category
+        holder.tvNote.text = transaction.note ?: ""
 
         holder.itemView.setOnLongClickListener {
-            val popup = PopupMenu(holder.itemView.context, it)
-            popup.menuInflater.inflate(R.menu.transaction_item_menu, popup.menu)
-            popup.setOnMenuItemClickListener { menuItem ->
-                when (menuItem.itemId) {
-                    R.id.action_edit -> onEdit(item)
-                    R.id.action_delete -> onDelete(item)
+            val popup = PopupMenu(holder.itemView.context, holder.itemView)
+            popup.inflate(R.menu.transaction_item_menu)
+            popup.setOnMenuItemClickListener {
+                when (it.itemId) {
+                    R.id.action_edit -> onEdit(transaction)
+                    R.id.action_delete -> onDelete(transaction)
                 }
                 true
             }
@@ -53,5 +52,10 @@ class TransactionAdapter(
         }
     }
 
-    override fun getItemCount(): Int = transactions.size
+    override fun getItemCount() = transactions.size
+
+    fun updateList(newList: MutableList<Transaction>) {
+        transactions = newList
+        notifyDataSetChanged()
+    }
 }
