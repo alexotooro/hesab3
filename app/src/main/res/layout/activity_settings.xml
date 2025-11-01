@@ -1,82 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="top"
     tools:context=".SettingsActivity">
+
+    <TextView
+        android:id="@+id/tvSettingsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="تنظیمات برنامه"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="24dp"
+        android:textColor="@color/black" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:divider="?android:attr/dividerVertical"
-        android:showDividers="middle"
-        android:dividerPadding="12dp">
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingVertical="12dp">
 
-        <!-- 🔹 حالت تیره -->
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/switchDarkMode"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvSmsTitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="حالت تیره"
-            android:textSize="16sp"
-            android:paddingVertical="8dp"
-            app:switchPadding="12dp" />
+            android:layout_weight="1"
+            android:text="دریافت تراکنش‌ها از پیامک بانکی"
+            android:textSize="16sp" />
 
-        <!-- 🔹 نمایش مجموع -->
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/switchShowTotal"
-            android:layout_width="match_parent"
+        <Switch
+            android:id="@+id/switchEnableSms"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="نمایش جمع کل در پایین لیست"
-            android:textSize="16sp"
-            android:paddingVertical="8dp"
-            app:switchPadding="12dp" />
-
-        <!-- 🔹 ترتیب نزولی -->
-        <com.google.android.material.materialswitch.MaterialSwitch
-            android:id="@+id/switchSortOrder"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="مرتب‌سازی از جدید به قدیم"
-            android:textSize="16sp"
-            android:paddingVertical="8dp"
-            app:switchPadding="12dp" />
-
-        <!-- 🔹 انتخاب تم -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="انتخاب تم"
-            android:layout_marginTop="24dp"
-            app:endIconMode="dropdown_menu">
-
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/selectTheme"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- 🔹 انتخاب فونت -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="انتخاب فونت"
-            android:layout_marginTop="16dp"
-            app:endIconMode="dropdown_menu">
-
-            <com.google.android.material.textfield.MaterialAutoCompleteTextView
-                android:id="@+id/selectFont"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
+            android:checked="false" />
     </LinearLayout>
 
-</ScrollView>
+</LinearLayout>
