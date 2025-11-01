@@ -1,65 +1,52 @@
 package org.hesab.app
 
-import android.app.DatePickerDialog
 import android.os.Bundle
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
-import org.hesab.app.databinding.ActivityAddTransactionBinding
-import java.util.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class AddTransactionActivity : AppCompatActivity() {
-    private lateinit var binding: ActivityAddTransactionBinding
-    private lateinit var db: AppDatabase
-    private var selectedDate: Date = Date()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityAddTransactionBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(R.layout.activity_add_transaction)
 
-        db = AppDatabase.getDatabase(this)
+        val etAmount = findViewById<EditText>(R.id.etAmount)
+        val etCategory = findViewById<EditText>(R.id.etCategory)
+        val etNote = findViewById<EditText>(R.id.etNote)
+        val rbIncome = findViewById<RadioButton>(R.id.rbIncome)
+        val rbExpense = findViewById<RadioButton>(R.id.rbExpense)
+        val btnSave = findViewById<Button>(R.id.btnSave)
 
-        binding.etDate.setOnClickListener {
-            val cal = Calendar.getInstance()
-            val dp = DatePickerDialog(
-                this,
-                { _, y, m, d ->
-                    cal.set(y, m, d)
-                    selectedDate = cal.time
-                    binding.etDate.setText("${y}/${m + 1}/${d}")
-                },
-                cal.get(Calendar.YEAR),
-                cal.get(Calendar.MONTH),
-                cal.get(Calendar.DAY_OF_MONTH)
-            )
-            dp.show()
-        }
+        val db = AppDatabase.getDatabase(this)
+        val dao = db.transactionDao()
 
-        binding.btnSave.setOnClickListener {
-            val amountText = binding.etAmount.text.toString()
-            val category = binding.etCategory.text.toString()
-            val note = binding.etNote.text.toString()
-
+        btnSave.setOnClickListener {
+            val amountText = etAmount.text.toString()
             if (amountText.isEmpty()) {
                 Toast.makeText(this, "مبلغ را وارد کنید", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            val amount = amountText.toLongOrNull() ?: 0L
-            val isIncome = binding.radioIncome.isChecked
+            val amount = amountText.toLong()
+            val category = etCategory.text.toString()
+            val note = etNote.text.toString()
+            val isIncome = rbIncome.isChecked
 
             val transaction = Transaction(
-                date = selectedDate,
                 amount = amount,
                 category = category,
                 note = note,
-                isIncome = isIncome
+                isIncome = isIncome,
+                date = System.currentTimeMillis()
             )
 
-            Thread {
-                db.transactionDao().insert(transaction)
-                runOnUiThread { finish() }
-            }.start()
+            CoroutineScope(Dispatchers.IO).launch {
+                dao.insert(transaction)
+                finish()
+            }
         }
     }
 }
