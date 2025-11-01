@@ -5,17 +5,15 @@ plugins {
 }
 
 android {
-    namespace = "org.hesab.app"  // استفاده از namespace به جای package برای سازگاری با Gradle جدید
-    compileSdk 34  // برای Android 7 (API 24) سازگار است
+    namespace 'org.hesab.app'
+    compileSdk 34
 
     defaultConfig {
         applicationId "org.hesab.app"
-        minSdk 24  // حداقل نسخه اندروید 7
-        targetSdk 34  // هدف روی نسخه 34 (Android 11) تنظیم می‌شود تا با نسخه‌های جدیدتر هم سازگار باشد
+        minSdk 23
+        targetSdk 34
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildFeatures {
@@ -32,22 +30,26 @@ android {
     }
 }
 
-repositories {
-    google()
-    mavenCentral()
-}
-
 dependencies {
-    // کتابخانه‌های اصلی اندروید
-    implementation 'androidx.core:core-ktx:1.13.1'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'com.google.android.material:material:1.12.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.2.0'
+    implementation "androidx.core:core-ktx:1.13.1"
+    implementation "androidx.appcompat:appcompat:1.7.0"
+    implementation "com.google.android.material:material:1.12.0"
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+
+    // Room
+    implementation "androidx.room:room-runtime:2.6.1"
+    kapt "androidx.room:room-compiler:2.6.1"
+    implementation "androidx.room:room-ktx:2.6.1"
+
+    // Preference
     implementation "androidx.preference:preference-ktx:1.2.1"
 
+    // Coroutine
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1"
 
-    // Room Database
-    implementation "androidx.room:room-runtime:2.5.2"
-    kapt "androidx.room:room-compiler:2.5.2"
-    implementation "androidx.room:room-ktx:2.5.2"
+    // Lifecycle
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.8.6"
+
+    // RecyclerView
+    implementation "androidx.recyclerview:recyclerview:1.3.2"
 }
