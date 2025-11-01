@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- پس‌زمینه کلی -->
     <color name="app_background">#FAFAFA</color>
+
+    <!-- رنگ‌های متنی -->
     <color name="text_dark">#212121</color>
+    <color name="text_light">#FFFFFF</color>
+
+    <!-- رنگ‌های تراکنش‌ها -->
     <color name="incomeGreen">#2E7D32</color>
+    <color name="income_green">#2E7D32</color>
     <color name="expenseRed">#C62828</color>
+    <color name="expense_red">#C62828</color>
+
+    <!-- رنگ پس‌زمینه آیتم‌ها -->
+    <color name="item_background">#F5F5F5</color>
     <color name="rowAlternate">#FFF5F5F5</color>
+
+    <!-- رنگ تاکیدی -->
     <color name="accent">#1976D2</color>
 </resources>
