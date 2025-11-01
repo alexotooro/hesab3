@@ -1,4 +1,4 @@
-package org.hesab.app
+package org.hesab.app.sms
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -8,11 +8,15 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.telephony.SmsMessage
-import android.widget.Toast
 import androidx.core.app.NotificationCompat
+import androidx.preference.PreferenceManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.hesab.app.AddTransactionActivity
+import org.hesab.app.AppDatabase
+import org.hesab.app.R
+import org.hesab.app.Transaction
 import java.text.SimpleDateFormat
 import java.util.*
 
