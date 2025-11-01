@@ -2,11 +2,12 @@ package org.hesab.app
 
 import android.content.Context
 import android.graphics.Typeface
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat
+import androidx.preference.PreferenceManager
 import java.lang.reflect.Field
 
 object FontHelper {
@@ -30,13 +31,15 @@ object FontHelper {
         }
 
         try {
+            // اگر فونت از assets لود شد
             val tf = assetName?.let { Typeface.createFromAsset(context.assets, it) }
 
+            // در غیر این صورت از ResourcesCompat استفاده می‌کنیم
             currentTypeface = tf ?: when (fontKey) {
-                "iransans" -> Typeface.create(context, R.font.iransans)
-                "vazir" -> Typeface.create(context, R.font.vazir)
-                "diana" -> Typeface.create(context, R.font.diana)
-                else -> Typeface.create(context, R.font.vazir)
+                "iransans" -> ResourcesCompat.getFont(context, R.font.iransans)
+                "vazir" -> ResourcesCompat.getFont(context, R.font.vazir)
+                "diana" -> ResourcesCompat.getFont(context, R.font.diana)
+                else -> ResourcesCompat.getFont(context, R.font.vazir)
             }
 
             currentTypeface?.let { replaceDefaultFont(it) }
