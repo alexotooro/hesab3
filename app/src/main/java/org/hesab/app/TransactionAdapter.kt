@@ -1,70 +1,80 @@
 package org.hesab.app
 
 import android.view.LayoutInflater
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class TransactionAdapter(
-    private val items: MutableList<Transaction>,
+    private val transactions: MutableList<Transaction>,
     private val onEdit: (Transaction) -> Unit,
     private val onDelete: (Transaction) -> Unit
-) : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvDate: TextView = view.findViewById(R.id.tvDate)
-        val tvAmount: TextView = view.findViewById(R.id.tvAmount)
-        val tvCategory: TextView = view.findViewById(R.id.tvCategory)
-        val tvNote: TextView = view.findViewById(R.id.tvNote)
-        val menuButton: View = view.findViewById(R.id.menuButton)
+    inner class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvDate: TextView = itemView.findViewById(R.id.tvDate)
+        val tvAmount: TextView = itemView.findViewById(R.id.tvAmount)
+        val tvCategory: TextView = itemView.findViewById(R.id.tvCategory)
+        val tvNote: TextView = itemView.findViewById(R.id.tvNote)
+        val menuButton: ImageView = itemView.findViewById(R.id.menuButton)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_transaction, parent, false)
-        return ViewHolder(view)
+        return TransactionViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = items[position]
-        holder.tvDate.text = item.date.toString()
-        holder.tvAmount.text = item.amount.toString()
-        holder.tvCategory.text = item.category
-        holder.tvNote.text = item.note ?: ""
+    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
+        val transaction = transactions[position]
 
-        holder.menuButton.setOnClickListener { showPopup(holder.menuButton, item) }
-    }
+        holder.tvDate.text = transaction.date.toString().substring(0, 10)
+        holder.tvAmount.text = transaction.amount.toString()
+        holder.tvCategory.text = transaction.category
+        holder.tvNote.text = transaction.note ?: ""
 
-    override fun getItemCount(): Int = items.size
+        // منوی سه‌نقطه
+        holder.menuButton.setOnClickListener { view ->
+            val popup = PopupMenu(view.context, view)
+            popup.menuInflater.inflate(R.menu.transaction_item_menu, popup.menu)
 
-    private fun showPopup(view: View, transaction: Transaction) {
-        val popup = PopupMenu(view.context, view)
-        val inflater: MenuInflater = popup.menuInflater
-        inflater.inflate(R.menu.transaction_item_menu, popup.menu)
-        popup.setOnMenuItemClickListener { menuItem: MenuItem ->
-            when (menuItem.itemId) {
-                R.id.action_edit -> {
-                    onEdit(transaction)
-                    true
+            popup.setOnMenuItemClickListener { item: MenuItem ->
+                when (item.itemId) {
+                    R.id.action_edit -> {
+                        onEdit(transaction)
+                        true
+                    }
+                    R.id.action_delete -> {
+                        onDelete(transaction)
+                        true
+                    }
+                    else -> false
                 }
-                R.id.action_delete -> {
-                    onDelete(transaction)
-                    true
-                }
-                else -> false
             }
+            popup.show()
         }
-        popup.show()
     }
 
-    fun moveItem(fromPosition: Int, toPosition: Int) {
-        if (fromPosition < 0 || toPosition < 0 || fromPosition >= items.size || toPosition >= items.size) return
-        val item = items.removeAt(fromPosition)
-        items.add(toPosition, item)
-        notifyItemMoved(fromPosition, toPosition)
+    override fun getItemCount(): Int = transactions.size
+
+    fun updateData(newList: List<Transaction>) {
+        transactions.clear()
+        transactions.addAll(newList)
+        notifyDataSetChanged()
+    }
+
+    fun removeItem(position: Int) {
+        transactions.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun moveItem(from: Int, to: Int) {
+        val movedItem = transactions.removeAt(from)
+        transactions.add(to, movedItem)
+        notifyItemMoved(from, to)
     }
 }
