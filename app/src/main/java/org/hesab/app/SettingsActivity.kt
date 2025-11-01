@@ -4,6 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.widget.CompoundButton
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.google.android.material.textfield.MaterialAutoCompleteTextView
@@ -13,7 +14,7 @@ class SettingsActivity : AppCompatActivity() {
     private lateinit var prefs: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        // ✅ اعمال تم و فونت قبل از inflate layout
+        // ✅ تم و فونت قبل از inflate
         ThemeHelper.applyTheme(this)
         FontHelper.applyFont(this)
 
@@ -102,12 +103,14 @@ class SettingsActivity : AppCompatActivity() {
             }
             prefs.edit().putString("app_font", value).apply()
             FontHelper.applyFont(this)
-            FontHelper.refreshFont(window.decorView.rootView) // ✅ بدون ری‌استارت
+            FontHelper.refreshFont(window.decorView.rootView)
         }
 
         // --- نوار بالا ---
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.title = "تنظیمات"
+        supportActionBar?.apply {
+            setDisplayHomeAsUpEnabled(true)
+            title = "تنظیمات"
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
