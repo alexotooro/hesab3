@@ -1,6 +1,5 @@
 package org.hesab.app
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.MenuInflater
 import android.view.MenuItem
@@ -9,66 +8,79 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class TransactionAdapter(
-    private var transactions: List<Transaction>,
+    private val db: AppDatabase,
     private val onDelete: (Transaction) -> Unit
-) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
+) : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
 
-    class TransactionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    private val transactions = mutableListOf<Transaction>()
+
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val tvDate: TextView = view.findViewById(R.id.tvDate)
         val tvAmount: TextView = view.findViewById(R.id.tvAmount)
         val tvCategory: TextView = view.findViewById(R.id.tvCategory)
-        val tvDescription: TextView = view.findViewById(R.id.tvDescription)
+        val tvNote: TextView = view.findViewById(R.id.tvNote)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_transaction, parent, false)
-        return TransactionViewHolder(view)
+        return ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val t = transactions[position]
         holder.tvDate.text = t.date
-        holder.tvAmount.text = "%,d".format(t.amount)
+        holder.tvAmount.text = t.amount.toString()
         holder.tvCategory.text = t.category
-        holder.tvDescription.text = t.description
+        holder.tvNote.text = t.note ?: ""
 
-        holder.itemView.setOnLongClickListener { v ->
-            showPopupMenu(v.context, v, t)
+        holder.itemView.setOnLongClickListener {
+            showPopupMenu(holder.itemView, t)
             true
         }
     }
 
-    private fun showPopupMenu(context: Context, anchor: View, transaction: Transaction) {
-        val popup = PopupMenu(context, anchor)
-        val inflater: MenuInflater = popup.menuInflater
-        inflater.inflate(R.menu.transaction_item_menu, popup.menu)
+    private fun showPopupMenu(view: View, transaction: Transaction) {
+        val popup = PopupMenu(view.context, view)
+        MenuInflater(view.context).inflate(R.menu.transaction_item_menu, popup.menu)
         popup.setOnMenuItemClickListener { item: MenuItem ->
             when (item.itemId) {
+                R.id.action_edit -> {
+                    // TODO: Add edit logic
+                    true
+                }
+
                 R.id.action_delete -> {
                     onDelete(transaction)
                     true
                 }
+
                 else -> false
             }
         }
         popup.show()
     }
 
-    override fun getItemCount(): Int = transactions.size
+    override fun getItemCount() = transactions.size
 
-    fun updateData(newList: List<Transaction>) {
-        transactions = newList
+    fun submitList(list: List<Transaction>) {
+        transactions.clear()
+        transactions.addAll(list)
         notifyDataSetChanged()
     }
 
     fun moveItem(from: Int, to: Int) {
-        val mutableList = transactions.toMutableList()
-        val moved = mutableList.removeAt(from)
-        mutableList.add(to, moved)
-        transactions = mutableList
+        val item = transactions.removeAt(from)
+        transactions.add(to, item)
         notifyItemMoved(from, to)
+
+        CoroutineScope(Dispatchers.IO).launch {
+            db.transactionDao().updateOrder(transactions)
+        }
     }
 }
