@@ -7,7 +7,6 @@ import androidx.room.RoomDatabase
 
 @Database(entities = [Transaction::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
-
     abstract fun transactionDao(): TransactionDao
 
     companion object {
@@ -19,10 +18,8 @@ abstract class AppDatabase : RoomDatabase() {
                 val instance = Room.databaseBuilder(
                     context.applicationContext,
                     AppDatabase::class.java,
-                    "transactions_db"
-                )
-                    .fallbackToDestructiveMigration()
-                    .build()
+                    "transaction_db"
+                ).build()
                 INSTANCE = instance
                 instance
             }
