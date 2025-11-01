@@ -30,10 +30,10 @@ class TransactionAdapter(
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         val transaction = transactions[position]
-        holder.tvDate.text = transaction.date
-        holder.tvAmount.text = transaction.amount.toString()
+        holder.tvDate.text = transaction.date.toString()
+        holder.tvAmount.text = String.format("%,d", transaction.amount)
         holder.tvCategory.text = transaction.category
-        holder.tvNote.text = transaction.note
+        holder.tvNote.text = transaction.note ?: ""
 
         holder.menuButton.setOnClickListener {
             val popup = PopupMenu(holder.itemView.context, holder.menuButton)
