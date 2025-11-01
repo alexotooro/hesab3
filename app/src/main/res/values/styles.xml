@@ -1,41 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools">
-
-    <!-- تم اصلی -->
-    <style name="Theme.Hesab" parent="Theme.Material3.Light.NoActionBar">
-        <item name="colorPrimary">@color/accent</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorSurface">@color/app_background</item>
-        <item name="colorBackground">@color/app_background</item>
-        <item name="android:statusBarColor">#1976D2</item>
-        <item name="android:navigationBarColor">#1976D2</item>
-        <item name="android:windowLightStatusBar">true</item>
-        <item name="android:fontFamily">@font/vazir</item>
-    </style>
-
-    <!-- تم تیره -->
-    <style name="Theme.Hesab.Dark" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="colorPrimary">#212121</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorSurface">#1E1E1E</item>
-        <item name="colorBackground">#121212</item>
-        <item name="android:statusBarColor">#000000</item>
-        <item name="android:navigationBarColor">#000000</item>
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:fontFamily">@font/iransans</item>
-    </style>
-
-    <!-- فونت‌ها -->
-    <style name="Font.Vazir">
-        <item name="android:fontFamily">@font/vazir</item>
-    </style>
-
+<resources>
+    <!-- فقط فونت‌ها -->
     <style name="Font.IranSans">
         <item name="android:fontFamily">@font/iransans</item>
+    </style>
+
+    <style name="Font.Vazir">
+        <item name="android:fontFamily">@font/vazir</item>
     </style>
 
     <style name="Font.Diana">
         <item name="android:fontFamily">@font/diana</item>
     </style>
-
 </resources>
