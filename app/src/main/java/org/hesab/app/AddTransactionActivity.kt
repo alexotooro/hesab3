@@ -28,7 +28,6 @@ class AddTransactionActivity : AppCompatActivity() {
         val radioIncome = findViewById<RadioButton>(R.id.radioIncome)
         val btnSave = findViewById<Button>(R.id.btnSave)
 
-        // اگر در حالت ویرایش هستیم، مقادیر قبلی را بگیر
         editingId = intent.getIntExtra("transaction_id", -1).takeIf { it != -1 }
         if (editingId != null) {
             editDate.setText(intent.getStringExtra("transaction_date"))
@@ -39,7 +38,6 @@ class AddTransactionActivity : AppCompatActivity() {
             radioExpense.isChecked = isExpense
             radioIncome.isChecked = !isExpense
         } else {
-            // پیش‌فرض: هزینه انتخاب شود
             radioExpense.isChecked = true
         }
 
@@ -56,7 +54,7 @@ class AddTransactionActivity : AppCompatActivity() {
             }
 
             CoroutineScope(Dispatchers.IO).launch {
-                val dao = AppDatabase.getDatabase(this@AddTransactionActivity).transactionDao()
+                val dao = TransactionDatabase.getDatabase(this@AddTransactionActivity).transactionDao()
                 if (editingId != null) {
                     val transaction = Transaction(
                         id = editingId!!,
