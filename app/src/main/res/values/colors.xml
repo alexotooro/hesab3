@@ -1,7 +1,25 @@
 <resources>
-    <color name="primary">#2196F3</color>
-    <color name="primary_dark">#1976D2</color>
-    <color name="accent">#03A9F4</color>
-    <color name="background_light">#FFFFFF</color>
-    <color name="background_dark">#000000</color>
+    <!-- رنگ‌های پایه -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="dark_gray">#333333</color>
+    <color name="light_gray">#CCCCCC</color>
+
+    <!-- رنگ‌های برنامه -->
+    <color name="button_blue">#1976D2</color>
+    <color name="button_text">#FFFFFF</color>
+    <color name="text_dark">#212121</color>
+    <color name="text_light">#FAFAFA</color>
+    <color name="app_background">#F5F5F5</color>
+    <color name="header_background">#E0E0E0</color>
+    <color name="list_background">#FFFFFF</color>
+    <color name="balance_background">#BBDEFB</color>
+
+    <!-- رنگ‌های تم سبز -->
+    <color name="green_primary">#2E7D32</color>
+    <color name="green_secondary">#1B5E20</color>
+
+    <!-- رنگ‌های تم تیره -->
+    <color name="dark_background">#121212</color>
+    <color name="dark_text">#E0E0E0</color>
 </resources>
