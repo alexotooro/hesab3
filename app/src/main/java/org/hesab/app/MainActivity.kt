@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
 
@@ -19,7 +19,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // نوار بالا
         val toolbar = findViewById<MaterialToolbar>(R.id.topAppBar)
         toolbar.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
@@ -31,22 +30,26 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-        // دکمه +
-        val fabAdd = findViewById<FloatingActionButton>(R.id.fabAdd)
-        fabAdd.setOnClickListener {
-            val intent = Intent(this, AddTransactionActivity::class.java)
-            startActivity(intent)
-        }
-
-        // تنظیم RecyclerView
-        val recyclerView = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recyclerView)
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
         db = AppDatabase.getInstance(this)
         CoroutineScope(Dispatchers.IO).launch {
-            val transactions = db.transactionDao().getAll()
+            val transactions = db.transactionDao().getAll().toMutableList()
             launch(Dispatchers.Main) {
-                adapter = TransactionAdapter(transactions)
+                adapter = TransactionAdapter(
+                    transactions,
+                    onEdit = { transaction ->
+                        // بعداً: باز کردن صفحه ویرایش
+                    },
+                    onDelete = { transaction ->
+                        CoroutineScope(Dispatchers.IO).launch {
+                            db.transactionDao().delete(transaction)
+                            transactions.remove(transaction)
+                            launch(Dispatchers.Main) { adapter.notifyDataSetChanged() }
+                        }
+                    }
+                )
                 recyclerView.adapter = adapter
             }
         }
