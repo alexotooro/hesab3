@@ -1,27 +1,16 @@
 package org.hesab.app
 
-class TransactionRepository(private val db: AppDatabase) {
+class TransactionRepository(private val dao: TransactionDao) {
 
-    fun getAll(): List<Transaction> {
-        return db.transactionDao().getAll()
-    }
+    fun getAll(): List<Transaction> = dao.getAll()
 
-    suspend fun insert(transaction: Transaction) {
-        db.transactionDao().insert(transaction)
-    }
+    fun insert(transaction: Transaction) = dao.insert(transaction)
 
-    suspend fun delete(transaction: Transaction) {
-        db.transactionDao().delete(transaction)
-    }
+    fun update(transaction: Transaction) = dao.update(transaction)
 
-    suspend fun update(transaction: Transaction) {
-        db.transactionDao().update(transaction)
-    }
+    fun delete(transaction: Transaction) = dao.delete(transaction)
 
-    suspend fun updateOrder(transactions: List<Transaction>) {
-        transactions.forEachIndexed { index, t ->
-            t.orderIndex = index
-        }
-        db.transactionDao().updateAll(transactions)
-    }
+    fun updateOrder(id: Int, newIndex: Int) = dao.updateOrder(id, newIndex)
+
+    fun updateAll(transactions: List<Transaction>) = dao.updateAll(transactions)
 }
