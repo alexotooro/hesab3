@@ -85,7 +85,7 @@ class SmsReceiver : BroadcastReceiver() {
         )
 
         val notification = NotificationCompat.Builder(context, channelId)
-            .setSmallIcon(R.drawable.ic_notification)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle("تراکنش افزوده شد")
             .setContentText("${if (transaction.isIncome) "واریز" else "برداشت"} ${transaction.amount} ریال")
             .setContentIntent(pendingIntent)
