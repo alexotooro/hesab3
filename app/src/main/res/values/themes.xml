@@ -1,39 +1,33 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 🎨 تم پایه -->
+    <!-- تم پایه -->
     <style name="Theme.Hesab" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="android:fontFamily">@font/vazir</item>
-        <item name="colorPrimary">#2196F3</item>
-        <item name="colorPrimaryContainer">#1976D2</item>
-        <item name="colorSecondary">#03A9F4</item>
-        <item name="android:colorBackground">#FFFFFF</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryContainer">@color/primary_dark</item>
+        <item name="colorSecondary">@color/accent</item>
+        <item name="android:colorBackground">@color/background_light</item>
     </style>
 
-    <!-- 🌞 تم روشن آبی -->
+    <!-- حالت آبی روشن -->
     <style name="Theme.Hesab.LightBlue" parent="Theme.Hesab">
-        <item name="colorPrimary">#2196F3</item>
-        <item name="colorPrimaryContainer">#1976D2</item>
-        <item name="colorSecondary">#03A9F4</item>
-        <item name="android:colorBackground">#FFFFFF</item>
-        <item name="android:fontFamily">@font/vazir</item>
+        <item name="colorPrimary">#64B5F6</item>
+        <item name="colorSecondary">#2196F3</item>
+        <item name="android:colorBackground">#F3F8FE</item>
     </style>
 
-    <!-- 🌿 تم سبز -->
+    <!-- حالت سبز نرم -->
     <style name="Theme.Hesab.SoftGreen" parent="Theme.Hesab">
-        <item name="colorPrimary">#4CAF50</item>
-        <item name="colorPrimaryContainer">#388E3C</item>
-        <item name="colorSecondary">#8BC34A</item>
-        <item name="android:colorBackground">#FFFFFF</item>
-        <item name="android:fontFamily">@font/iransans</item>
+        <item name="colorPrimary">#81C784</item>
+        <item name="colorSecondary">#388E3C</item>
+        <item name="android:colorBackground">#F4FFF5</item>
     </style>
 
-    <!-- 🌙 تم تیره -->
-    <style name="Theme.Hesab.Dark" parent="Theme.Material3.Dark.NoActionBar">
+    <!-- حالت تیره -->
+    <style name="Theme.Hesab.Dark" parent="Theme.Hesab">
+        <item name="android:colorBackground">#121212</item>
         <item name="colorPrimary">#212121</item>
-        <item name="colorPrimaryContainer">#333333</item>
         <item name="colorSecondary">#757575</item>
-        <item name="android:colorBackground">#000000</item>
-        <item name="android:fontFamily">@font/diana</item>
     </style>
 
 </resources>
