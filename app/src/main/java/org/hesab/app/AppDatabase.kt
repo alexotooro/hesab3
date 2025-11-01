@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import org.hesab.app.utils.Converters
+import org.hesab.app.utils.Converters   // 🔹 این خط خیلی مهمه
 
 @Database(
     entities = [Transaction::class],
