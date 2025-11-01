@@ -12,8 +12,7 @@
         android:label="حساب"
         android:theme="@style/Theme.Hesab"
         android:supportsRtl="true"
-        android:exported="true"  <!-- اضافه کردن این خط -->
-        >
+                >
         <activity android:name=".AddTransactionActivity" />
         <activity android:name=".SettingsActivity" />
         
