@@ -35,28 +35,27 @@ class TransactionAdapter(
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val t = transactions[position]
 
-        // Display the transaction data
+        // نمایش داده‌ها
         holder.tvDate.text = t.date
         holder.tvCategory.text = t.category
         holder.tvDescription.text = t.description
 
-        // Formatting amount with thousands separator
+        // قالب‌بندی مبلغ
         val df = DecimalFormat("#,###")
         holder.tvAmount.text = df.format(t.amount)
 
-        // Set amount color based on income/expense
+        // رنگ بر اساس درآمد/هزینه
         val ctx = holder.itemView.context
         val color = if (t.isIncome) ctx.getColor(R.color.income_green) else ctx.getColor(R.color.expense_red)
         holder.tvAmount.setTextColor(color)
 
-        // Set up the menu
+        // منوی سه‌نقطه‌ای
         holder.ivMenu.setOnClickListener { v ->
             val popup = PopupMenu(v.context, v)
             popup.menuInflater.inflate(R.menu.menu_transaction_item, popup.menu)
             popup.setOnMenuItemClickListener { item: MenuItem ->
                 when (item.itemId) {
-                    R.id.menu_edit -> {
-                        // Handle edit action
+                    R.id.action_edit -> {
                         val intent = Intent(v.context, AddTransactionActivity::class.java)
                         intent.putExtra("transaction_id", t.id)
                         intent.putExtra("date", t.date)
@@ -67,8 +66,8 @@ class TransactionAdapter(
                         v.context.startActivity(intent)
                         true
                     }
-                    R.id.menu_delete -> {
-                        // Handle delete action
+
+                    R.id.action_delete -> {
                         CoroutineScope(Dispatchers.IO).launch {
                             db.transactionDao().delete(t)
                             CoroutineScope(Dispatchers.Main).launch {
@@ -78,6 +77,18 @@ class TransactionAdapter(
                         }
                         true
                     }
+
+                    R.id.action_move -> {
+                        // قابلیت جابجایی ردیف‌ها (فعلاً رزرو شده برای آینده)
+                        true
+                    }
+
+                    R.id.action_settings -> {
+                        val intent = Intent(v.context, SettingsActivity::class.java)
+                        v.context.startActivity(intent)
+                        true
+                    }
+
                     else -> false
                 }
             }
@@ -87,14 +98,14 @@ class TransactionAdapter(
 
     override fun getItemCount(): Int = transactions.size
 
-    // Function to move items (swap positions)
+    // جابجایی آیتم‌ها
     fun moveItem(from: Int, to: Int) {
         if (from < 0 || to < 0 || from >= transactions.size || to >= transactions.size) return
         val item = transactions.removeAt(from)
         transactions.add(to, item)
         notifyItemMoved(from, to)
 
-        // Update orderIndex in DB (background operation)
+        // بروزرسانی orderIndex در دیتابیس
         CoroutineScope(Dispatchers.IO).launch {
             transactions.forEachIndexed { idx, tr ->
                 val updated = tr.copy(orderIndex = idx)
