@@ -15,7 +15,7 @@
         <item name="colorPrimary">#2E7D32</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#1B5E20</item>
-        <item name="colorBackground">#0E1110</item>
+        <item name="android:colorBackground">#0E1110</item>
         <item name="android:statusBarColor">#000000</item>
         <item name="android:navigationBarColor">#000000</item>
         <item name="android:windowLightStatusBar">false</item>
@@ -26,7 +26,7 @@
         <item name="colorPrimary">#000000</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#333333</item>
-        <item name="colorBackground">#000000</item>
+        <item name="android:colorBackground">#000000</item>
         <item name="android:statusBarColor">#000000</item>
         <item name="android:navigationBarColor">#000000</item>
         <item name="android:windowLightStatusBar">false</item>
@@ -37,11 +37,11 @@
         <item name="colorPrimary">#CCCCCC</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#B0BEC5</item>
-        <item name="colorBackground">#121212</item>
+        <item name="android:colorBackground">#121212</item>
         <item name="android:statusBarColor">#000000</item>
         <item name="android:navigationBarColor">#000000</item>
         <item name="android:windowLightStatusBar">false</item>
-        <item name="android:fontFamily">@font/vazir</item> <!-- ✅ اصلاح شد -->
+        <item name="android:fontFamily">@font/vazir</item>
     </style>
 
 </resources>
