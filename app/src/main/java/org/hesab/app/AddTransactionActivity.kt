@@ -28,17 +28,15 @@ class AddTransactionActivity : AppCompatActivity() {
         val radioIncome = findViewById<RadioButton>(R.id.radioIncome)
         val btnSave = findViewById<Button>(R.id.btnSave)
 
-        editingId = intent.getIntExtra("transaction_id", -1).takeIf { it != -1 }
+        // اگر ویرایش باشد، مقادیر را از Intent بگیریم
+        editingId = intent.getIntExtra("id", -1).takeIf { it != -1 }
         if (editingId != null) {
-            editDate.setText(intent.getStringExtra("transaction_date"))
-            editAmount.setText(intent.getLongExtra("transaction_amount", 0L).toString())
-            editCategory.setText(intent.getStringExtra("transaction_category"))
-            editDescription.setText(intent.getStringExtra("transaction_description"))
-            val isExpense = intent.getBooleanExtra("transaction_isExpense", true)
-            radioExpense.isChecked = isExpense
-            radioIncome.isChecked = !isExpense
-        } else {
-            radioExpense.isChecked = true
+            editDate.setText(intent.getStringExtra("date"))
+            editAmount.setText(intent.getLongExtra("amount", 0).toString())
+            editCategory.setText(intent.getStringExtra("category"))
+            editDescription.setText(intent.getStringExtra("description"))
+            val isIncome = intent.getBooleanExtra("isIncome", false)
+            if (isIncome) radioIncome.isChecked = true else radioExpense.isChecked = true
         }
 
         btnSave.setOnClickListener {
@@ -46,41 +44,29 @@ class AddTransactionActivity : AppCompatActivity() {
             val amount = editAmount.text.toString().toLongOrNull() ?: 0L
             val category = editCategory.text.toString().trim()
             val description = editDescription.text.toString().trim()
-            val isExpense = radioExpense.isChecked
+            val isIncome = radioIncome.isChecked
 
-            if (date.isEmpty() || amount <= 0) {
-                Toast.makeText(this, "تاریخ و مبلغ را وارد کنید", Toast.LENGTH_SHORT).show()
+            if (date.isEmpty() || amount == 0L || category.isEmpty()) {
+                Toast.makeText(this, "لطفاً تمام فیلدها را پر کنید", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
-            CoroutineScope(Dispatchers.IO).launch {
-                val dao = TransactionDatabase.getDatabase(this@AddTransactionActivity).transactionDao()
-                if (editingId != null) {
-                    val transaction = Transaction(
-                        id = editingId!!,
-                        date = date,
-                        amount = amount,
-                        category = category,
-                        description = description,
-                        isExpense = isExpense
-                    )
-                    dao.update(transaction)
-                } else {
-                    val transaction = Transaction(
-                        id = 0,
-                        date = date,
-                        amount = amount,
-                        category = category,
-                        description = description,
-                        isExpense = isExpense
-                    )
-                    dao.insert(transaction)
-                }
+            val transaction = Transaction(
+                id = editingId ?: 0,
+                date = date,
+                amount = amount,
+                category = category,
+                description = description,
+                isIncome = isIncome,
+                orderIndex = 0
+            )
 
-                runOnUiThread {
-                    setResult(Activity.RESULT_OK)
-                    finish()
-                }
+            CoroutineScope(Dispatchers.IO).launch {
+                val dao = TransactionDatabase.getDatabase(applicationContext).transactionDao()
+                if (editingId == null) dao.insert(transaction)
+                else dao.update(transaction)
+                setResult(Activity.RESULT_OK)
+                finish()
             }
         }
     }
