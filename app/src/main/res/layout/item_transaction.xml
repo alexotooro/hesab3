@@ -5,7 +5,7 @@
     android:orientation="horizontal"
     android:padding="8dp"
     android:background="?android:attr/selectableItemBackground"
-    android:gravity="center_vertical">
+    android:fontFamily="@font/iran_sans_regular">
 
     <TextView
         android:id="@+id/tvDate"
@@ -14,7 +14,8 @@
         android:layout_weight="2"
         android:text="1403/08/12"
         android:textAlignment="center"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:fontFamily="@font/iran_sans_medium" />
 
     <TextView
         android:id="@+id/tvAmount"
@@ -23,7 +24,8 @@
         android:layout_weight="2"
         android:text="250,000"
         android:textAlignment="center"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:fontFamily="@font/iran_sans_bold" />
 
     <TextView
         android:id="@+id/tvCategory"
@@ -32,7 +34,8 @@
         android:layout_weight="2"
         android:text="خرید"
         android:textAlignment="center"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:fontFamily="@font/iran_sans_regular" />
 
     <TextView
         android:id="@+id/tvNote"
@@ -41,14 +44,7 @@
         android:layout_weight="3"
         android:text="توضیحات"
         android:textAlignment="center"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        android:fontFamily="@font/iran_sans_regular" />
 
-    <!-- دکمه منوی سه‌نقطه برای هر ردیف -->
-    <ImageView
-        android:id="@+id/menuButton"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_marginStart="6dp"
-        android:src="@drawable/ic_more_vert"
-        android:contentDescription="More options" />
 </LinearLayout>
