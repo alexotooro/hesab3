@@ -22,4 +22,10 @@
     <!-- رنگ‌های تم تیره -->
     <color name="dark_background">#121212</color>
     <color name="dark_text">#E0E0E0</color>
+
+        <!-- رنگ‌های تراکنش -->
+    <color name="income_green">#2E7D32</color> <!-- سبز برای درآمد -->
+    <color name="expense_red">#C62828</color> <!-- قرمز برای هزینه -->
+    <color name="item_background">#FFFFFF</color> <!-- پس‌زمینه ردیف -->
+
 </resources>
