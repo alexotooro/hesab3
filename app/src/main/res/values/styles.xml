@@ -1,5 +1,5 @@
 <resources>
-    <!-- فقط فونت‌ها -->
+    <!-- فقط استایل فونت‌ها -->
     <style name="Font.IranSans">
         <item name="android:fontFamily">@font/iransans</item>
     </style>
