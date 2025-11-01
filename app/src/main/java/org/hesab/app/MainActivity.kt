@@ -3,83 +3,42 @@ package org.hesab.app
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import com.google.android.material.appbar.MaterialToolbar
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var recyclerView: RecyclerView
-    private lateinit var adapter: TransactionAdapter
     private lateinit var db: AppDatabase
-    private val transactions = mutableListOf<Transaction>()
+    private lateinit var adapter: TransactionAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        db = AppDatabase.getDatabase(this)
-        recyclerView = findViewById(R.id.recyclerView)
-
-        adapter = TransactionAdapter(
-            transactions,
-            onEdit = { transaction -> editTransaction(transaction) },
-            onDelete = { transaction -> deleteTransaction(transaction) }
-        )
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
-
-        loadTransactions()
-        enableDragAndDrop()
-    }
-
-    private fun loadTransactions() {
-        CoroutineScope(Dispatchers.IO).launch {
-            val data = db.transactionDao().getAll()
-            transactions.clear()
-            transactions.addAll(data)
-            runOnUiThread { adapter.notifyDataSetChanged() }
-        }
-    }
-
-    private fun editTransaction(transaction: Transaction) {
-        val intent = Intent(this, AddTransactionActivity::class.java)
-        intent.putExtra("transaction_id", transaction.id)
-        startActivity(intent)
-    }
-
-    private fun deleteTransaction(transaction: Transaction) {
-        CoroutineScope(Dispatchers.IO).launch {
-            db.transactionDao().delete(transaction)
-            loadTransactions()
-        }
-    }
-
-    private fun enableDragAndDrop() {
-        val itemTouchHelper = ItemTouchHelper(object :
-            ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, 0) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                val fromPos = viewHolder.adapterPosition
-                val toPos = target.adapterPosition
-                adapter.moveItem(fromPos, toPos)
-                return true
+        val toolbar = findViewById<MaterialToolbar>(R.id.topAppBar)
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            when (menuItem.itemId) {
+                R.id.action_add -> {
+                    startActivity(Intent(this, AddTransactionActivity::class.java))
+                    true
+                }
+                else -> false
             }
+        }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {}
-        })
-        itemTouchHelper.attachToRecyclerView(recyclerView)
-    }
+        val recyclerView = findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
 
-    override fun onResume() {
-        super.onResume()
-        loadTransactions()
+        db = AppDatabase.getInstance(this)
+        CoroutineScope(Dispatchers.IO).launch {
+            val transactions = db.transactionDao().getAll()
+            launch(Dispatchers.Main) {
+                adapter = TransactionAdapter(transactions)
+                recyclerView.adapter = adapter
+            }
+        }
     }
 }
