@@ -57,7 +57,7 @@
     </style>
 
     <!-- 🅰️ فونت‌ها -->
-    <style name="Font.System">
+    <style name="Font.vazir">
         <item name="android:fontFamily">sans-serif</item>
     </style>
 
