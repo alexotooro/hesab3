@@ -10,7 +10,7 @@
         android:name=".App"
         android:allowBackup="true"
         android:label="حساب"
-        android:theme="@style/Theme.Hesab"
+        android:theme="@style/Theme.Hesab.LightBlue"
         android:supportsRtl="true"
                 >
         <activity android:name=".AddTransactionActivity" />
