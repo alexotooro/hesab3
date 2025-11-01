@@ -4,54 +4,49 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.telephony.SmsMessage
-import android.util.Log
-import androidx.preference.PreferenceManager
+import android.provider.Telephony
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.hesab.app.AppDatabase
 import org.hesab.app.Transaction
+import org.hesab.app.TransactionRepository
 
 class SmsReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val smsEnabled = prefs.getBoolean("sms_enabled", false)
-        if (!smsEnabled) return
+        if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION != intent.action) return
 
-        val db = AppDatabase.getDatabase(context)
         val bundle: Bundle? = intent.extras
-        if (bundle != null) {
-            val pdus = bundle["pdus"] as? Array<*>
-            pdus?.forEach { pdu ->
-                val sms = SmsMessage.createFromPdu(pdu as ByteArray)
-                val msgBody = sms.messageBody ?: ""
-                Log.d("SmsReceiver", "SMS received: $msgBody")
+        val msgs = Telephony.Sms.Intents.getMessagesFromIntent(intent)
 
-                // نمونه‌ی ساده برای تشخیص تراکنش از متن پیام
-                if (msgBody.contains("برداشت") || msgBody.contains("واریز")) {
-                    val amount = extractAmount(msgBody)
-                    val category = if (msgBody.contains("برداشت")) "برداشت" else "واریز"
+        for (msg in msgs) {
+            val messageBody = msg.messageBody ?: continue
 
-                    CoroutineScope(Dispatchers.IO).launch {
-                        db.transactionDao().insert(
-                            Transaction(
-                                date = java.time.LocalDate.now().toString(),
-                                amount = amount,
-                                category = category,
-                                description = "از پیامک بانکی"
-                            )
-                        )
-                    }
+            // بررسی وجود کلمات کلیدی تراکنش بانکی
+            if (messageBody.contains("برداشت") || messageBody.contains("واریز")) {
+                val amount = extractAmount(messageBody)
+                val type = if (messageBody.contains("برداشت")) "هزینه" else "درآمد"
+
+                val transaction = Transaction(
+                    date = java.text.SimpleDateFormat("yyyy/MM/dd HH:mm").format(System.currentTimeMillis()),
+                    amount = amount,
+                    category = type,
+                    note = "از پیامک بانکی"
+                )
+
+                CoroutineScope(Dispatchers.IO).launch {
+                    val db = AppDatabase.getDatabase(context)
+                    val repo = TransactionRepository(db)
+                    repo.insert(transaction)
                 }
             }
         }
     }
 
     private fun extractAmount(message: String): Long {
-        val regex = Regex("""\d[\d,]*""")
-        val match = regex.find(message)?.value?.replace(",", "") ?: "0"
-        return match.toLongOrNull() ?: 0L
+        val regex = Regex("[\\d,]+")
+        val match = regex.find(message)
+        return match?.value?.replace(",", "")?.toLongOrNull() ?: 0L
     }
 }
