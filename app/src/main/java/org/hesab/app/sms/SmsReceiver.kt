@@ -5,48 +5,53 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.provider.Telephony
+import android.telephony.SmsMessage
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.hesab.app.AppDatabase
 import org.hesab.app.Transaction
 import org.hesab.app.TransactionRepository
+import org.hesab.app.utils.SmsParser
 
 class SmsReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION != intent.action) return
+        try {
+            if (Telephony.Sms.Intents.SMS_RECEIVED_ACTION == intent.action) {
+                val bundle: Bundle? = intent.extras
+                if (bundle != null) {
+                    val pdus = bundle["pdus"] as Array<*>
+                    val messages = Array(pdus.size) { i ->
+                        val format = bundle.getString("format")
+                        SmsMessage.createFromPdu(pdus[i] as ByteArray, format)
+                    }
 
-        val bundle: Bundle? = intent.extras
-        val msgs = Telephony.Sms.Intents.getMessagesFromIntent(intent)
+                    for (message in messages) {
+                        val msgBody = message.messageBody
+                        val sender = message.displayOriginatingAddress ?: ""
 
-        for (msg in msgs) {
-            val messageBody = msg.messageBody ?: continue
+                        Log.d("SmsReceiver", "📩 Message from: $sender, text: $msgBody")
 
-            // بررسی وجود کلمات کلیدی تراکنش بانکی
-            if (messageBody.contains("برداشت") || messageBody.contains("واریز")) {
-                val amount = extractAmount(messageBody)
-                val type = if (messageBody.contains("برداشت")) "هزینه" else "درآمد"
+                        // بررسی اینکه آیا پیامک بانکی است یا نه
+                        if (SmsParser.isBankMessage(msgBody)) {
+                            val transaction = SmsParser.parseMessage(msgBody, sender)
 
-                val transaction = Transaction(
-                    date = java.text.SimpleDateFormat("yyyy/MM/dd HH:mm").format(System.currentTimeMillis()),
-                    amount = amount,
-                    category = type,
-                    note = "از پیامک بانکی"
-                )
+                            // درج در دیتابیس با Repository
+                            val db = AppDatabase.getDatabase(context)
+                            val repo = TransactionRepository(db)
 
-                CoroutineScope(Dispatchers.IO).launch {
-                    val db = AppDatabase.getDatabase(context)
-                    val repo = TransactionRepository(db)
-                    repo.insert(transaction)
+                            CoroutineScope(Dispatchers.IO).launch {
+                                repo.insert(transaction)
+                                Log.d("SmsReceiver", "✅ Transaction saved from SMS: $transaction")
+                            }
+                        }
+                    }
                 }
             }
+        } catch (e: Exception) {
+            Log.e("SmsReceiver", "❌ Error parsing SMS", e)
         }
-    }
-
-    private fun extractAmount(message: String): Long {
-        val regex = Regex("[\\d,]+")
-        val match = regex.find(message)
-        return match?.value?.replace(",", "")?.toLongOrNull() ?: 0L
     }
 }
