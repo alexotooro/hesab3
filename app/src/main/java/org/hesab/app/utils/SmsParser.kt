@@ -1,28 +1,33 @@
 package org.hesab.app.utils
 
 import org.hesab.app.Transaction
-import java.text.SimpleDateFormat
-import java.util.*
 
 object SmsParser {
 
-    fun parse(bankSms: String): Transaction? {
-        return try {
-            val amount = Regex("([0-9,]+)").find(bankSms)?.value?.replace(",", "")?.toLong() ?: 0L
-            val isIncome = bankSms.contains("واریز") || bankSms.contains("دریافت")
-            val category = if (isIncome) "واریز بانکی" else "برداشت بانکی"
-            val note = bankSms.take(50)
-            val date = Date() // الان تاریخ لحظه دریافت پیام
+    fun isBankMessage(sender: String?, body: String?): Boolean {
+        if (sender == null || body == null) return false
+        return sender.contains("BANK", ignoreCase = true)
+    }
 
-            Transaction(
-                date = date,
+    fun parseMessage(body: String): Transaction? {
+        try {
+            val amountRegex = Regex("([0-9,]+)")
+            val match = amountRegex.find(body) ?: return null
+            val amount = match.value.replace(",", "").toLongOrNull() ?: return null
+
+            val isIncome = body.contains("واریز", ignoreCase = true)
+            val category = if (isIncome) "واریز بانکی" else "برداشت بانکی"
+
+            return Transaction(
                 amount = amount,
                 category = category,
-                note = note,
-                isIncome = isIncome
+                note = body,
+                isIncome = isIncome,
+                date = System.currentTimeMillis()
             )
         } catch (e: Exception) {
-            null
+            e.printStackTrace()
+            return null
         }
     }
 }
