@@ -1,49 +1,40 @@
-<resources>
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- 🎨 تم پایه -->
-    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryContainer">@color/primary_dark</item>
-        <item name="colorSecondary">@color/accent</item>
-        <item name="android:fontFamily">@font/vazir</item>
-        <item name="android:statusBarColor">@color/primary_dark</item>
-        <item name="android:navigationBarColor">@color/primary_dark</item>
-    </style>
-
-    <!-- 🔵 تم آبی -->
-    <style name="AppTheme_Blue" parent="AppTheme">
-        <item name="colorPrimary">#2196F3</item>
-        <item name="colorPrimaryContainer">#1976D2</item>
-        <item name="colorSecondary">#64B5F6</item>
+    <!-- تم اصلی -->
+    <style name="Theme.Hesab" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/accent</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSurface">@color/app_background</item>
+        <item name="colorBackground">@color/app_background</item>
+        <item name="android:statusBarColor">#1976D2</item>
+        <item name="android:navigationBarColor">#1976D2</item>
+        <item name="android:windowLightStatusBar">true</item>
         <item name="android:fontFamily">@font/vazir</item>
     </style>
 
-    <!-- 🌿 تم سبز -->
-    <style name="AppTheme_Green" parent="AppTheme">
-        <item name="colorPrimary">#4CAF50</item>
-        <item name="colorPrimaryContainer">#2E7D32</item>
-        <item name="colorSecondary">#A5D6A7</item>
+    <!-- تم تیره -->
+    <style name="Theme.Hesab.Dark" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">#212121</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSurface">#1E1E1E</item>
+        <item name="colorBackground">#121212</item>
+        <item name="android:statusBarColor">#000000</item>
+        <item name="android:navigationBarColor">#000000</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:fontFamily">@font/iransans</item>
     </style>
 
-    <!-- 🌙 تم تیره -->
-    <style name="AppTheme_Dark" parent="AppTheme">
-        <item name="colorPrimary">#121212</item>
-        <item name="colorPrimaryContainer">#1E1E1E</item>
-        <item name="colorSecondary">#333333</item>
-        <item name="android:fontFamily">@font/diana</item>
-    </style>
-
-    <!-- 🅰️ فونت‌ها -->
-    <style name="Font_IranSans">
-        <item name="android:fontFamily">@font/iransans</item>
-    </style>
-
-    <style name="Font_Vazir">
+    <!-- فونت‌ها -->
+    <style name="Font.Vazir">
         <item name="android:fontFamily">@font/vazir</item>
     </style>
 
-    <style name="Font_Diana">
+    <style name="Font.IranSans">
+        <item name="android:fontFamily">@font/iransans</item>
+    </style>
+
+    <style name="Font.Diana">
         <item name="android:fontFamily">@font/diana</item>
     </style>
 
