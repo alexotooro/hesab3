@@ -1,21 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_light">
+    android:orientation="vertical"
+    android:background="@color/app_background"
+    tools:context=".MainActivity">
 
-    <!-- نوار بالایی -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <!-- نوار بالا -->
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/topAppBar"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@color/primary_light_blue"
-        android:elevation="4dp"
-        app:title="حساب"
-        app:titleTextColor="@android:color/white"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" />
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:title="تراکنش‌ها"
+        android:titleTextColor="@color/white"
+        app:menu="@menu/top_app_bar_menu" />
+
+    <!-- دکمه + بالای صفحه -->
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAdd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:contentDescription="افزودن تراکنش"
+        app:srcCompat="@drawable/ic_add"
+        app:tint="@color/white"
+        android:backgroundTint="@color/button_blue" />
 
     <!-- لیست تراکنش‌ها -->
     <androidx.recyclerview.widget.RecyclerView
@@ -23,18 +37,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="4dp" />
-
-    <!-- دکمه افزودن -->
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAdd"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="16dp"
-        android:contentDescription="افزودن تراکنش"
-        android:src="@drawable/ic_add"
-        app:backgroundTint="@color/primary_light_blue"
-        app:tint="@android:color/white" />
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
 
 </LinearLayout>
