@@ -1,86 +1,57 @@
 package org.hesab.app
 
 import android.view.LayoutInflater
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TransactionAdapter(
-    private val db: AppDatabase,
+    private var transactions: MutableList<Transaction>,
+    private val onEdit: (Transaction) -> Unit,
     private val onDelete: (Transaction) -> Unit
-) : RecyclerView.Adapter<TransactionAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
 
-    private val transactions = mutableListOf<Transaction>()
+    private val dateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault())
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val tvDate: TextView = view.findViewById(R.id.tvDate)
-        val tvAmount: TextView = view.findViewById(R.id.tvAmount)
-        val tvCategory: TextView = view.findViewById(R.id.tvCategory)
-        val tvNote: TextView = view.findViewById(R.id.tvNote)
+    inner class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val tvDate: TextView = itemView.findViewById(R.id.tvDate)
+        val tvAmount: TextView = itemView.findViewById(R.id.tvAmount)
+        val tvCategory: TextView = itemView.findViewById(R.id.tvCategory)
+        val tvNote: TextView = itemView.findViewById(R.id.tvNote)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_transaction, parent, false)
-        return ViewHolder(view)
+        return TransactionViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val t = transactions[position]
-        holder.tvDate.text = t.date
-        holder.tvAmount.text = t.amount.toString()
-        holder.tvCategory.text = t.category
-        holder.tvNote.text = t.note ?: ""
+    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
+        val item = transactions[position]
+
+        holder.tvDate.text = dateFormat.format(item.date)
+        holder.tvAmount.text = String.format("%,d", item.amount)
+        holder.tvCategory.text = item.category
+        holder.tvNote.text = item.note ?: ""
 
         holder.itemView.setOnLongClickListener {
-            showPopupMenu(holder.itemView, t)
+            val popup = PopupMenu(holder.itemView.context, it)
+            popup.menuInflater.inflate(R.menu.transaction_item_menu, popup.menu)
+            popup.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.action_edit -> onEdit(item)
+                    R.id.action_delete -> onDelete(item)
+                }
+                true
+            }
+            popup.show()
             true
         }
     }
 
-    private fun showPopupMenu(view: View, transaction: Transaction) {
-        val popup = PopupMenu(view.context, view)
-        MenuInflater(view.context).inflate(R.menu.transaction_item_menu, popup.menu)
-        popup.setOnMenuItemClickListener { item: MenuItem ->
-            when (item.itemId) {
-                R.id.action_edit -> {
-                    // TODO: Add edit logic
-                    true
-                }
-
-                R.id.action_delete -> {
-                    onDelete(transaction)
-                    true
-                }
-
-                else -> false
-            }
-        }
-        popup.show()
-    }
-
-    override fun getItemCount() = transactions.size
-
-    fun submitList(list: List<Transaction>) {
-        transactions.clear()
-        transactions.addAll(list)
-        notifyDataSetChanged()
-    }
-
-    fun moveItem(from: Int, to: Int) {
-        val item = transactions.removeAt(from)
-        transactions.add(to, item)
-        notifyItemMoved(from, to)
-
-        CoroutineScope(Dispatchers.IO).launch {
-            db.transactionDao().updateOrder(transactions)
-        }
-    }
+    override fun getItemCount(): Int = transactions.size
 }
