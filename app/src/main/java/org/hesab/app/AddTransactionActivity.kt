@@ -26,4 +26,64 @@ class AddTransactionActivity : AppCompatActivity() {
         val editDescription = findViewById<EditText>(R.id.editDescription)
         val radioExpense = findViewById<RadioButton>(R.id.radioExpense)
         val radioIncome = findViewById<RadioButton>(R.id.radioIncome)
-        val btnSave =
+        val btnSave = findViewById<Button>(R.id.btnSave)
+
+        // اگر در حالت ویرایش هستیم، مقادیر قبلی را بگیر
+        editingId = intent.getIntExtra("transaction_id", -1).takeIf { it != -1 }
+        if (editingId != null) {
+            editDate.setText(intent.getStringExtra("transaction_date"))
+            editAmount.setText(intent.getLongExtra("transaction_amount", 0L).toString())
+            editCategory.setText(intent.getStringExtra("transaction_category"))
+            editDescription.setText(intent.getStringExtra("transaction_description"))
+            val isExpense = intent.getBooleanExtra("transaction_isExpense", true)
+            radioExpense.isChecked = isExpense
+            radioIncome.isChecked = !isExpense
+        } else {
+            // پیش‌فرض: هزینه انتخاب شود
+            radioExpense.isChecked = true
+        }
+
+        btnSave.setOnClickListener {
+            val date = editDate.text.toString().trim()
+            val amount = editAmount.text.toString().toLongOrNull() ?: 0L
+            val category = editCategory.text.toString().trim()
+            val description = editDescription.text.toString().trim()
+            val isExpense = radioExpense.isChecked
+
+            if (date.isEmpty() || amount <= 0) {
+                Toast.makeText(this, "تاریخ و مبلغ را وارد کنید", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            CoroutineScope(Dispatchers.IO).launch {
+                val dao = AppDatabase.getDatabase(this@AddTransactionActivity).transactionDao()
+                if (editingId != null) {
+                    val transaction = Transaction(
+                        id = editingId!!,
+                        date = date,
+                        amount = amount,
+                        category = category,
+                        description = description,
+                        isExpense = isExpense
+                    )
+                    dao.update(transaction)
+                } else {
+                    val transaction = Transaction(
+                        id = 0,
+                        date = date,
+                        amount = amount,
+                        category = category,
+                        description = description,
+                        isExpense = isExpense
+                    )
+                    dao.insert(transaction)
+                }
+
+                runOnUiThread {
+                    setResult(Activity.RESULT_OK)
+                    finish()
+                }
+            }
+        }
+    }
+}
