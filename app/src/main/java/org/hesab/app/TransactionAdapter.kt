@@ -1,10 +1,9 @@
 package org.hesab.app
 
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -20,7 +19,7 @@ class TransactionAdapter(
         val tvAmount: TextView = itemView.findViewById(R.id.tvAmount)
         val tvCategory: TextView = itemView.findViewById(R.id.tvCategory)
         val tvNote: TextView = itemView.findViewById(R.id.tvNote)
-        val menuButton: ImageView = itemView.findViewById(R.id.menuButton)
+        val menuButton: ImageButton = itemView.findViewById(R.id.menuButton)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
@@ -31,18 +30,15 @@ class TransactionAdapter(
 
     override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
         val transaction = transactions[position]
-
-        holder.tvDate.text = transaction.date.toString().substring(0, 10)
+        holder.tvDate.text = transaction.date
         holder.tvAmount.text = transaction.amount.toString()
         holder.tvCategory.text = transaction.category
-        holder.tvNote.text = transaction.note ?: ""
+        holder.tvNote.text = transaction.note
 
-        // منوی سه‌نقطه
-        holder.menuButton.setOnClickListener { view ->
-            val popup = PopupMenu(view.context, view)
+        holder.menuButton.setOnClickListener {
+            val popup = PopupMenu(holder.itemView.context, holder.menuButton)
             popup.menuInflater.inflate(R.menu.transaction_item_menu, popup.menu)
-
-            popup.setOnMenuItemClickListener { item: MenuItem ->
+            popup.setOnMenuItemClickListener { item ->
                 when (item.itemId) {
                     R.id.action_edit -> {
                         onEdit(transaction)
@@ -60,21 +56,4 @@ class TransactionAdapter(
     }
 
     override fun getItemCount(): Int = transactions.size
-
-    fun updateData(newList: List<Transaction>) {
-        transactions.clear()
-        transactions.addAll(newList)
-        notifyDataSetChanged()
-    }
-
-    fun removeItem(position: Int) {
-        transactions.removeAt(position)
-        notifyItemRemoved(position)
-    }
-
-    fun moveItem(from: Int, to: Int) {
-        val movedItem = transactions.removeAt(from)
-        transactions.add(to, movedItem)
-        notifyItemMoved(from, to)
-    }
 }
