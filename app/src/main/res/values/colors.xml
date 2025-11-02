@@ -1,39 +1,37 @@
-<!-- app/src/main/res/values/colors.xml -->
 <resources>
-
     <!-- رنگ‌های پایه -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="gray">#BDBDBD</color>
+    <color name="dark_gray">#333333</color>
+    <color name="light_gray">#CCCCCC</color>
+    <color name="gray">#888888</color>
 
-    <!-- پس‌زمینه اصلی برنامه -->
-    <color name="app_background">#E3F2FD</color> <!-- آبی خیلی روشن -->
+    <!-- رنگ‌های برنامه -->
+    <color name="button_blue">#1976D2</color>
+    <color name="button_text">#FFFFFF</color>
+    <color name="text_dark">#212121</color>
+    <color name="text_light">#FAFAFA</color>
+    <color name="app_background">#F5F5F5</color>
+    <color name="header_background">#E0E0E0</color>
+    <color name="list_background">#FFFFFF</color>
+    <color name="balance_background">#BBDEFB</color>
 
-    <!-- رنگ نوار بالایی (Toolbar) -->
-    <color name="toolbar_blue">#1976D2</color> <!-- آبی پررنگ -->
+    <!-- رنگ‌های تراکنش -->
+    <color name="income_green">#2E7D32</color> <!-- سبز برای درآمد -->
+    <color name="expense_red">#C62828</color> <!-- قرمز برای هزینه -->
+    <color name="item_background">#FFFFFF</color>
 
-    <!-- رنگ دکمه افزودن تراکنش (+) -->
-    <color name="add_button_blue">#2196F3</color> <!-- آبی استاندارد -->
+    <!-- رنگ‌های هدر جدول -->
+    <color name="header_blue">#2196F3</color>
+    <color name="table_header">#E3F2FD</color>
 
-    <!-- رنگ متن نوار بالا -->
-    <color name="toolbar_text">#FFFFFF</color>
+    <!-- رنگ‌های تم -->
+    <color name="green_primary">#2E7D32</color>
+    <color name="green_secondary">#1B5E20</color>
+    <color name="dark_background">#121212</color>
+    <color name="dark_text">#E0E0E0</color>
 
-    <!-- رنگ جدول -->
-    <color name="table_header_background">#1565C0</color> <!-- آبی تیره‌تر برای سربرگ جدول -->
-    <color name="table_header_text">#FFFFFF</color>
-    <color name="table_row_background">#FFFFFF</color>
-    <color name="table_row_alternate">#E3F2FD</color> <!-- ردیف یکی در میان -->
-    <color name="table_border">#90CAF9</color> <!-- خط‌های جدول آبی ملایم -->
-
-    <!-- رنگ متن جدول -->
-    <color name="table_text">#000000</color>
-
-    <!-- رنگ نوار پایین (مانده) -->
-    <color name="footer_background">#BBDEFB</color> <!-- آبی روشن -->
-    <color name="footer_text">#000000</color>
-
-    <!-- رنگ‌های وضعیت تراکنش -->
-    <color name="income_green">#2E7D32</color> <!-- درآمد -->
-    <color name="expense_red">#C62828</color> <!-- هزینه -->
-
+    <!-- رنگ‌های مکمل -->
+    <color name="primary_light_blue">#4FC3F7</color>
+    <color name="background_light">#FAFAFA</color>
 </resources>
