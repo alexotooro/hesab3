@@ -2,6 +2,10 @@ package org.hesab.app
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Button
+import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,70 +19,83 @@ class MainActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: TransactionAdapter
     private lateinit var db: AppDatabase
+    private lateinit var btnAdd: Button
+    private lateinit var spinnerBanks: Spinner
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // توجه: اگر در layout آی‌دی toolbar متفاوت است (مثلاً topAppBar) اینجا آن id را بگذار
+        // toolbar
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        // اگر می‌خواهی روی همان آیکن منو (+) در toolbar گوش بدهی، بهتر منو را inflate و onOptionsItemSelected را استفاده کنی.
-        // RecyclerView
+        btnAdd = findViewById(R.id.btnAddTransaction)
+        spinnerBanks = findViewById(R.id.spinnerBanks)
         recyclerView = findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(this)
 
-        // دیتابیس (بسته به نسخه‌ای که در پروژه تو هست این متد ممکن است getInstance یا getDatabase باشد).
-        // این پروژه‌ای که آخرین نسخه‌اش را فرستادی تابعش به نام getDatabase بود.
+        // دیتابیس (از getInstance استفاده می‌شود)
         db = AppDatabase.getInstance(this)
 
+        btnAdd.setOnClickListener {
+            startActivity(Intent(this, AddTransactionActivity::class.java))
+        }
 
+        loadTransactions()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // بعد از بازگشت از AddTransactionActivity لیست را تازه می‌کنیم
         loadTransactions()
     }
 
     private fun loadTransactions() {
         CoroutineScope(Dispatchers.IO).launch {
-            val transactions = db.transactionDao().getAll().toMutableList()
+            val list = db.transactionDao().getAll().toMutableList()
             launch(Dispatchers.Main) {
-                // adapter باید مطابق امضای فعلی تو ساخته بشه.
-                // اگر نسخه‌ی TransactionAdapter تو فقط یک پارامتر می‌پذیرد، آن را به شکل زیر تغییر بده:
-                // adapter = TransactionAdapter(transactions)
-                // در صورتی که امضای adapter سه پارامتری است (transactions, onEdit, onDelete) از نسخه‌ی زیر استفاده کن:
-                adapter = try {
-                    TransactionAdapter(
-                        transactions,
-                        onEdit = { /* TODO: باز کردن صفحه ویرایش */ },
-                        onDelete = { transaction ->
-                            CoroutineScope(Dispatchers.IO).launch {
-                                db.transactionDao().delete(transaction)
-                                transactions.remove(transaction)
-                                launch(Dispatchers.Main) { adapter.notifyDataSetChanged() }
-                            }
+                adapter = TransactionAdapter(list, onEdit = { /* future */ }, onDelete = { txn ->
+                    // حذف تراکنش (هم در DB و هم در لیست)
+                    CoroutineScope(Dispatchers.IO).launch {
+                        db.transactionDao().delete(txn)
+                        val idx = list.indexOfFirst { it.id == txn.id }
+                        if (idx >= 0) {
+                            list.removeAt(idx)
+                            launch(Dispatchers.Main) { adapter.notifyDataSetChanged() }
                         }
-                    )
-                } catch (e: NoSuchMethodError) {
-                    // اگر نسخه‌ی قدیمی Adapter داری که فقط لیست می‌گیرد، این شاخه اجرا می‌شود:
-                    @Suppress("UNCHECKED_CAST")
-                    TransactionAdapter(transactions as MutableList<Transaction>, {}, {})
-                }
+                    }
+                })
                 recyclerView.adapter = adapter
+                updateBalance(list)
             }
         }
     }
 
-    override fun onCreateOptionsMenu(menu: android.view.Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu) // فایل منو باید وجود داشته باشد (main_menu.xml)
+    private fun updateBalance(list: List<Transaction>) {
+        var balance = 0L
+        for (t in list) {
+            balance += if (t.isIncome) t.amount else -t.amount
+        }
+        val tv = findViewById<android.widget.TextView>(R.id.tvBalance)
+        tv.text = "مانده: ${formatNumber(balance)} ریال"
+    }
+
+    private fun formatNumber(number: Long): String {
+        return java.text.NumberFormat.getInstance().format(number)
+    }
+
+    // منو بالا (آیکن +)
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
         return true
     }
 
-    override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_add -> {
-                startActivity(Intent(this, AddTransactionActivity::class.java))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_add) {
+            startActivity(Intent(this, AddTransactionActivity::class.java))
+            return true
         }
+        return super.onOptionsItemSelected(item)
     }
 }
