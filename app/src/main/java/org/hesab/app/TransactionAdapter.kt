@@ -3,57 +3,60 @@ package org.hesab.app
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
 import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.text.NumberFormat
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TransactionAdapter(
-    private val transactions: MutableList<Transaction>,
-    private val onEdit: (Transaction) -> Unit,
-    private val onDelete: (Transaction) -> Unit
-) : RecyclerView.Adapter<TransactionAdapter.TransactionViewHolder>() {
+    private val items: MutableList<Transaction>,
+    private val onEdit: (Transaction) -> Unit = {},
+    private val onDelete: (Transaction) -> Unit = {}
+) : RecyclerView.Adapter<TransactionAdapter.VH>() {
 
-    inner class TransactionViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val tvDate: TextView = itemView.findViewById(R.id.tvDate)
-        val tvAmount: TextView = itemView.findViewById(R.id.tvAmount)
-        val tvCategory: TextView = itemView.findViewById(R.id.tvCategory)
-        val tvNote: TextView = itemView.findViewById(R.id.tvNote)
-        val menuButton: ImageButton = itemView.findViewById(R.id.menuButton)
+    class VH(view: View) : RecyclerView.ViewHolder(view) {
+        val tvDate: TextView = view.findViewById(R.id.tvDate)
+        val tvAmount: TextView = view.findViewById(R.id.tvAmount)
+        val tvCategory: TextView = view.findViewById(R.id.tvCategory)
+        val tvNote: TextView = view.findViewById(R.id.tvNote)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TransactionViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_transaction, parent, false)
-        return TransactionViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_transaction, parent, false)
+        return VH(view)
     }
 
-    override fun onBindViewHolder(holder: TransactionViewHolder, position: Int) {
-        val transaction = transactions[position]
-        holder.tvDate.text = transaction.date.toString()
-        holder.tvAmount.text = String.format("%,d", transaction.amount)
-        holder.tvCategory.text = transaction.category
-        holder.tvNote.text = transaction.note ?: ""
+    override fun onBindViewHolder(holder: VH, position: Int) {
+        val t = items[position]
+        holder.tvDate.text = SimpleDateFormat("yyyy/MM/dd", Locale.getDefault()).format(t.date)
+        holder.tvAmount.text = NumberFormat.getInstance().format(t.amount)
+        holder.tvCategory.text = t.category
+        holder.tvNote.text = t.note ?: ""
 
-        holder.menuButton.setOnClickListener {
-            val popup = PopupMenu(holder.itemView.context, holder.menuButton)
-            popup.menuInflater.inflate(R.menu.transaction_item_menu, popup.menu)
-            popup.setOnMenuItemClickListener { item ->
-                when (item.itemId) {
-                    R.id.action_edit -> {
-                        onEdit(transaction)
-                        true
+        holder.itemView.setOnLongClickListener {
+            // popup menu: edit / delete
+            val popup = PopupMenu(holder.itemView.context, holder.itemView)
+            popup.menu.add("ویرایش")
+            popup.menu.add("حذف")
+            popup.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.title) {
+                    "ویرایش" -> onEdit(t)
+                    "حذف" -> {
+                        // حذف از DB و لیست
+                        onDelete(t)
                     }
-                    R.id.action_delete -> {
-                        onDelete(transaction)
-                        true
-                    }
-                    else -> false
                 }
+                true
             }
             popup.show()
+            true
         }
     }
 
-    override fun getItemCount(): Int = transactions.size
+    override fun getItemCount(): Int = items.size
 }
