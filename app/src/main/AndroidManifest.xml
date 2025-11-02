@@ -15,7 +15,11 @@
         android:theme="@style/Theme.Hesab.LightBlue"
         android:supportsRtl="true">
 
-        <activity android:name=".AddTransactionActivity" />
+        <activity
+    android:name=".AddTransactionActivity"
+    android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
+</activity>
+
         <activity android:name=".SettingsActivity" />
 
         <activity android:name=".MainActivity" android:exported="true">
