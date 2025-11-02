@@ -31,7 +31,8 @@ class MainActivity : AppCompatActivity() {
 
         // دیتابیس (بسته به نسخه‌ای که در پروژه تو هست این متد ممکن است getInstance یا getDatabase باشد).
         // این پروژه‌ای که آخرین نسخه‌اش را فرستادی تابعش به نام getDatabase بود.
-        db = AppDatabase.getDatabase(this)
+        db = AppDatabase.getInstance(this)
+
 
         loadTransactions()
     }
