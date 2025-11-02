@@ -53,7 +53,7 @@ class AddTransactionActivity : AppCompatActivity() {
             // ساخت شی Transaction (تاریخ فعلاً به تاریخ فعلی یا از etDate گرفته می‌شود)
             val date = System.currentTimeMillis() // ساده: فعلاً تاریخ لحظه ذخیره
             val txn = Transaction(
-                date = date.time,
+                date = date,
                 amount = amount,
                 category = category,
                 note = note,
