@@ -1,62 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:fillViewport="true"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="18dp"
+        android:background="@android:color/transparent">
 
-        <EditText
-            android:id="@+id/etAmount"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="مبلغ (ریال)"
-            android:inputType="number" />
-
-        <EditText
-            android:id="@+id/etCategory"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="بابت" />
-
-        <EditText
-            android:id="@+id/etNote"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="توضیحات" />
-
+        <!-- رادیو: درآمد / هزینه -->
         <RadioGroup
             android:id="@+id/radioGroupType"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:gravity="center">
 
             <RadioButton
-                android:id="@+id/rbExpense"
-                android:layout_width="0dp"
+                android:id="@+id/radioIncome"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="هزینه"
-                android:checked="true" />
-
-            <RadioButton
-                android:id="@+id/rbIncome"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="درآمد" />
+
+            <RadioButton
+                android:id="@+id/radioExpense"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="هزینه"
+                android:checked="true"
+                android:layout_marginStart="24dp"/>
         </RadioGroup>
 
-        <Button
-            android:id="@+id/btnSave"
+        <!-- تاریخ (EditText با دکمه انتخاب) -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="ثبت تراکنش"
-            android:layout_marginTop="16dp" />
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical">
 
+            <EditText
+                android:id="@+id/etDate"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:hint="تاریخ"
+                android:inputType="text" />
+
+            <ImageButton
+                android:id="@+id/btnPickDate"
+                android:layout_width="56dp"
+                android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_my_calendar"
+                android:contentDescription="انتخاب تاریخ" />
+        </LinearLayout>
+
+        <!-- مبلغ -->
+        <EditText
+            android:id="@+id/etAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="مبلغ"
+            android:inputType="number"
+            android:layout_marginTop="12dp" />
+
+        <!-- بابت -->
+        <EditText
+            android:id="@+id/etCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="بابت"
+            android:layout_marginTop="12dp" />
+
+        <!-- توضیحات -->
+        <EditText
+            android:id="@+id/etNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="توضیحات"
+            android:layout_marginTop="12dp" />
+
+        <!-- دکمه‌ها -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end"
+            android:layout_marginTop="20dp">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="انصراف" />
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ثبت"
+                android:layout_marginStart="20dp" />
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
