@@ -51,7 +51,7 @@ class AddTransactionActivity : AppCompatActivity() {
             val isIncome = radioIncome.isChecked
 
             // ساخت شی Transaction (تاریخ فعلاً به تاریخ فعلی یا از etDate گرفته می‌شود)
-            val date = Date() // ساده: فعلاً تاریخ لحظه ذخیره
+            val date = System.currentTimeMillis() // ساده: فعلاً تاریخ لحظه ذخیره
             val txn = Transaction(
                 date = date.time,
                 amount = amount,
