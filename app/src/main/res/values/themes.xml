@@ -1,40 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- app/src/main/res/values/themes.xml -->
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- تم روشن اصلی -->
-    <style name="Theme.Hesab.LightBlue" parent="Theme.Material3.Light.NoActionBar">
-        <item name="android:colorBackground">#F5F9FF</item>
-        <item name="android:fontFamily">@font/iran_sans_regular</item>
-        <item name="colorPrimary">#2196F3</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorSecondary">#03A9F4</item>
-        <item name="android:statusBarColor">#1976D2</item>
-        <item name="android:navigationBarColor">#1976D2</item>
-        <item name="android:windowLightStatusBar">true</item>
+    <!-- تم اصلی برنامه -->
+    <style name="Theme.Hesab" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!-- رنگ‌های اصلی -->
+        <item name="colorPrimary">@color/toolbar_blue</item>
+        <item name="colorPrimaryVariant">@color/toolbar_blue</item>
+        <item name="colorOnPrimary">@color/toolbar_text</item>
+
+        <!-- رنگ ثانویه -->
+        <item name="colorSecondary">@color/add_button_blue</item>
+        <item name="colorOnSecondary">@color/white</item>
+
+        <!-- پس‌زمینه و رنگ متن -->
+        <item name="android:windowBackground">@color/app_background</item>
+        <item name="android:textColor">@color/table_text</item>
+
+        <!-- رنگ دکمه‌ها و ویجت‌ها -->
+        <item name="android:buttonStyle">@style/Widget.Button.Custom</item>
+        <item name="android:editTextStyle">@style/Widget.EditText.Custom</item>
+
+        <!-- فونت -->
+        <item name="android:fontFamily">@font/iran_sans</item>
+        <item name="fontFamily">@font/iran_sans</item>
+
+        <!-- رنگ وضعیت (status bar) -->
+        <item name="android:statusBarColor">@color/toolbar_blue</item>
+        <item name="android:navigationBarColor">@color/toolbar_blue</item>
     </style>
 
-    <!-- تم سبز -->
-    <style name="Theme.Hesab.SoftGreen" parent="Theme.Material3.Light.NoActionBar">
-        <item name="android:colorBackground">#E8F5E9</item>
-        <item name="android:fontFamily">@font/iran_sans_regular</item>
-        <item name="colorPrimary">#4CAF50</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorSecondary">#2E7D32</item>
-        <item name="android:statusBarColor">#388E3C</item>
-        <item name="android:navigationBarColor">#388E3C</item>
-        <item name="android:windowLightStatusBar">true</item>
+    <!-- استایل دکمه‌ها -->
+    <style name="Widget.Button.Custom" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/add_button_blue</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@font/iran_sans</item>
     </style>
 
-    <!-- تم تاریک -->
-    <style name="Theme.Hesab.Dark" parent="Theme.Material3.Dark.NoActionBar">
-        <item name="android:colorBackground">#000000</item>
-        <item name="android:fontFamily">@font/iran_sans_regular</item>
-        <item name="colorPrimary">#000000</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorSecondary">#333333</item>
-        <item name="android:statusBarColor">#000000</item>
-        <item name="android:navigationBarColor">#000000</item>
-        <item name="android:windowLightStatusBar">false</item>
+    <!-- استایل فیلدهای متنی -->
+    <style name="Widget.EditText.Custom" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+        <item name="android:textColor">@color/black</item>
+        <item name="android:hintTextColor">@color/gray</item>
+        <item name="android:fontFamily">@font/iran_sans</item>
     </style>
 
 </resources>
