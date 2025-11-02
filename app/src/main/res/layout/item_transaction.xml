@@ -4,50 +4,37 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="8dp"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="@color/item_background">
 
     <TextView
         android:id="@+id/tvDate"
         android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="1403/08/12"
-        android:textAlignment="center"
-        android:textSize="14sp" />
+        android:text="1404/05/01"
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/tvAmount"
         android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="250,000"
-        android:textAlignment="center"
-        android:textSize="14sp" />
+        android:text="10,000,000"
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/tvCategory"
         android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
-        android:text="خرید"
-        android:textAlignment="center"
-        android:textSize="14sp" />
+        android:text="حقوق"
+        android:gravity="center" />
 
     <TextView
         android:id="@+id/tvNote"
         android:layout_width="0dp"
+        android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:layout_weight="3"
         android:text="توضیحات"
-        android:textAlignment="center"
-        android:textSize="14sp" />
-
-    <ImageButton
-        android:id="@+id/menuButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_more_vert"
-        android:contentDescription="منو"
-        android:background="?attr/selectableItemBackgroundBorderless" />
-
+        android:gravity="center" />
 </LinearLayout>
