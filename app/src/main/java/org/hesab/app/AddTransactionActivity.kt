@@ -7,11 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
 import java.util.*
 
 class AddTransactionActivity : AppCompatActivity() {
 
     private lateinit var db: AppDatabase
+    private val dateFormat = SimpleDateFormat("yyyy/MM/dd", Locale.US)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,31 +31,38 @@ class AddTransactionActivity : AppCompatActivity() {
         val btnSave = findViewById<Button>(R.id.btnSave)
         val btnCancel = findViewById<Button>(R.id.btnCancel)
 
-        // تاریخ پیشفرض امروز
+        // تاریخ امروز پیش‌فرض
         val cal = Calendar.getInstance()
-        etDate.setText(String.format("%04d/%02d/%02d", cal.get(Calendar.YEAR), cal.get(Calendar.MONTH)+1, cal.get(Calendar.DAY_OF_MONTH)))
+        etDate.setText(dateFormat.format(cal.time))
 
         btnPickDate.setOnClickListener {
             val now = Calendar.getInstance()
             DatePickerDialog(this, { _, y, m, d ->
-                etDate.setText(String.format("%04d/%02d/%02d", y, m+1, d))
+                val picked = Calendar.getInstance()
+                picked.set(y, m, d)
+                etDate.setText(dateFormat.format(picked.time))
             }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)).show()
         }
 
         btnCancel.setOnClickListener { finish() }
 
         btnSave.setOnClickListener {
-            // خواندن ورودی‌ها
             val amountText = etAmount.text.toString().replace(",", "").trim()
             val amount = try { amountText.toLong() } catch (e: Exception) { 0L }
             val category = etCategory.text.toString().ifBlank { "بدون عنوان" }
             val note = etNote.text.toString().ifBlank { "" }
             val isIncome = radioIncome.isChecked
+            val dateString = etDate.text.toString().trim()
 
-            // ساخت شی Transaction (تاریخ فعلاً به تاریخ فعلی یا از etDate گرفته می‌شود)
-            val date = System.currentTimeMillis() // ساده: فعلاً تاریخ لحظه ذخیره
+            // تاریخ را به timestamp تبدیل می‌کنیم (درصورت خطا، زمان فعلی را می‌گیرد)
+            val dateMillis = try {
+                dateFormat.parse(dateString)?.time ?: System.currentTimeMillis()
+            } catch (e: Exception) {
+                System.currentTimeMillis()
+            }
+
             val txn = Transaction(
-                date = date,
+                date = dateMillis,
                 amount = amount,
                 category = category,
                 note = note,
@@ -63,7 +72,7 @@ class AddTransactionActivity : AppCompatActivity() {
 
             CoroutineScope(Dispatchers.IO).launch {
                 db.transactionDao().insert(txn)
-                runOnUiThread { finish() } // بعد از ذخیره برگردیم
+                runOnUiThread { finish() }
             }
         }
     }
