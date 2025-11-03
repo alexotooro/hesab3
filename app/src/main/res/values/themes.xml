@@ -34,7 +34,7 @@
     <!-- ✏️ استایل فیلد متنی -->
     <style name="Widget.EditText.Custom" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/black</item>
-        <item name="android:hintTextColor">@color/gray</item>
+        <item name="android:textColorHint">@color/gray</item>
         <item name="android:fontFamily">@font/iran_sans</item>
     </style>
 
