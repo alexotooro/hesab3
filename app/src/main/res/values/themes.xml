@@ -1,45 +1,41 @@
-<!-- app/src/main/res/values/themes.xml -->
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- تم اصلی برنامه -->
-    <style name="Theme.Hesab" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <!-- 🎨 تم اصلی برنامه حساب -->
+    <style name="Theme.Hesab" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- رنگ‌های اصلی -->
         <item name="colorPrimary">@color/toolbar_blue</item>
-        <item name="colorPrimaryVariant">@color/toolbar_blue</item>
-        <item name="colorOnPrimary">@color/toolbar_text</item>
+        <item name="colorPrimaryDark">@color/toolbar_blue</item>
+        <item name="colorAccent">@color/add_button_blue</item>
 
-        <!-- رنگ ثانویه -->
-        <item name="colorSecondary">@color/add_button_blue</item>
-        <item name="colorOnSecondary">@color/white</item>
-
-        <!-- پس‌زمینه و رنگ متن -->
+        <!-- رنگ متن و پس‌زمینه -->
         <item name="android:windowBackground">@color/app_background</item>
         <item name="android:textColor">@color/table_text</item>
 
-        <!-- رنگ دکمه‌ها و ویجت‌ها -->
-        <item name="android:buttonStyle">@style/Widget.Button.Custom</item>
-        <item name="android:editTextStyle">@style/Widget.EditText.Custom</item>
-
         <!-- فونت -->
-        <item name="fontFamily">@font/iran_sans</item>
-        
-        <!-- رنگ وضعیت (status bar) -->
+        <item name="android:fontFamily">@font/iran_sans</item>
+
+        <!-- رنگ استاتوس‌بار و نوار پایین -->
         <item name="android:statusBarColor">@color/toolbar_blue</item>
         <item name="android:navigationBarColor">@color/toolbar_blue</item>
+
+        <!-- دکمه‌ها و فیلدهای ورودی -->
+        <item name="android:buttonStyle">@style/Widget.Button.Custom</item>
+        <item name="android:editTextStyle">@style/Widget.EditText.Custom</item>
     </style>
 
-    <!-- استایل دکمه‌ها -->
-    <style name="Widget.Button.Custom" parent="Widget.MaterialComponents.Button">
+    <!-- 💠 استایل دکمه‌ها -->
+    <style name="Widget.Button.Custom" parent="Widget.AppCompat.Button">
         <item name="android:backgroundTint">@color/add_button_blue</item>
         <item name="android:textColor">@color/white</item>
-        <item name="fontFamily">@font/iran_sans</item>
+        <item name="android:fontFamily">@font/iran_sans</item>
     </style>
 
-    <!-- استایل فیلدهای متنی -->
-    <style name="Widget.EditText.Custom" parent="Widget.MaterialComponents.TextInputEditText.OutlinedBox">
+    <!-- ✏️ استایل فیلد متنی -->
+    <style name="Widget.EditText.Custom" parent="Widget.AppCompat.EditText">
         <item name="android:textColor">@color/black</item>
-        <item name="hintTextColor">@color/gray</item>
-        <item name="fontFamily">@font/iran_sans</item>
+        <item name="android:hintTextColor">@color/gray</item>
+        <item name="android:fontFamily">@font/iran_sans</item>
     </style>
 
 </resources>
