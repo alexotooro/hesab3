@@ -46,3 +46,59 @@ class MainActivity : AppCompatActivity() {
 
         loadTransactions()
     }
+
+    override fun onResume() {
+        super.onResume()
+        // وقتی از صفحه افزودن برگشتیم، لیست را به‌روزرسانی کن
+        loadTransactions()
+    }
+
+    private fun loadTransactions() {
+        CoroutineScope(Dispatchers.IO).launch {
+            val list = db.transactionDao().getAll().toMutableList()
+            launch(Dispatchers.Main) {
+                adapter = TransactionAdapter(
+                    list,
+                    onEdit = { /* بعداً اضافه می‌شود */ },
+                    onDelete = { txn ->
+                        CoroutineScope(Dispatchers.IO).launch {
+                            db.transactionDao().delete(txn)
+                            val idx = list.indexOfFirst { it.id == txn.id }
+                            if (idx >= 0) {
+                                list.removeAt(idx)
+                                launch(Dispatchers.Main) { adapter.notifyDataSetChanged() }
+                                updateBalance(list)
+                            }
+                        }
+                    }
+                )
+                recyclerView.adapter = adapter
+                updateBalance(list)
+            }
+        }
+    }
+
+    private fun updateBalance(list: List<Transaction>) {
+        val balance = list.sumOf { if (it.isIncome) it.amount else -it.amount }
+        tvBalance.text = "مانده: ${formatNumber(balance)} ریال"
+    }
+
+    private fun formatNumber(number: Long): String {
+        return java.text.NumberFormat.getInstance().format(number)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_add -> {
+                startActivity(Intent(this, AddTransactionActivity::class.java))
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+}
