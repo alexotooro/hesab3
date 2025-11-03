@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <!-- رنگ‌های پایه -->
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
@@ -18,10 +19,34 @@
     <color name="balance_background">#BBDEFB</color>
 
     <!-- رنگ‌های تراکنش -->
-    <color name="income_green">#2E7D32</color>
-    <color name="expense_red">#C62828</color>
+    <color name="income_green">#2E7D32</color> <!-- سبز برای درآمد -->
+    <color name="expense_red">#C62828</color> <!-- قرمز برای هزینه -->
     <color name="item_background">#FFFFFF</color>
 
     <!-- رنگ‌های هدر جدول -->
     <color name="header_blue">#2196F3</color>
     <color name="table_header">#E3F2FD</color>
+
+    <!-- رنگ‌های تم -->
+    <color name="green_primary">#2E7D32</color>
+    <color name="green_secondary">#1B5E20</color>
+    <color name="dark_background">#121212</color>
+    <color name="dark_text">#E0E0E0</color>
+
+    <!-- رنگ‌های مکمل -->
+    <color name="primary_light_blue">#4FC3F7</color>
+    <color name="background_light">#FAFAFA</color>
+    <color name="toolbar_blue">#1976D2</color>
+    <color name="toolbar_text">#FFFFFF</color>
+    <color name="add_button_blue">#2196F3</color>
+    <color name="table_text">#212121</color>
+    <color name="toolbar_blue_dark">#0A2942</color>
+    <color name="app_background_dark">#0B0C10</color>
+    <color name="table_text_dark">#DADADA</color>
+
+    <!-- رنگ‌های قبلاً استفاده‌شده در XML -->
+    <color name="background_light_blue">#E3F2FD</color>
+    <color name="dark_blue">#0D47A1</color>
+    <color name="light_blue">#BBDEFB</color>
+
+</resources>
