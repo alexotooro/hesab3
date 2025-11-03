@@ -1,48 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- تم اصلی برنامه -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <!-- تم آبی روشن -->
+    <style name="Theme.Hesab.LightBlue" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">#1976D2</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#0D47A1</item>
+        <item name="android:colorBackground">#0E1116</item>
+        <item name="android:statusBarColor">#000000</item>
+        <item name="android:navigationBarColor">#000000</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:fontFamily">@font/vazir</item>
-        <item name="android:windowBackground">@color/app_background</item>
-        <item name="android:textColor">@color/black</item>
-        <item name="android:buttonStyle">@style/ButtonDefault</item>
-        <item name="android:editTextStyle">@style/EditTextDefault</item>
-        <item name="android:textViewStyle">@style/TextViewDefault</item>
-        <item name="colorPrimary">@color/toolbar_blue</item>
-        <item name="colorPrimaryDark">@color/header_blue</item>
-        <item name="colorAccent">@color/toolbar_blue</item>
     </style>
 
-    <!-- استایل عمومی TextView -->
-    <style name="TextViewDefault" parent="TextAppearance.AppCompat.Body1">
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:fontFamily">@font/vazir</item>
-        <item name="android:textSize">14sp</item>
+    <!-- تم سبز -->
+    <style name="Theme.Hesab.SoftGreen" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">#2E7D32</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#1B5E20</item>
+        <item name="android:colorBackground">#0E1110</item>
+        <item name="android:statusBarColor">#000000</item>
+        <item name="android:navigationBarColor">#000000</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:fontFamily">@font/iransans</item>
     </style>
 
-    <!-- استایل عمومی EditText -->
-    <style name="EditTextDefault" parent="Widget.AppCompat.EditText">
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:hintTextColor">#BBBBBB</item>
-        <item name="android:fontFamily">@font/vazir</item>
-        <item name="android:backgroundTint">@color/toolbar_blue</item>
+    <!-- تم تیره -->
+    <style name="Theme.Hesab.Dark" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">#000000</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#333333</item>
+        <item name="android:colorBackground">#000000</item>
+        <item name="android:statusBarColor">#000000</item>
+        <item name="android:navigationBarColor">#000000</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:fontFamily">@font/diana</item>
     </style>
 
-    <!-- استایل عمومی Button -->
-    <style name="ButtonDefault" parent="Widget.AppCompat.Button">
+    <!-- تم روشن‌تر -->
+    <style name="Theme.Hesab.Light" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorPrimary">#CCCCCC</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+        <item name="colorSecondary">#B0BEC5</item>
+        <item name="android:colorBackground">#121212</item>
+        <item name="android:statusBarColor">#000000</item>
+        <item name="android:navigationBarColor">#000000</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:fontFamily">@font/vazir</item>
-        <item name="android:textColor">@color/white</item>
-        <item name="android:backgroundTint">@color/toolbar_blue</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:padding">8dp</item>
-    </style>
-
-    <!-- استایل Spinner (اختیاری) -->
-    <style name="SpinnerDefault" parent="Widget.AppCompat.Spinner">
-        <item name="android:fontFamily">@font/vazir</item>
-        <item name="android:textColor">#000000</item>
-        <item name="android:background">@drawable/spinner_background</item>
     </style>
 
 </resources>
