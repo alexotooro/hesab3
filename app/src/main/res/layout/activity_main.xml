@@ -5,22 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background_light_blue"
+    android:background="@color/app_background"
     tools:context=".MainActivity">
 
-    <!-- نوار بالای آبی تیره -->
+    <!-- نوار بالای آبی -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:background="@color/dark_blue"
+        android:background="@color/toolbar_blue"
         android:gravity="center_vertical"
-        android:paddingHorizontal="16dp">
+        android:paddingHorizontal="16dp"
+        android:elevation="4dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="حساب من"
-            android:textColor="@android:color/white"
+            android:textColor="@color/toolbar_text"
             android:textSize="20sp"
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium" />
@@ -33,7 +34,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:padding="8dp"
-        android:background="@color/light_blue" />
+        android:background="@color/list_background" />
 
     <!-- دکمه افزودن -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -42,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
-        android:backgroundTint="@color/dark_blue"
+        android:backgroundTint="@color/add_button_blue"
         android:src="@drawable/ic_add"
         app:tint="@android:color/white" />
 
