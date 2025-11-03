@@ -1,6 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.Hesab.LightBlue" parent="Theme.Material3.Dark.NoActionBar">
+    <!-- تم آبی روشن -->
+    <style name="Theme.Hesab.LightBlue" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">#1976D2</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#0D47A1</item>
@@ -11,7 +13,8 @@
         <item name="android:fontFamily">@font/vazir</item>
     </style>
 
-    <style name="Theme.Hesab.SoftGreen" parent="Theme.Material3.Dark.NoActionBar">
+    <!-- تم سبز -->
+    <style name="Theme.Hesab.SoftGreen" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">#2E7D32</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#1B5E20</item>
@@ -22,7 +25,8 @@
         <item name="android:fontFamily">@font/iransans</item>
     </style>
 
-    <style name="Theme.Hesab.Dark" parent="Theme.Material3.Dark.NoActionBar">
+    <!-- تم تیره -->
+    <style name="Theme.Hesab.Dark" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">#000000</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#333333</item>
@@ -33,7 +37,8 @@
         <item name="android:fontFamily">@font/diana</item>
     </style>
 
-    <style name="Theme.Hesab.Light" parent="Theme.Material3.Dark.NoActionBar">
+    <!-- تم روشن‌تر -->
+    <style name="Theme.Hesab.Light" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">#CCCCCC</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#B0BEC5</item>
