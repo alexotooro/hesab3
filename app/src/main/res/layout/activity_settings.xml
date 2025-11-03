@@ -6,8 +6,10 @@
     android:orientation="vertical"
     android:padding="24dp"
     android:gravity="top"
+    android:background="?android:colorBackground"
     tools:context=".SettingsActivity">
 
+    <!-- عنوان تنظیمات -->
     <TextView
         android:id="@+id/tvSettingsTitle"
         android:layout_width="wrap_content"
@@ -16,8 +18,10 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:layout_marginBottom="24dp"
-        android:textColor="@color/black" />
+        android:fontFamily="@font/vazir"
+        android:textColor="?android:textColorPrimary" />
 
+    <!-- گزینه فعال‌سازی SMS -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -31,13 +35,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="دریافت تراکنش‌ها از پیامک بانکی"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:fontFamily="@font/vazir"
+            android:textColor="?android:textColorPrimary" />
 
         <Switch
             android:id="@+id/switchEnableSms"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:checked="false" />
+            android:checked="false"
+            android:thumbTint="?attr/colorPrimary"
+            android:trackTint="?attr/colorSecondary" />
     </LinearLayout>
 
 </LinearLayout>
