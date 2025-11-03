@@ -10,6 +10,7 @@
 
     <!-- نوار بالای آبی -->
     <LinearLayout
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:background="@color/toolbar_blue"
@@ -26,6 +27,33 @@
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium" />
     </LinearLayout>
+
+    <!-- ویوهای پشتیبانی‌شده از MainActivity (فعلاً مخفی برای جلوگیری از خطا) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/tvBalance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="موجودی: ۰ ریال" />
+
+        <Spinner
+            android:id="@+id/spinnerBanks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnAddTransaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="افزودن تراکنش"
+        android:visibility="gone" />
 
     <!-- RecyclerView -->
     <androidx.recyclerview.widget.RecyclerView
