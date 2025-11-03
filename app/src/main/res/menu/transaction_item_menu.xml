@@ -5,24 +5,24 @@
         android:id="@+id/action_edit"
         android:title="ویرایش"
         android:icon="@drawable/ic_edit"
-        android:showAsAction="never" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_move_up"
         android:title="جابجایی به بالا"
         android:icon="@drawable/ic_arrow_up"
-        android:showAsAction="never" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_move_down"
         android:title="جابجایی به پایین"
         android:icon="@drawable/ic_arrow_down"
-        android:showAsAction="never" />
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_delete"
         android:title="حذف"
         android:icon="@drawable/ic_delete"
-        android:showAsAction="never" />
+        app:showAsAction="never" />
 
 </menu>
