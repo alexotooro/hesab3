@@ -1,0 +1,51 @@
+name: Android Clean Rebuild CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Grant execute permission for Gradlew
+        run: chmod +x gradlew
+
+      - name: Full clean 🧹 (invalidate caches)
+        run: |
+          echo "🧹 Cleaning Gradle caches and build folders..."
+          ./gradlew clean
+          rm -rf ~/.gradle/caches/
+          rm -rf ~/.gradle/daemon/
+          rm -rf ~/.gradle/native/
+          rm -rf ~/.gradle/wrapper/dists/
+          rm -rf app/build
+          echo "✅ All caches removed successfully."
+
+      - name: Refresh dependencies 🔄
+        run: ./gradlew --refresh-dependencies
+
+      - name: Build fresh debug APK 🏗️
+        run: ./gradlew assembleDebug --no-build-cache
+
+      - name: Run Lint and Verify ✅
+        run: ./gradlew lint
+
+      - name: Upload debug APK 📦
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hesab-clean-debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk
