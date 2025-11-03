@@ -2,8 +2,6 @@ package org.hesab.app
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Button
 import android.widget.Spinner
 import android.widget.TextView
@@ -28,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Toolbar ایمن‌تر
+        // Toolbar
         findViewById<Toolbar?>(R.id.toolbar)?.let { setSupportActionBar(it) }
 
         // Bind views
@@ -40,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         db = AppDatabase.getInstance(this)
 
+        // رویداد دکمه‌ی "+ افزودن تراکنش"
         btnAdd.setOnClickListener {
             startActivity(Intent(this, AddTransactionActivity::class.java))
         }
@@ -49,7 +48,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        // وقتی از صفحه افزودن برگشتیم، لیست را به‌روزرسانی کن
         loadTransactions()
     }
 
@@ -85,20 +83,5 @@ class MainActivity : AppCompatActivity() {
 
     private fun formatNumber(number: Long): String {
         return java.text.NumberFormat.getInstance().format(number)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_add -> {
-                startActivity(Intent(this, AddTransactionActivity::class.java))
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 }
