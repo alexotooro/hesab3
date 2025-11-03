@@ -7,7 +7,7 @@ import android.view.MenuItem
 import android.widget.Button
 import android.widget.Spinner
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
+import com.google.android.material.appbar.MaterialToolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
@@ -26,9 +26,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // toolbar
-        val toolbar: Toolbar = findViewById(R.id.toolbar)
-        setSupportActionBar(toolbar)
+       // toolbar
+val toolbar: com.google.android.material.appbar.MaterialToolbar = findViewById(R.id.toolbar)
+setSupportActionBar(toolbar)
 
         btnAdd = findViewById(R.id.btnAddTransaction)
         spinnerBanks = findViewById(R.id.spinnerBanks)
