@@ -6,8 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Toolbar بالا (دکمه + داخل منو قرار دارد) -->
-    <com.google.android.material.appbar.MaterialToolbar
+    <!-- ✅ نکته: از androidx.appcompat.widget.Toolbar استفاده کن تا با Android 7 سازگار باشه -->
+    <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
@@ -15,7 +15,7 @@
         app:title="حساب"
         app:titleTextColor="@color/white" />
 
-    <!-- نوارِ افزودن تراکنش و انتخاب بانک (شبیه تصویر) -->
+    <!-- نوارِ افزودن تراکنش و انتخاب بانک -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="56dp"
