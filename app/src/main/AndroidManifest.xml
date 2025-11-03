@@ -1,17 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.hesab.app">
 
+    <!-- دسترسی‌های لازم -->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
-
-    <uses-feature
-        android:name="android.hardware.telephony"
-        android:required="false" />
-    
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.INTERNET" />
-    
-<uses-feature android:name="android.hardware.telephony" android:required="false" />
+
+    <!-- ماژول تلفن (اختیاری برای دستگاه‌های بدون سیم‌کارت) -->
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
 
     <application
         android:name=".App"
@@ -22,30 +21,33 @@
         android:theme="@style/Theme.Hesab.LightBlue"
         android:supportsRtl="true">
 
+        <!-- صفحه اصلی -->
         <activity
-    android:name=".AddTransactionActivity"
-    android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
-</activity>
-
-        <activity android:name=".SettingsActivity" />
-
-        <activity android:name=".MainActivity" android:exported="true">
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-    <!-- گیرنده پیامک بانکی -->
-<receiver
-    android:name=".sms.SmsReceiver"
-    android:permission="android.permission.BROADCAST_SMS"
-    android:exported="true">
-    <intent-filter android:priority="999">
-        <action android:name="android.provider.Telephony.SMS_RECEIVED" />
-    </intent-filter>
-</receiver>
+        <!-- افزودن تراکنش -->
+        <activity
+            android:name=".AddTransactionActivity"
+            android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar" />
 
+        <!-- تنظیمات -->
+        <activity android:name=".SettingsActivity" />
+
+        <!-- گیرنده پیامک بانکی -->
+        <receiver
+            android:name=".sms.SmsReceiver"
+            android:permission="android.permission.BROADCAST_SMS"
+            android:exported="true">
+            <intent-filter android:priority="999">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
 
     </application>
 </manifest>
