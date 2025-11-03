@@ -1,47 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- تم حالت شب برای نسخه LightBlue -->
-    <style name="Theme.Hesab.LightBlue" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">#1565C0</item>
+    <!-- 🔵 آبی روشن -->
+    <style name="Theme.Hesab.LightBlue" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">#1976D2</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#0D47A1</item>
-        <item name="android:colorBackground">#0B0F13</item>
+        <item name="android:colorBackground">#0E1116</item>
         <item name="android:statusBarColor">#000000</item>
         <item name="android:navigationBarColor">#000000</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:fontFamily">@font/vazir</item>
     </style>
 
-    <!-- تم حالت شب برای نسخه SoftGreen -->
-    <style name="Theme.Hesab.SoftGreen" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">#1B5E20</item>
+    <!-- 💚 سبز نرم -->
+    <style name="Theme.Hesab.SoftGreen" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">#2E7D32</item>
         <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorSecondary">#2E7D32</item>
-        <item name="android:colorBackground">#0A0D0A</item>
+        <item name="colorSecondary">#1B5E20</item>
+        <item name="android:colorBackground">#0E1110</item>
         <item name="android:statusBarColor">#000000</item>
         <item name="android:navigationBarColor">#000000</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:fontFamily">@font/iransans</item>
     </style>
 
-    <!-- تم حالت شب برای نسخه Dark -->
-    <style name="Theme.Hesab.Dark" parent="Theme.AppCompat.NoActionBar">
+    <!-- ⚫ تیره کامل -->
+    <style name="Theme.Hesab.Dark" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">#000000</item>
         <item name="colorOnPrimary">#FFFFFF</item>
         <item name="colorSecondary">#333333</item>
         <item name="android:colorBackground">#000000</item>
         <item name="android:statusBarColor">#000000</item>
         <item name="android:navigationBarColor">#000000</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:fontFamily">@font/diana</item>
     </style>
 
-    <!-- تم حالت شب برای نسخه Light -->
-    <style name="Theme.Hesab.Light" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">#444444</item>
-        <item name="colorOnPrimary">#FFFFFF</item>
-        <item name="colorSecondary">#777777</item>
+    <!-- ⚪ روشن تیره (Light در حالت Night) -->
+    <style name="Theme.Hesab.Light" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">#CCCCCC</item>
+        <item name="colorOnPrimary">#000000</item>
+        <item name="colorSecondary">#B0BEC5</item>
         <item name="android:colorBackground">#121212</item>
         <item name="android:statusBarColor">#000000</item>
         <item name="android:navigationBarColor">#000000</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:fontFamily">@font/vazir</item>
     </style>
 
