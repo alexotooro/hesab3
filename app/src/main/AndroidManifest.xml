@@ -31,7 +31,7 @@
 
         <!-- گیرنده پیامک بانکی -->
         <receiver
-            android:name=".SmsReceiver"
+            <receiver android:name=".sms.SmsReceiver"
             android:permission="android.permission.BROADCAST_SMS"
             android:exported="true">
             <intent-filter android:priority="999">
