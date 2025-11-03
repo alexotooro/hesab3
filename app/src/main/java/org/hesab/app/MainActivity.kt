@@ -27,7 +27,10 @@ class MainActivity : AppCompatActivity() {
 
        // toolbar
 val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
-setSupportActionBar(toolbar)
+if (toolbar != null) {
+    setSupportActionBar(toolbar)
+}
+
 
 
         btnAdd = findViewById(R.id.btnAddTransaction)
