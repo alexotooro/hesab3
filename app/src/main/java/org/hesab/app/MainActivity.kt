@@ -27,8 +27,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
        // toolbar
-val toolbar: com.google.android.material.appbar.MaterialToolbar = findViewById(R.id.toolbar)
+val toolbar = findViewById<androidx.appcompat.widget.Toolbar>(R.id.toolbar)
 setSupportActionBar(toolbar)
+
 
         btnAdd = findViewById(R.id.btnAddTransaction)
         spinnerBanks = findViewById(R.id.spinnerBanks)
