@@ -9,7 +9,7 @@
     tools:context=".MainActivity">
 
     <!-- نوار بالای آبی -->
-    <LinearLayout
+    <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="56dp"
@@ -26,7 +26,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:fontFamily="sans-serif-medium" />
-    </LinearLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
 
     <!-- ویوهای پشتیبانی‌شده از MainActivity (فعلاً مخفی برای جلوگیری از خطا) -->
     <LinearLayout
